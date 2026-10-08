@@ -53,7 +53,7 @@ export default async function AdminListingsPage() {
       <h1 className="mb-2 text-3xl">Listings</h1>
       <p className="mb-8 text-sm" style={{ color: "var(--ink-3)" }}>
         Approve new and edited listings, feature standouts, and remove anything
-        that doesn&apos;t meet the standards.
+        that shouldn&apos;t be listed.
       </p>
 
       <h2 className="mb-3 text-xl">Awaiting review ({pending.length})</h2>

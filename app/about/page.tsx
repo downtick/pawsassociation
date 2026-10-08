@@ -16,7 +16,7 @@ export default function AboutPage() {
     alternateName: SITE.name,
     url: SITE.url,
     description:
-      "A trade association for animal-attraction and amusement operators, with a public member directory and a code of safety and animal-care standards.",
+      "A trade association for animal-attraction and amusement operators, with a public member directory of petting zoos, pony rides, beer burros, and mobile farms.",
   };
 
   return (
@@ -34,22 +34,17 @@ export default function AboutPage() {
           Event hosts — parents, schools, wedding planners, festival organizers —
           have no easy way to tell a professional operator from a hobbyist.
           Operators, meanwhile, are small businesses competing for attention
-          against much bigger marketing budgets. A directory built on a shared
-          code of standards helps both.
+          against much bigger marketing budgets. A searchable national directory
+          helps both.
         </p>
-        <h2>Our code of standards</h2>
-        <p>Every member agrees to practices that protect animals and guests:</p>
-        <ul>
-          <li>Trained handlers stay with animals for the duration of every event</li>
-          <li>Hand-washing or sanitizer stations at animal pens</li>
-          <li>Hand-led pony rides, with helmets available on request</li>
-          <li>Rest rotations, shade, and water for working animals</li>
-          <li>Liability insurance the member can document to a venue on request</li>
-        </ul>
+        <h2>What a listing is — and {`isn't`}</h2>
         <p>
-          Membership is not a license and not a guarantee — hosts should still
-          confirm insurance and practices for their specific event — but it sets
-          a bar, and it gives venues a place to start.
+          A listing is a way to find and compare operators, not a license,
+          certification, or endorsement. PAWS does not supervise, inspect, or
+          control member businesses. Event hosts should always confirm
+          insurance, licensing, and practices directly with an operator before
+          hiring them — our free hiring guides in the{" "}
+          <Link href="/learn">learning hub</Link> cover exactly what to ask.
         </p>
         <h2>How the association is funded</h2>
         <p>

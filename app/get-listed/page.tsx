@@ -21,8 +21,7 @@ export default function GetListedPage() {
         <h1 className="mt-2 text-3xl sm:text-4xl">Get listed. Get found.</h1>
         <p className="lede mt-4">
           Event planners, schools, and families search the {SITE.name} directory
-          for {`operators who meet the association's standards`}. There are two
-          ways in.
+          when they need an attraction for an event. There are two ways in.
         </p>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">

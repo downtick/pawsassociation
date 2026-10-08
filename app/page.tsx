@@ -27,8 +27,8 @@ export default async function HomePage() {
             Find trusted animal attractions for your next event
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-[15px]" style={{ color: "#DBEAFE" }}>
-            {SITE.fullName}: every member operator agrees to our safety and
-            animal-care standards.
+            {SITE.fullName}: the national directory of animal attractions —
+            free to search, with requests going straight to the operator.
           </p>
           <div className="mx-auto mt-8 max-w-xl">
             <DirectorySearch />
@@ -40,16 +40,16 @@ export default async function HomePage() {
       <section style={{ background: "var(--ground-2)", borderBottom: "1px solid var(--rule)" }}>
         <div className="wrap grid grid-cols-1 gap-6 py-8 text-center sm:grid-cols-3">
           <div>
-            <p className="display text-lg" style={{ color: "var(--blue)" }}>Safety-first standards</p>
-            <p className="text-sm" style={{ color: "var(--ink-3)" }}>Every member agrees to our code of standards</p>
-          </div>
-          <div>
-            <p className="display text-lg" style={{ color: "var(--orange)" }}>Insurance-ready</p>
-            <p className="text-sm" style={{ color: "var(--ink-3)" }}>Members can show proof of coverage on request</p>
-          </div>
-          <div>
             <p className="display text-lg" style={{ color: "var(--blue)" }}>Free to search</p>
-            <p className="text-sm" style={{ color: "var(--ink-3)" }}>Browse the directory and contact operators at no cost</p>
+            <p className="text-sm" style={{ color: "var(--ink-3)" }}>Browse the directory and send requests at no cost</p>
+          </div>
+          <div>
+            <p className="display text-lg" style={{ color: "var(--orange)" }}>Direct to the operator</p>
+            <p className="text-sm" style={{ color: "var(--ink-3)" }}>Your request lands in the business owner&apos;s own inbox</p>
+          </div>
+          <div>
+            <p className="display text-lg" style={{ color: "var(--blue)" }}>Nationwide</p>
+            <p className="text-sm" style={{ color: "var(--ink-3)" }}>Search by attraction type, state, and city</p>
           </div>
         </div>
       </section>
@@ -132,9 +132,9 @@ export default async function HomePage() {
           inbox, partner discounts, and the member guide library.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link href="/join" className="btn btn-primary">Become a member</Link>
-          <Link href="/get-listed" className="btn" style={{ background: "#fff", color: "var(--blue)" }}>
-            Already listed? Claim your listing
+          <Link href="/get-listed" className="btn btn-primary">Claim your listing</Link>
+          <Link href="/join" className="btn" style={{ background: "#fff", color: "var(--blue)" }}>
+            New here? Become a member
           </Link>
         </div>
       </section>

@@ -105,6 +105,12 @@ h1, h2, h3, h4 {
   margin: 0;
 }
 
+/* Tailwind utilities live in @layer utilities, and unlayered rules (like the
+   heading color above) beat ALL layered ones regardless of specificity — so
+   text-white silently lost on every heading over a blue band. This unlayered
+   twin restores it. */
+.text-white { color: #ffffff; }
+
 a { color: inherit; }
 
 .display { font-family: var(--font-display); font-weight: 600; letter-spacing: -.012em; text-wrap: balance; }

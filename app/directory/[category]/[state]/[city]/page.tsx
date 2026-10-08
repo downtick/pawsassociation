@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const cityName = titleCaseSlug(city);
   return {
     title: `${cat.name} in ${cityName}, ${st.abbr}`,
-    description: `Hire ${cat.name.toLowerCase()} in ${cityName}, ${st.name} for birthday parties, schools, weddings, and events — ${SITE.name} members held to our safety standards.`,
+    description: `Hire ${cat.name.toLowerCase()} in ${cityName}, ${st.name} for birthday parties, schools, weddings, and events — from the ${SITE.name} member directory.`,
   };
 }
 

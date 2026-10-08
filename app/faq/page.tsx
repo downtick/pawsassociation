@@ -4,21 +4,21 @@ import { SITE } from "@/lib/siteConfig";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Common questions about PAWS — the Professional Association of Wildlife & Sports — membership, the directory, safety standards, and hiring an animal attraction.",
+    "Common questions about PAWS — the Professional Association of Wildlife & Sports — membership, the directory, and hiring an animal attraction.",
 };
 
 const FAQS: { q: string; a: string }[] = [
   {
     q: `What is ${SITE.name}?`,
-    a: "PAWS — the Professional Association of Wildlife & Sports — is a trade association for animal-attraction and amusement operators: petting zoos, pony rides, beer burros, mobile farms, and similar businesses. The public side is a free searchable directory of member operators; the member side is a paid membership with a public listing, a leads inbox, partner discounts, and operator guides.",
+    a: "PAWS — the Professional Association of Wildlife & Sports — is a trade association for animal-attraction and amusement operators: petting zoos, pony rides, beer burros, mobile farms, and similar businesses. The public side is a free searchable directory; the member side is a paid membership with a public listing, a leads inbox, partner discounts, and operator guides.",
   },
   {
     q: "Is it free to search the directory and contact an operator?",
     a: "Yes. Searching, browsing profiles, and sending a request through a member's listing are free, with no account needed. We don't charge event hosts anything.",
   },
   {
-    q: "What do the association's standards mean?",
-    a: "Every member agrees to our code of standards: trained handlers stay with animals at events, hand-washing or sanitizer stations at animal pens, hand-led pony rides with helmets available, animal rest rotations, and carrying liability insurance they can document to a venue on request. Membership is not a government license and not a guarantee — always confirm insurance and practices directly for your event.",
+    q: "Does PAWS vet or certify operators?",
+    a: "No. Listings are created by operators themselves or pre-listed from public information, and a listing is not a license, certification, or endorsement. PAWS does not supervise or inspect member businesses. Always confirm insurance, licensing, and practices directly with an operator before hiring them — our free hiring guides cover what to ask.",
   },
   {
     q: "How much does membership cost for operators?",

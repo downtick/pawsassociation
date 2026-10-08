@@ -52,7 +52,7 @@ export default async function LearnArticlePage({ params }: { params: Promise<{ s
             <Link href="/directory" className="font-semibold" style={{ color: "var(--blue)" }}>
               Search the member directory
             </Link>{" "}
-            — free, and every member agrees to our safety standards. Operators:{" "}
+            — free, with requests going straight to the operator. Operators:{" "}
             <Link href="/join" className="font-semibold" style={{ color: "var(--blue)" }}>
               join {SITE.name}
             </Link>{" "}

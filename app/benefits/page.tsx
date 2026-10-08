@@ -29,10 +29,12 @@ const BENEFIT_GROUPS: { icon: IconName; title: string; blurb: string; items: str
     title: "Partner discounts",
     blurb: "Codes and member links inside the vault.",
     items: [
+      "Member travel portal: hotel rates and cruise shore excursions",
       "Vehicle rentals for event runs (member discount code)",
-      "Cash-back on travel and everyday business buying",
+      "Life insurance quote access for you and your family",
       "Website hosting, virtual assistants, and freelance help",
       "Discounted animal and livestock medications",
+      "Cash-back on travel and everyday business buying",
     ],
   },
   {
@@ -49,11 +51,11 @@ const BENEFIT_GROUPS: { icon: IconName; title: string; blurb: string; items: str
   {
     icon: "badge",
     title: "Association credibility",
-    blurb: "Show you meet a standard.",
+    blurb: "Look established everywhere you pitch.",
     items: [
       `The ${SITE.name} member badge for your website, booth, and proposals`,
       "A public member profile that proves your membership",
-      "A code of standards that tells venues you take safety seriously",
+      "Association membership you can reference in proposals and vendor applications",
     ],
   },
 ];

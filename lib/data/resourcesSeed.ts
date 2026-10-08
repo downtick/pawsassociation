@@ -10,7 +10,7 @@
 // if you add/remove a perk, update both files together.
 export interface ResourceSeed {
   name: string;
-  category: "Travel" | "Business" | "Animals & Home" | "Health & Wellness";
+  category: "Travel" | "Business" | "Financial" | "Animals & Home" | "Health & Wellness";
   description: string;
   affiliate_url: string;
   discount_code?: string;
@@ -34,6 +34,9 @@ export const RESOURCES_SEED: ResourceSeed[] = [
   { name: "iPostal1 Virtual Mailbox", category: "Business", description: "A real street address for your business mail — professional address without a physical office.", affiliate_url: "https://ipostal1.com/?ref=4283", sort: 60 },
   { name: "InCorp Business Formation", category: "Business", description: "Form your LLC or corporation and get registered agent service.", affiliate_url: "https://www.incorp.com/default.aspx?referredbyaccountid=31890", sort: 70 },
 
+  // ── Financial ──
+  { name: "Life Insurance Quotes", category: "Financial", description: "Get a term life quote online in minutes — coverage for you and your family, with no obligation.", affiliate_url: "https://agents.ethoslife.com/invite/bib", featured: true, sort: 10 },
+
   // ── Animals & Home ──
   { name: "Pet & Livestock Medications", category: "Animals & Home", description: "Discounted animal medications shipped to your door, up to 25% off.", affiliate_url: "https://www.dpbolvw.net/click-9121627-12521727", featured: true, sort: 10 },
   { name: "Tire Rack", category: "Animals & Home", description: "Member pricing on truck and trailer tires, with expert reviews to help you choose.", affiliate_url: "https://www.kqzyfj.com/click-9121627-14310855", sort: 20 },
@@ -44,4 +47,4 @@ export const RESOURCES_SEED: ResourceSeed[] = [
   { name: "BulkSupplements", category: "Health & Wellness", description: "Discounted bulk vitamins and supplements, with a built-in checkout discount.", affiliate_url: "https://shareasale.com/r.cfm?b=602574&u=1690228&m=53326&urllink=&afftrack=", sort: 20 },
 ];
 
-export const RESOURCE_CATEGORIES = ["Travel", "Business", "Animals & Home", "Health & Wellness"] as const;
+export const RESOURCE_CATEGORIES = ["Travel", "Business", "Financial", "Animals & Home", "Health & Wellness"] as const;

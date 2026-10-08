@@ -9,7 +9,7 @@ import { SITE } from "@/lib/siteConfig";
 export const metadata: Metadata = {
   title: "Member directory — petting zoos, pony rides, beer burros & mobile farms",
   description:
-    "Search the PAWS member directory of animal attractions and amusement operators. Filter by attraction type, state, and city. Free to search — every member agrees to our safety standards.",
+    "Search the PAWS member directory of animal attractions and amusement operators. Filter by attraction type, state, and city. Free to search and contact.",
 };
 
 export default async function DirectoryPage({
@@ -29,8 +29,8 @@ export default async function DirectoryPage({
         <div className="mx-auto max-w-2xl">
           <h1 className="text-3xl text-white">Member directory</h1>
           <p className="mt-3 text-[15px]" style={{ color: "#DBEAFE" }}>
-            Every operator listed here is a {SITE.name} member (or invited to
-            claim their listing) and agrees to our safety and animal-care standards.
+            {SITE.name} member operators and pre-listed businesses invited to
+            claim their listing. Free to search — requests go straight to the operator.
           </p>
           <div className="mx-auto mt-6 max-w-xl"><DirectorySearch /></div>
         </div>

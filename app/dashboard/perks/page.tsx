@@ -12,6 +12,7 @@ export const metadata: Metadata = { title: "Member benefits" };
 const CATEGORY_ICON: Record<string, IconName> = {
   Travel: "car",
   Business: "case",
+  Financial: "shield",
   "Animals & Home": "home",
   "Health & Wellness": "leaf",
 };

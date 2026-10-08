@@ -7,13 +7,13 @@
 -- ── Categories (the taxonomy — drives /directory/[category] routes) ─────────
 insert into categories (slug, name, singular, sort, intro_md) values
 ('petting-zoos', 'Petting Zoos', 'petting zoo', 10,
- 'Mobile and on-site petting zoos bring gentle, well-cared-for animals to birthday parties, schools, fairs, and community events. PAWS member petting zoos agree to our animal-care and safety standards.'),
+ 'Mobile and on-site petting zoos bring gentle, well-cared-for animals to birthday parties, schools, fairs, and community events. Search free and send your request straight to the operator.'),
 ('pony-rides', 'Pony Rides', 'pony ride operator', 20,
- 'Pony ride operators provide hand-led rides for children at parties, fairs, and festivals. PAWS member operators agree to our safety standards, including helmets on request and trained handlers.'),
+ 'Pony ride operators provide hand-led rides for children at parties, fairs, and festivals. Compare operators near you and request availability free.'),
 ('beer-burros', 'Beer Burros', 'beer burro service', 30,
- 'Beer burros — friendly mini donkeys with drink-service saddlebags — are the hit of weddings, corporate events, and festivals. PAWS member services agree to our animal-welfare and event-safety standards.'),
+ 'Beer burros — friendly mini donkeys with drink-service saddlebags — are the hit of weddings, corporate events, and festivals. Find services near you and request a date free.'),
 ('mobile-farms', 'Mobile Farms', 'mobile farm', 40,
- 'Mobile farms bring the barnyard to schools, daycares, fairs, and community events — a hands-on farm experience anywhere. PAWS member farms agree to our animal-care and safety standards.')
+ 'Mobile farms bring the barnyard to schools, daycares, fairs, and community events — a hands-on farm experience anywhere. Compare farms near you and request a visit free.')
 on conflict (slug) do nothing;
 
 -- ── Sample listings (UNCLAIMED — profile_id null — obviously-fictional; ─────
@@ -62,6 +62,9 @@ insert into resources (name, category, description, affiliate_url, discount_code
 ('Envato Elements', 'Business', 'Unlimited stock photos, video, fonts, and design templates for your marketing — one subscription.', 'https://1.envato.market/7mRmRy', null, null, false, 50),
 ('iPostal1 Virtual Mailbox', 'Business', 'A real street address for your business mail — professional address without a physical office.', 'https://ipostal1.com/?ref=4283', null, null, false, 60),
 ('InCorp Business Formation', 'Business', 'Form your LLC or corporation and get registered agent service.', 'https://www.incorp.com/default.aspx?referredbyaccountid=31890', null, null, false, 70),
+
+-- Financial
+('Life Insurance Quotes', 'Financial', 'Get a term life quote online in minutes — coverage for you and your family, with no obligation.', 'https://agents.ethoslife.com/invite/bib', null, null, true, 10),
 
 -- Animals & Home
 ('Pet & Livestock Medications', 'Animals & Home', 'Discounted animal medications shipped to your door, up to 25% off.', 'https://www.dpbolvw.net/click-9121627-12521727', null, null, true, 10),

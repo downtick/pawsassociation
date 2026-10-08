@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.name}`,
   },
   description:
-    "The Professional Association of Wildlife & Sports: a national directory of petting zoos, pony rides, beer burros, and mobile farms. Every member agrees to our safety and animal-care standards. Operators: join for $149 a year.",
+    "The Professional Association of Wildlife & Sports: a national directory of petting zoos, pony rides, beer burros, and mobile farms. Search by attraction type, state, and city — free, with requests going straight to the operator. Operators: join for $149 a year.",
   keywords: [
     "petting zoo near me",
     "pony rides for parties",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     title: `${SITE.name} | Find petting zoos, pony rides & animal attractions`,
     description:
-      "A national directory of animal attractions and amusement operators who agree to our safety and animal-care standards.",
+      "A national directory of animal attractions and amusement operators — free to search, with requests going straight to the operator.",
     url: SITE.url,
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: SITE.name }],
   },

@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   if (!cat || !st) return {};
   return {
     title: `${cat.name} in ${st.name}`,
-    description: `${cat.name} available for events in ${st.name} — ${SITE.name} members who agree to our safety and animal-care standards. Free to search and contact.`,
+    description: `${cat.name} available for events in ${st.name}, from the ${SITE.name} member directory. Free to search and contact.`,
   };
 }
 
@@ -50,7 +50,7 @@ export default async function StatePage({ params }: { params: Promise<{ category
         <h1 className="mt-3 text-3xl">{cat.name} in {st.name}</h1>
         <p className="lede mt-3">
           {results.length > 0
-            ? `${results.length} ${SITE.name} member${results.length === 1 ? "" : "s"} serving ${st.name}. Every member agrees to our safety and animal-care standards.`
+            ? `${results.length} ${SITE.name} member${results.length === 1 ? "" : "s"} serving ${st.name}.`
             : `No ${cat.noun} are listed in ${st.name} yet.`}
         </p>
 

@@ -13,9 +13,9 @@ export default function Footer() {
             <span>{SITE.name}</span>
           </span>
           <p className="text-sm mt-3" style={{ color: "var(--ink-3)" }}>
-            The Professional Association of Wildlife &amp; Sports — a national directory of
-            animal-attraction and amusement operators who agree to our safety and
-            animal-care standards.
+            The Professional Association of Wildlife &amp; Sports — the national
+            directory of animal-attraction and amusement operators: petting zoos,
+            pony rides, beer burros, and mobile farms.
           </p>
         </div>
 

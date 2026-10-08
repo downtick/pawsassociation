@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   if (!cat) return {};
   return {
     title: `${cat.name} for hire — ${SITE.name} member directory`,
-    description: `Find ${cat.name.toLowerCase()} for parties, schools, weddings, fairs, and events. Every ${SITE.name} member agrees to our safety and animal-care standards. Free to search.`,
+    description: `Find ${cat.name.toLowerCase()} for parties, schools, weddings, fairs, and events. Free to search and contact — requests go straight to the operator.`,
   };
 }
 

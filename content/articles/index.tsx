@@ -56,8 +56,8 @@ export const ARTICLES: ArticleContent[] = [
           normal; get the balance due date and cancellation terms in writing.
         </p>
         <p>
-          Search the directory for petting zoos near you — every PAWS member
-          agrees to our animal-care and safety standards.
+          Search the PAWS directory for petting zoos near you — free, and your
+          request goes straight to the operator.
         </p>
       </>
     ),
@@ -101,8 +101,8 @@ export const ARTICLES: ArticleContent[] = [
           <li>Is there a photo window before guests arrive? Ten quiet minutes with the couple beats fighting the crowd.</li>
         </ul>
         <p>
-          Browse beer burro services in the directory — PAWS members agree to
-          our animal-welfare and event-safety standards.
+          Browse beer burro services in the PAWS directory — free to search,
+          with requests going straight to the operator.
         </p>
       </>
     ),
@@ -141,9 +141,8 @@ export const ARTICLES: ArticleContent[] = [
           two or three years with a parent walking alongside.
         </p>
         <p>
-          PAWS member operators agree to hand-led rides, trained handlers, and
-          helmet availability as part of our code of standards. Search the
-          directory to find one near you.
+          Use this checklist with any operator you consider — and search the
+          PAWS directory to find pony ride operators near you.
         </p>
       </>
     ),
@@ -185,9 +184,8 @@ export const ARTICLES: ArticleContent[] = [
           just at the end of the day.
         </p>
         <p>
-          Find mobile farms in the directory — PAWS members agree to our
-          animal-care and safety standards, including hygiene stations at every
-          event.
+          Find mobile farms in the PAWS directory — and use the planning
+          checklist above with whoever you book.
         </p>
       </>
     ),
@@ -300,8 +298,8 @@ export const ARTICLES: ArticleContent[] = [
         </p>
         <p>
           Note: PAWS is a trade association, not an insurance agency, and
-          membership does not include insurance. We point members to
-          specialists and require members to carry their own coverage.
+          membership does not include insurance. Every operator is responsible
+          for arranging and maintaining their own coverage.
         </p>
       </>
     ),

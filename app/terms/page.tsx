@@ -32,8 +32,8 @@ export default function TermsPage() {
 
         <h2>2. The Directory — No Endorsement or Guarantee</h2>
         <p>
-          Member operators agree to the association&apos;s code of standards, but{" "}
-          <strong>we do not supervise, inspect, or control any operator&apos;s services</strong>.
+          <strong>We do not supervise, inspect, or control any operator&apos;s
+          services</strong>.
           A listing (including a &ldquo;featured&rdquo; placement) is not a license,
           certification, endorsement, or guarantee of quality, safety, licensure, or insurance.
           Event hosts are solely responsible for vetting an operator — including confirming
@@ -61,8 +61,8 @@ export default function TermsPage() {
           right to publish everything they submit. By submitting listing content, you grant{" "}
           {SITE.legalEntity} a non-exclusive, worldwide, royalty-free license to display, format,
           and distribute that content on the Site and in association marketing of the directory.
-          We may edit, decline, or remove any listing at our discretion, including for standards
-          violations, complaints, inaccurate information, or lapsed membership. Businesses that
+          We may edit, decline, or remove any listing at our discretion, including for
+          complaints, inaccurate information, or lapsed membership. Businesses that
           appear in an unclaimed pre-listed entry may request removal via the{" "}
           <a href="/contact">contact page</a>.
         </p>

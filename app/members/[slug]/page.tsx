@@ -105,18 +105,28 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
               </div>
             )}
 
-            <div className="mt-8 flex flex-wrap gap-4 text-sm">
-              {listing.website && (
-                <a href={listing.website} target="_blank" rel="noopener noreferrer nofollow" className="flex items-center gap-1.5 font-semibold" style={{ color: "var(--blue)" }}>
-                  <Icon name="window" /> Website
-                </a>
-              )}
-              {listing.phone && (
-                <a href={`tel:${listing.phone.replace(/\D/g, "")}`} className="flex items-center gap-1.5 font-semibold" style={{ color: "var(--blue)" }}>
-                  <Icon name="phone" /> {listing.phone}
-                </a>
-              )}
-            </div>
+            {/* Direct contact details are a MEMBER benefit: unclaimed listings
+                show no phone/website (the claim incentive) — the request form
+                still works, so the business accrues leads either way. */}
+            {listing.claimed ? (
+              <div className="mt-8 flex flex-wrap gap-4 text-sm">
+                {listing.website && (
+                  <a href={listing.website} target="_blank" rel="noopener noreferrer nofollow" className="flex items-center gap-1.5 font-semibold" style={{ color: "var(--blue)" }}>
+                    <Icon name="window" /> Website
+                  </a>
+                )}
+                {listing.phone && (
+                  <a href={`tel:${listing.phone.replace(/\D/g, "")}`} className="flex items-center gap-1.5 font-semibold" style={{ color: "var(--blue)" }}>
+                    <Icon name="phone" /> {listing.phone}
+                  </a>
+                )}
+              </div>
+            ) : (
+              <p className="mt-8 text-sm" style={{ color: "var(--ink-3)" }}>
+                Phone and website appear when the operator claims this listing —
+                you can still send a request below.
+              </p>
+            )}
 
             {!listing.claimed && (
               <div className="note mt-8">
@@ -124,7 +134,8 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
                 <span>
                   This listing was added by the association and hasn&apos;t been claimed yet.
                   Is this your business? <Link href="/get-listed" className="font-semibold" style={{ color: "var(--blue)" }}>Claim your listing</Link> to
-                  manage it and receive leads by email.
+                  show your phone and website, manage the profile, and receive
+                  leads by email.
                 </span>
               </div>
             )}
