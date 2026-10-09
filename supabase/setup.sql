@@ -127,6 +127,12 @@ create table if not exists categories (
   sort int not null default 0
 );
 
+-- array_to_string() is only STABLE, and generated columns require IMMUTABLE
+-- expressions, so the listings.search column goes through this wrapper.
+-- (Safe: the separator and input fully determine the output.)
+create or replace function public.immutable_array_to_string(text[], text)
+returns text language sql immutable parallel safe as $$ select array_to_string($1, $2) $$;
+
 -- ============================================================================
 -- listings — the public member directory (separate from the account so
 -- approval/visibility is independent of auth/billing).
@@ -153,7 +159,7 @@ create table if not exists listings (
     to_tsvector('english',
       coalesce(business_name,'') || ' ' || coalesce(contact_name,'') || ' ' ||
       coalesce(city,'') || ' ' || coalesce(state,'') || ' ' ||
-      array_to_string(services,' '))
+      public.immutable_array_to_string(services,' '))
   ) stored,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -166,6 +172,39 @@ drop trigger if exists trg_listings_updated_at on listings;
 create trigger trg_listings_updated_at
   before update on listings
   for each row execute function set_updated_at();
+
+-- ============================================================================
+-- listing_categories — EVERY attraction type a listing offers beyond its main
+-- one (listings.category_id). A petting zoo that also does goat yoga and beer
+-- burros has one main type + two rows here. Directory filters match either.
+-- ============================================================================
+create table if not exists listing_categories (
+  listing_id uuid not null references listings(id) on delete cascade,
+  category_id uuid not null references categories(id) on delete cascade,
+  primary key (listing_id, category_id)
+);
+create index if not exists listing_categories_category_idx on listing_categories(category_id);
+
+-- ============================================================================
+-- listing_private_contacts — ADMIN-ONLY contact details for pre-seeded
+-- (unclaimed) listings: the owner's email for claim invites and outreach,
+-- plus phone/website that must NOT be public until the business claims and
+-- joins. Kept off `listings` entirely, because anything on `listings` is
+-- readable through the public directory API. On claim, an admin copies
+-- phone/website onto the listing.
+-- ============================================================================
+create table if not exists listing_private_contacts (
+  listing_id uuid primary key references listings(id) on delete cascade,
+  owner_name text,
+  email text,
+  phone text,
+  website text,
+  notes text,
+  source text,                                -- e.g. 'mailing-list-2026-10'
+  invited_at timestamptz,
+  created_at timestamptz not null default now()
+);
+create index if not exists listing_private_contacts_email_idx on listing_private_contacts(lower(email));
 
 -- ============================================================================
 -- leads — inquiries from the public directory lead form. The killer member
@@ -288,7 +327,13 @@ from profiles p;
 -- ============================================================================
 create or replace view public_listings with (security_invoker = true) as
 select l.*, c.slug as category_slug, c.name as category_name,
-       (l.profile_id is not null) as claimed
+       (l.profile_id is not null) as claimed,
+       -- main type + every "also offers" type, for directory filtering
+       array(
+         select distinct c2.slug from categories c2
+         where c2.id = l.category_id
+            or c2.id in (select lc.category_id from listing_categories lc where lc.listing_id = l.id)
+       ) as category_slugs
 from listings l
 left join categories c on c.id = l.category_id
 left join member_access m on m.id = l.profile_id
@@ -336,6 +381,8 @@ alter table profiles enable row level security;
 alter table categories enable row level security;
 alter table listings enable row level security;
 alter table leads enable row level security;
+alter table listing_categories enable row level security;
+alter table listing_private_contacts enable row level security;
 alter table member_events enable row level security;
 alter table resources enable row level security;
 alter table resource_clicks enable row level security;
@@ -392,6 +439,25 @@ create policy "admins manage listings" on listings for all
   using (public.is_admin());
 
 revoke update (approved, featured, profile_id) on listings from authenticated;
+
+-- listing_categories: public read (it only says which types a listing
+-- offers; listing visibility is still enforced by listings' own policy).
+-- The owner manages their own listing's rows; admins manage all.
+drop policy if exists "public read listing categories" on listing_categories;
+create policy "public read listing categories" on listing_categories for select
+  using (true);
+drop policy if exists "owner manages own listing categories" on listing_categories;
+create policy "owner manages own listing categories" on listing_categories for all
+  using (exists (select 1 from listings l where l.id = listing_id and l.profile_id = auth.uid()))
+  with check (exists (select 1 from listings l where l.id = listing_id and l.profile_id = auth.uid()));
+drop policy if exists "admins manage listing categories" on listing_categories;
+create policy "admins manage listing categories" on listing_categories for all
+  using (public.is_admin());
+
+-- listing_private_contacts: admins only. No public or owner read, ever.
+drop policy if exists "admins manage private contacts" on listing_private_contacts;
+create policy "admins manage private contacts" on listing_private_contacts for all
+  using (public.is_admin());
 
 -- leads: inserted only via the server route (service-role client after
 -- Turnstile/honeypot checks — no anon insert policy on purpose). Readable
@@ -472,16 +538,42 @@ create policy "admins read stripe events" on stripe_events for select
 -- ============================================================================
 
 -- ── Categories (the taxonomy — drives /directory/[category] routes) ─────────
+-- Generated from lib/directory.ts — edit there, then regenerate this block.
 insert into categories (slug, name, singular, sort, intro_md) values
 ('petting-zoos', 'Petting Zoos', 'petting zoo', 10,
- 'Mobile and on-site petting zoos bring gentle, well-cared-for animals to birthday parties, schools, fairs, and community events. Search free and send your request straight to the operator.'),
+ 'Mobile and on-site petting zoos for parties, schools, fairs, and community events. Search free and send your request straight to the operator.'),
 ('pony-rides', 'Pony Rides', 'pony ride operator', 20,
- 'Pony ride operators provide hand-led rides for children at parties, fairs, and festivals. Compare operators near you and request availability free.'),
+ 'Hand-led pony rides for children at parties, fairs, and festivals. Search free and send your request straight to the operator.'),
 ('beer-burros', 'Beer Burros', 'beer burro service', 30,
- 'Beer burros — friendly mini donkeys with drink-service saddlebags — are the hit of weddings, corporate events, and festivals. Find services near you and request a date free.'),
+ 'Friendly mini donkeys with drink-service saddlebags for weddings and events. Search free and send your request straight to the operator.'),
 ('mobile-farms', 'Mobile Farms', 'mobile farm', 40,
- 'Mobile farms bring the barnyard to schools, daycares, fairs, and community events — a hands-on farm experience anywhere. Compare farms near you and request a visit free.')
-on conflict (slug) do nothing;
+ 'The barnyard comes to you — schools, daycares, fairs, and community events. Search free and send your request straight to the operator.'),
+('goat-yoga', 'Goat Yoga', 'goat yoga provider', 50,
+ 'Yoga sessions with friendly goats for studios, parties, corporate wellness days, and festivals. Search free and send your request straight to the operator.'),
+('reptile-exhibits', 'Reptile Shows & Exhibits', 'reptile exhibitor', 60,
+ 'Hands-on reptile shows and exhibits for schools, libraries, parties, and festivals. Search free and send your request straight to the operator.'),
+('reindeer-visits', 'Reindeer Visits', 'reindeer display', 70,
+ 'Live reindeer for holiday events, tree lots, markets, and Santa photo sessions. Search free and send your request straight to the operator.'),
+('alpaca-llama-visits', 'Alpaca & Llama Visits', 'alpaca and llama visit', 80,
+ 'Gentle alpacas and llamas for parties, senior communities, schools, and photo sessions. Search free and send your request straight to the operator.'),
+('camel-rides', 'Camel Rides', 'camel ride operator', 90,
+ 'Camel rides and nativity camels for fairs, festivals, churches, and private events. Search free and send your request straight to the operator.'),
+('pig-races', 'Pig Races', 'pig race show', 100,
+ 'Racing pig shows for county fairs, festivals, and community events. Search free and send your request straight to the operator.'),
+('birds-of-prey', 'Birds of Prey Shows', 'birds of prey show', 110,
+ 'Owl, hawk, and falcon programs for schools, libraries, nature centers, and festivals. Search free and send your request straight to the operator.'),
+('exotic-animal-encounters', 'Exotic Animal Encounters', 'exotic animal encounter', 120,
+ 'Traveling encounters with exotic animals for schools, parties, and corporate events. Search free and send your request straight to the operator.'),
+('wildlife-education', 'Wildlife Education Programs', 'wildlife education program', 130,
+ 'Educational programs with ambassador animals for classrooms, libraries, and camps. Search free and send your request straight to the operator.'),
+('animal-shows', 'Animal Shows & Performances', 'animal show', 140,
+ 'Trained-animal acts and dog shows for fairs, festivals, and school assemblies. Search free and send your request straight to the operator.'),
+('hayrides-carriage-rides', 'Hayrides & Carriage Rides', 'hayride or carriage ride service', 150,
+ 'Hayrides, wagon rides, and horse-drawn carriages for fall festivals, weddings, and holiday events. Search free and send your request straight to the operator.'),
+('live-nativity', 'Live Nativity Animals', 'live nativity animal provider', 160,
+ 'Sheep, donkeys, goats, and camels for church and community nativity scenes. Search free and send your request straight to the operator.')
+on conflict (slug) do update set name = excluded.name, singular = excluded.singular,
+  sort = excluded.sort, intro_md = excluded.intro_md;
 
 -- ── Sample listings (UNCLAIMED — profile_id null — obviously-fictional; ─────
 -- replace with real pre-seeded operators before launch) ─────────────────────
@@ -490,17 +582,17 @@ insert into listings (slug, business_name, contact_name, category_id, city, stat
 values
 ('sample-sunny-acres-petting-zoo', 'Sunny Acres Petting Zoo (Sample)', 'Sample Owner',
  (select id from cat where slug='petting-zoos'), 'Phoenix', 'AZ', '85004',
- '{Birthday parties,School visits,Fairs & festivals,Insured}',
+ '{Birthday parties,School visits,Fairs & festivals}',
  'Sample seed listing — mobile petting zoo with goats, sheep, bunnies, and ducks.',
  'Greater Phoenix, up to 60 miles', true),
 ('sample-happy-trails-pony-rides', 'Happy Trails Pony Rides (Sample)', 'Sample Owner',
  (select id from cat where slug='pony-rides'), 'Fort Worth', 'TX', '76102',
- '{Hand-led rides,Helmets provided,Birthday parties,Insured}',
+ '{Hand-led rides,Helmets provided,Birthday parties}',
  'Sample seed listing — hand-led pony rides for ages 2–10 with trained handlers.',
  'DFW metro', true),
 ('sample-cheers-burros', 'Cheers Burros (Sample)', 'Sample Owner',
  (select id from cat where slug='beer-burros'), 'Scottsdale', 'AZ', '85251',
- '{Weddings,Corporate events,Photo packages,Insured}',
+ '{Weddings,Corporate events,Photo packages}',
  'Sample seed listing — two mini donkeys with drink-service saddlebags for weddings and events.',
  'Phoenix & Scottsdale', true),
 ('sample-barnyard-on-wheels', 'Barnyard on Wheels (Sample)', 'Sample Owner',

@@ -28,7 +28,8 @@ export async function searchListings(filters: DirectoryFilters = {}): Promise<Pu
     .order("business_name")
     .limit(filters.limit ?? 60);
 
-  if (filters.categorySlug) query = query.eq("category_slug", filters.categorySlug);
+  // Match the main type OR any "also offers" type.
+  if (filters.categorySlug) query = query.contains("category_slugs", [filters.categorySlug]);
   if (filters.stateAbbr) query = query.eq("state", filters.stateAbbr.toUpperCase());
   if (filters.q) {
     // websearch_to_tsquery handles multi-word, quoted phrases, and is safe
@@ -73,7 +74,7 @@ export async function getStatesWithListings(categorySlug?: string): Promise<{ ab
   if (!isAuthConfigured()) return [];
   const supabase = await createClient();
   let query = supabase.from("public_listings").select("state");
-  if (categorySlug) query = query.eq("category_slug", categorySlug);
+  if (categorySlug) query = query.contains("category_slugs", [categorySlug]);
   const { data } = await query;
   const counts = new Map<string, number>();
   for (const row of (data as { state: string | null }[]) ?? []) {
@@ -89,7 +90,7 @@ export async function getCitiesWithListings(stateAbbr: string, categorySlug?: st
   if (!isAuthConfigured()) return [];
   const supabase = await createClient();
   let query = supabase.from("public_listings").select("city").eq("state", stateAbbr.toUpperCase());
-  if (categorySlug) query = query.eq("category_slug", categorySlug);
+  if (categorySlug) query = query.contains("category_slugs", [categorySlug]);
   const { data } = await query;
   const counts = new Map<string, number>();
   for (const row of (data as { city: string | null }[]) ?? []) {

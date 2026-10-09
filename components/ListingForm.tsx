@@ -9,7 +9,15 @@ import type { Listing } from "@/lib/types";
 
 // The member's listing editor. Service tags render as chips (check-all-that-
 // apply convention); phone/ZIP auto-format per websites/CLAUDE.md.
-export default function ListingForm({ listing, categorySlug }: { listing: Listing | null; categorySlug: string | null }) {
+export default function ListingForm({
+  listing,
+  categorySlug,
+  alsoOfferSlugs = [],
+}: {
+  listing: Listing | null;
+  categorySlug: string | null;
+  alsoOfferSlugs?: string[];
+}) {
   const [values, setValues] = useState<Record<string, string>>({
     businessName: listing?.business_name ?? "",
     contactName: listing?.contact_name ?? "",
@@ -23,12 +31,27 @@ export default function ListingForm({ listing, categorySlug }: { listing: Listin
     website: listing?.website ?? "",
   });
   const [services, setServices] = useState<string[]>(listing?.services ?? []);
+  // Every attraction type offered (main + extras). The main type must be
+  // one of the checked ones.
+  const [offered, setOffered] = useState<string[]>(
+    [categorySlug, ...alsoOfferSlugs].filter((x): x is string => Boolean(x))
+  );
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
   const [leadingOneNotice, setLeadingOneNotice] = useState(false);
 
   function set(name: string, value: string) {
     setValues((p) => ({ ...p, [name]: value }));
+  }
+
+  function toggleOffered(slug: string) {
+    const next = offered.includes(slug) ? offered.filter((x) => x !== slug) : [...offered, slug];
+    setOffered(next);
+    // Keep the main type valid: default it to the first checked type.
+    setValues((v) => ({
+      ...v,
+      categorySlug: next.includes(v.categorySlug) ? v.categorySlug : next[0] ?? "",
+    }));
   }
 
   function toggleService(tag: string) {
@@ -44,6 +67,7 @@ export default function ListingForm({ listing, categorySlug }: { listing: Listin
         businessName: values.businessName,
         contactName: values.contactName,
         categorySlug: values.categorySlug,
+        alsoOffer: offered.filter((x) => x !== values.categorySlug),
         bio: values.bio,
         services,
         city: values.city,
@@ -78,14 +102,51 @@ export default function ListingForm({ listing, categorySlug }: { listing: Listin
           <label className="form-label" htmlFor="p-contact">Contact name</label>
           <input id="p-contact" className="form-input" autoComplete="name" value={values.contactName} onChange={(e) => set("contactName", e.target.value)} />
         </div>
-        <div>
-          <label className="form-label" htmlFor="p-cat">Attraction type *</label>
-          <select id="p-cat" className="form-input" value={values.categorySlug} onChange={(e) => set("categorySlug", e.target.value)}>
-            <option value="">Choose…</option>
-            {DIRECTORY.categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
-          </select>
-        </div>
       </div>
+
+      <fieldset className="mb-5">
+        <legend className="form-label">What do you offer? * <span className="font-normal" style={{ color: "var(--ink-3)" }}>(check all that apply)</span></legend>
+        <p className="mb-3 text-xs" style={{ color: "var(--ink-3)" }}>
+          You&apos;ll appear in the directory under every type you check.
+        </p>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {DIRECTORY.categories.map((c) => {
+            const on = offered.includes(c.slug);
+            return (
+              <label
+                key={c.slug}
+                className="flex cursor-pointer items-center gap-2.5 rounded-lg border px-3 py-2 text-sm transition-colors"
+                style={on
+                  ? { background: "var(--blue-wash)", borderColor: "var(--blue)", color: "var(--ink)" }
+                  : { background: "var(--ground-2)", borderColor: "var(--rule)", color: "var(--ink-2)" }}
+              >
+                <input
+                  type="checkbox"
+                  checked={on}
+                  onChange={() => toggleOffered(c.slug)}
+                  style={{ accentColor: "var(--blue)", width: 16, height: 16 }}
+                />
+                {c.name}
+              </label>
+            );
+          })}
+        </div>
+        {offered.length > 1 && (
+          <div className="mt-4 max-w-sm">
+            <label className="form-label" htmlFor="p-cat">Your main attraction type</label>
+            <select id="p-cat" className="form-input" value={values.categorySlug} onChange={(e) => set("categorySlug", e.target.value)}>
+              {DIRECTORY.categories.filter((c) => offered.includes(c.slug)).map((c) => (
+                <option key={c.slug} value={c.slug}>{c.name}</option>
+              ))}
+            </select>
+            <p className="mt-1 text-xs" style={{ color: "var(--ink-3)" }}>Shown first on your profile.</p>
+          </div>
+        )}
+        <p className="mt-3 text-xs" style={{ color: "var(--ink-3)" }}>
+          Offer something not listed? Tell us on the{" "}
+          <a href="/contact" style={{ color: "var(--blue)" }}>contact page</a> and we&apos;ll consider adding it.
+        </p>
+      </fieldset>
 
       <div className="mb-4">
         <label className="form-label" htmlFor="p-bio">About your attraction</label>
@@ -95,7 +156,7 @@ export default function ListingForm({ listing, categorySlug }: { listing: Listin
       </div>
 
       <div className="mb-5">
-        <p className="form-label">Services (check all that apply)</p>
+        <p className="form-label">Events you serve and extras <span className="font-normal" style={{ color: "var(--ink-3)" }}>(check all that apply)</span></p>
         <div className="flex flex-wrap gap-2">
           {DIRECTORY.serviceTags.map((tag) => {
             const on = services.includes(tag);

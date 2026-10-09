@@ -19,8 +19,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: now,
   }));
 
+  // Category pages: featured types always; the rest only once they have a
+  // listing, so 16 empty type pages don't read as thin content.
   for (const c of DIRECTORY.categories) {
-    entries.push({ url: `${SITE.url}/directory/${c.slug}`, lastModified: now });
+    const hasListings = c.featured || (await getStatesWithListings(c.slug)).length > 0;
+    if (hasListings) entries.push({ url: `${SITE.url}/directory/${c.slug}`, lastModified: now });
   }
 
   // Every article, including course lessons: their public teaser pages are

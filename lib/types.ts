@@ -65,6 +65,8 @@ export interface PublicListing extends Listing {
   category_slug: string | null;
   category_name: string | null;
   claimed: boolean;
+  /** Main type + every "also offers" type. */
+  category_slugs: string[];
 }
 
 export interface Lead {

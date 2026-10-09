@@ -36,7 +36,12 @@ export default function ListingCard({ listing }: { listing: PublicListing }) {
           <span className="pill on ml-auto flex-none">Featured</span>
         )}
       </div>
-      {listing.category_name && <span className="cat">{listing.category_name}</span>}
+      {listing.category_name && (
+        <span className="cat">
+          {listing.category_name}
+          {listing.category_slugs?.length > 1 && ` + ${listing.category_slugs.length - 1} more`}
+        </span>
+      )}
       {listing.bio && <p className="line-clamp-2">{listing.bio}</p>}
       {listing.services.length > 0 && (
         <div className="flex flex-wrap gap-1.5">

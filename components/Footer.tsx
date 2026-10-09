@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Icon from "./Icon";
 import { SITE } from "@/lib/siteConfig";
-import { DIRECTORY } from "@/lib/directory";
+import { FEATURED_CATEGORIES } from "@/lib/directory";
 
 export default function Footer() {
   return (
@@ -22,12 +22,12 @@ export default function Footer() {
         <div>
           <p className="eyebrow mb-3">Find a member</p>
           <ul className="space-y-2 text-sm" style={{ color: "var(--ink-2)" }}>
-            {DIRECTORY.categories.map((c) => (
+            {FEATURED_CATEGORIES.map((c) => (
               <li key={c.slug}>
                 <Link href={`/directory/${c.slug}`} className="navlink !px-0">{c.name}</Link>
               </li>
             ))}
-            <li><Link href="/directory" className="navlink !px-0">Browse all</Link></li>
+            <li><Link href="/directory" className="navlink !px-0">All attraction types</Link></li>
           </ul>
         </div>
 

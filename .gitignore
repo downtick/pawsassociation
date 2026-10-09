@@ -43,3 +43,9 @@ next-env.d.ts
 # keep the documented example, ignore real env files
 !.env.local.example
 !.env.vercel.example
+
+# Mailing lists / listing imports contain private contact data — never commit.
+# Only the blank template is tracked.
+/marketing/*.csv
+!/marketing/listings-import-template.csv
+/import*.sql

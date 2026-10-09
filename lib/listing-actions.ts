@@ -38,6 +38,12 @@ export async function saveMyListing(input: ListingFormData): Promise<{ ok: boole
     .eq("profile_id", profile.id)
     .maybeSingle();
 
+  // Resolve the "also offers" slugs to category ids (main type excluded).
+  const extraSlugs = [...new Set(d.alsoOffer)].filter((sl) => sl !== d.categorySlug);
+  const { data: extraCats } = extraSlugs.length
+    ? await supabase.from("categories").select("id").in("slug", extraSlugs)
+    : { data: [] as { id: string }[] };
+
   const fields = {
     category_id: category.id,
     business_name: d.businessName,
@@ -52,6 +58,8 @@ export async function saveMyListing(input: ListingFormData): Promise<{ ok: boole
     website: d.website ? (d.website.startsWith("http") ? d.website : `https://${d.website}`) : null,
   };
 
+  let listingId: string | null = existing?.id ?? null;
+
   if (existing) {
     const { error } = await supabase.from("listings").update(fields).eq("id", existing.id);
     if (error) return { ok: false, error: "Could not save your listing. Please try again." };
@@ -60,13 +68,13 @@ export async function saveMyListing(input: ListingFormData): Promise<{ ok: boole
     const base = slugify(`${d.businessName}-${d.city}`) || `member-${profile.id.slice(0, 6)}`;
     let slug = base;
     for (let attempt = 0; attempt < 3; attempt++) {
-      const { error } = await supabase.from("listings").insert({
+      const { data: inserted, error } = await supabase.from("listings").insert({
         ...fields,
         profile_id: profile.id,
         slug,
         approved: false, // admin review flips this on
-      });
-      if (!error) break;
+      }).select("id").single();
+      if (!error) { listingId = inserted?.id ?? null; break; }
       if (error.code === "23505") {
         slug = `${base}-${Math.random().toString(36).slice(2, 6)}`;
         if (attempt === 2) return { ok: false, error: "Could not save your listing. Please try again." };
@@ -74,6 +82,19 @@ export async function saveMyListing(input: ListingFormData): Promise<{ ok: boole
       }
       console.error("[listing] insert failed:", error.message);
       return { ok: false, error: "Could not save your listing. Please try again." };
+    }
+  }
+
+  // Replace the "also offers" set with exactly what's checked now.
+  if (listingId) {
+    await supabase.from("listing_categories").delete().eq("listing_id", listingId);
+    const rows = (extraCats ?? []).map((c) => ({ listing_id: listingId, category_id: c.id }));
+    if (rows.length) {
+      const { error } = await supabase.from("listing_categories").insert(rows);
+      if (error) {
+        console.error("[listing] categories save failed:", error.message);
+        return { ok: false, error: "Your listing saved, but the attraction types didn't. Please try again." };
+      }
     }
   }
 

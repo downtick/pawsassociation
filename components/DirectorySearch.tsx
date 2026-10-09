@@ -1,7 +1,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
-import { DIRECTORY } from "@/lib/directory";
+import { DIRECTORY, FEATURED_CATEGORIES } from "@/lib/directory";
 
 // The hero/directory search control. Submits to /directory with query params
 // (server-rendered results — no client search index needed at this scale).
@@ -51,7 +51,7 @@ function SearchForm({ compact = false, defaultCategory = "" }: { compact?: boole
       </div>
       {!compact && (
         <div className="mt-3 flex flex-wrap justify-center gap-2">
-          {DIRECTORY.categories.map((c) => (
+          {FEATURED_CATEGORIES.map((c) => (
             <button
               key={c.slug}
               type="button"

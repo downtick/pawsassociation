@@ -5,7 +5,7 @@ import Icon from "@/components/Icon";
 import LeadForm from "@/components/LeadForm";
 import ListingCard from "@/components/ListingCard";
 import { getListingBySlug, searchListings } from "@/lib/listings";
-import { stateSlug, STATE_NAMES } from "@/lib/directory";
+import { stateSlug, STATE_NAMES, getCategory } from "@/lib/directory";
 import { SITE } from "@/lib/siteConfig";
 
 // Public member profile — the indexable lead-gen asset. LocalBusiness +
@@ -89,6 +89,23 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
               {listing.city ? `${listing.city}, ${stateName ?? listing.state}` : stateName ?? ""}
               {listing.service_area && <> · Serves {listing.service_area}</>}
             </p>
+
+            {listing.category_slugs.length > 1 && (
+              <div className="mt-5">
+                <p className="eyebrow">Attractions offered</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {listing.category_slugs.map((sl) => {
+                    const c = getCategory(sl);
+                    return c ? (
+                      <Link key={sl} href={`/directory/${sl}`} className="rounded-full px-3.5 py-1.5 text-sm font-semibold"
+                        style={{ background: "var(--blue-wash)", color: "var(--blue)", border: "1px solid #BFDBFE" }}>
+                        {c.name}
+                      </Link>
+                    ) : null;
+                  })}
+                </div>
+              </div>
+            )}
 
             {listing.bio && <p className="lede mt-6 !max-w-none">{listing.bio}</p>}
 

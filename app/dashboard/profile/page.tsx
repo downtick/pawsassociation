@@ -19,6 +19,16 @@ export default async function ProfileEditorPage() {
     .maybeSingle<Listing>();
 
   let categorySlug: string | null = null;
+  let alsoOfferSlugs: string[] = [];
+  if (listing) {
+    const { data: extras } = await supabase
+      .from("listing_categories")
+      .select("categories(slug)")
+      .eq("listing_id", listing.id);
+    alsoOfferSlugs = ((extras ?? []) as unknown as { categories: { slug: string } | null }[])
+      .map((r) => r.categories?.slug)
+      .filter((x): x is string => Boolean(x));
+  }
   if (listing?.category_id) {
     const { data: cat } = await supabase
       .from("categories")
@@ -45,7 +55,7 @@ export default async function ProfileEditorPage() {
           )
         )}
       </div>
-      <ListingForm listing={listing ?? null} categorySlug={categorySlug} />
+      <ListingForm listing={listing ?? null} categorySlug={categorySlug} alsoOfferSlugs={alsoOfferSlugs} />
     </div>
   );
 }

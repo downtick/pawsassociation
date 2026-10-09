@@ -3,7 +3,7 @@ import Icon from "@/components/Icon";
 import DirectorySearch from "@/components/DirectorySearch";
 import ListingCard from "@/components/ListingCard";
 import { getFeaturedListings } from "@/lib/listings";
-import { DIRECTORY } from "@/lib/directory";
+import { FEATURED_CATEGORIES } from "@/lib/directory";
 import { SITE } from "@/lib/siteConfig";
 
 // Homepage — "Arena" template of the membership-website skill: the directory
@@ -59,8 +59,8 @@ export default async function HomePage() {
         <div className="wrap">
           <p className="eyebrow">Browse by attraction</p>
           <h2 className="mt-2 text-2xl sm:text-3xl">What are you planning?</h2>
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {DIRECTORY.categories.map((c) => (
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURED_CATEGORIES.map((c) => (
               <Link key={c.slug} href={`/directory/${c.slug}`} className="card card-hover flex flex-col gap-2 p-6 !no-underline">
                 <h3 className="text-lg">{c.name}</h3>
                 <p className="text-sm" style={{ color: "var(--ink-2)" }}>{c.blurb}</p>

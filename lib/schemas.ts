@@ -52,7 +52,9 @@ export type LeadFormData = z.infer<typeof LeadSchema>;
 export const ListingSchema = z.object({
   businessName: z.string().min(1, "Business name is required").max(120).trim(),
   contactName: optStr(100),
-  categorySlug: z.string().min(1, "Pick your attraction type").max(60),
+  categorySlug: z.string().min(1, "Check at least one attraction type you offer").max(60),
+  /** Every other attraction type the business offers. */
+  alsoOffer: z.array(z.string().max(60)).max(20).default([]),
   bio: z.string().max(2000).trim().optional().or(z.literal("")),
   services: z.array(z.string().max(60)).max(12).default([]),
   city: z.string().min(1, "City is required").max(80).trim(),

@@ -12,9 +12,9 @@ import { SITE } from "@/lib/siteConfig";
 // main directory page).
 
 function resolve(categorySlug: string) {
-  if (categorySlug === "all") return { slug: undefined, name: "All attractions", blurb: "" };
+  if (categorySlug === "all") return { slug: undefined, name: "All attractions", blurb: "", singular: "animal attraction" };
   const cat = getCategory(categorySlug);
-  return cat ? { slug: cat.slug, name: cat.name, blurb: cat.blurb } : null;
+  return cat ? { slug: cat.slug, name: cat.name, blurb: cat.blurb, singular: cat.singular } : null;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
@@ -70,7 +70,7 @@ export default async function CategoryPage({
               <h2 className="text-xl">No {cat.name.toLowerCase()} listed yet</h2>
               <p className="text-sm" style={{ color: "var(--ink-2)" }}>
                 Operate one? <Link href="/join" className="font-semibold" style={{ color: "var(--blue)" }}>Join {SITE.name}</Link> and
-                be the first {cat.name.toLowerCase().replace(/s$/, "")} listed in your area.
+                be the first {cat.singular} listed in your area.
               </p>
             </div>
           )}

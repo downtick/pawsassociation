@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Icon from "@/components/Icon";
 import DirectorySearch from "@/components/DirectorySearch";
-import { DIRECTORY } from "@/lib/directory";
 import { MEMBER_ARTICLES } from "@/content/articles";
 import { DOWNLOADS } from "@/content/downloads";
 import { SITE } from "@/lib/siteConfig";
@@ -24,7 +23,7 @@ export default function StartPage() {
       <section className="px-6 py-14 text-center sm:py-20" style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)" }}>
         <div className="mx-auto max-w-3xl">
           <p className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: "#FDBA74" }}>
-            For {DIRECTORY.categories.map((c) => c.name.toLowerCase()).join(", ").replace(/, ([^,]*)$/, ", and $1")}
+            Petting zoos · Pony rides · Beer burros · Goat yoga · Reptile shows · and more
           </p>
           <h1 className="mt-4 text-3xl text-white sm:text-5xl">More bookings for your animal business</h1>
           <p className="mx-auto mt-4 max-w-xl text-[16px]" style={{ color: "#DBEAFE" }}>

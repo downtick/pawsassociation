@@ -122,6 +122,12 @@ create table if not exists categories (
   sort int not null default 0
 );
 
+-- array_to_string() is only STABLE, and generated columns require IMMUTABLE
+-- expressions, so the listings.search column goes through this wrapper.
+-- (Safe: the separator and input fully determine the output.)
+create or replace function public.immutable_array_to_string(text[], text)
+returns text language sql immutable parallel safe as $$ select array_to_string($1, $2) $$;
+
 -- ============================================================================
 -- listings — the public member directory (separate from the account so
 -- approval/visibility is independent of auth/billing).
@@ -148,7 +154,7 @@ create table if not exists listings (
     to_tsvector('english',
       coalesce(business_name,'') || ' ' || coalesce(contact_name,'') || ' ' ||
       coalesce(city,'') || ' ' || coalesce(state,'') || ' ' ||
-      array_to_string(services,' '))
+      public.immutable_array_to_string(services,' '))
   ) stored,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -161,6 +167,39 @@ drop trigger if exists trg_listings_updated_at on listings;
 create trigger trg_listings_updated_at
   before update on listings
   for each row execute function set_updated_at();
+
+-- ============================================================================
+-- listing_categories — EVERY attraction type a listing offers beyond its main
+-- one (listings.category_id). A petting zoo that also does goat yoga and beer
+-- burros has one main type + two rows here. Directory filters match either.
+-- ============================================================================
+create table if not exists listing_categories (
+  listing_id uuid not null references listings(id) on delete cascade,
+  category_id uuid not null references categories(id) on delete cascade,
+  primary key (listing_id, category_id)
+);
+create index if not exists listing_categories_category_idx on listing_categories(category_id);
+
+-- ============================================================================
+-- listing_private_contacts — ADMIN-ONLY contact details for pre-seeded
+-- (unclaimed) listings: the owner's email for claim invites and outreach,
+-- plus phone/website that must NOT be public until the business claims and
+-- joins. Kept off `listings` entirely, because anything on `listings` is
+-- readable through the public directory API. On claim, an admin copies
+-- phone/website onto the listing.
+-- ============================================================================
+create table if not exists listing_private_contacts (
+  listing_id uuid primary key references listings(id) on delete cascade,
+  owner_name text,
+  email text,
+  phone text,
+  website text,
+  notes text,
+  source text,                                -- e.g. 'mailing-list-2026-10'
+  invited_at timestamptz,
+  created_at timestamptz not null default now()
+);
+create index if not exists listing_private_contacts_email_idx on listing_private_contacts(lower(email));
 
 -- ============================================================================
 -- leads — inquiries from the public directory lead form. The killer member
@@ -283,7 +322,13 @@ from profiles p;
 -- ============================================================================
 create or replace view public_listings with (security_invoker = true) as
 select l.*, c.slug as category_slug, c.name as category_name,
-       (l.profile_id is not null) as claimed
+       (l.profile_id is not null) as claimed,
+       -- main type + every "also offers" type, for directory filtering
+       array(
+         select distinct c2.slug from categories c2
+         where c2.id = l.category_id
+            or c2.id in (select lc.category_id from listing_categories lc where lc.listing_id = l.id)
+       ) as category_slugs
 from listings l
 left join categories c on c.id = l.category_id
 left join member_access m on m.id = l.profile_id
@@ -331,6 +376,8 @@ alter table profiles enable row level security;
 alter table categories enable row level security;
 alter table listings enable row level security;
 alter table leads enable row level security;
+alter table listing_categories enable row level security;
+alter table listing_private_contacts enable row level security;
 alter table member_events enable row level security;
 alter table resources enable row level security;
 alter table resource_clicks enable row level security;
@@ -387,6 +434,25 @@ create policy "admins manage listings" on listings for all
   using (public.is_admin());
 
 revoke update (approved, featured, profile_id) on listings from authenticated;
+
+-- listing_categories: public read (it only says which types a listing
+-- offers; listing visibility is still enforced by listings' own policy).
+-- The owner manages their own listing's rows; admins manage all.
+drop policy if exists "public read listing categories" on listing_categories;
+create policy "public read listing categories" on listing_categories for select
+  using (true);
+drop policy if exists "owner manages own listing categories" on listing_categories;
+create policy "owner manages own listing categories" on listing_categories for all
+  using (exists (select 1 from listings l where l.id = listing_id and l.profile_id = auth.uid()))
+  with check (exists (select 1 from listings l where l.id = listing_id and l.profile_id = auth.uid()));
+drop policy if exists "admins manage listing categories" on listing_categories;
+create policy "admins manage listing categories" on listing_categories for all
+  using (public.is_admin());
+
+-- listing_private_contacts: admins only. No public or owner read, ever.
+drop policy if exists "admins manage private contacts" on listing_private_contacts;
+create policy "admins manage private contacts" on listing_private_contacts for all
+  using (public.is_admin());
 
 -- leads: inserted only via the server route (service-role client after
 -- Turnstile/honeypot checks — no anon insert policy on purpose). Readable

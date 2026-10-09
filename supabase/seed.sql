@@ -5,16 +5,42 @@
 -- ============================================================================
 
 -- ── Categories (the taxonomy — drives /directory/[category] routes) ─────────
+-- Generated from lib/directory.ts — edit there, then regenerate this block.
 insert into categories (slug, name, singular, sort, intro_md) values
 ('petting-zoos', 'Petting Zoos', 'petting zoo', 10,
- 'Mobile and on-site petting zoos bring gentle, well-cared-for animals to birthday parties, schools, fairs, and community events. Search free and send your request straight to the operator.'),
+ 'Mobile and on-site petting zoos for parties, schools, fairs, and community events. Search free and send your request straight to the operator.'),
 ('pony-rides', 'Pony Rides', 'pony ride operator', 20,
- 'Pony ride operators provide hand-led rides for children at parties, fairs, and festivals. Compare operators near you and request availability free.'),
+ 'Hand-led pony rides for children at parties, fairs, and festivals. Search free and send your request straight to the operator.'),
 ('beer-burros', 'Beer Burros', 'beer burro service', 30,
- 'Beer burros — friendly mini donkeys with drink-service saddlebags — are the hit of weddings, corporate events, and festivals. Find services near you and request a date free.'),
+ 'Friendly mini donkeys with drink-service saddlebags for weddings and events. Search free and send your request straight to the operator.'),
 ('mobile-farms', 'Mobile Farms', 'mobile farm', 40,
- 'Mobile farms bring the barnyard to schools, daycares, fairs, and community events — a hands-on farm experience anywhere. Compare farms near you and request a visit free.')
-on conflict (slug) do nothing;
+ 'The barnyard comes to you — schools, daycares, fairs, and community events. Search free and send your request straight to the operator.'),
+('goat-yoga', 'Goat Yoga', 'goat yoga provider', 50,
+ 'Yoga sessions with friendly goats for studios, parties, corporate wellness days, and festivals. Search free and send your request straight to the operator.'),
+('reptile-exhibits', 'Reptile Shows & Exhibits', 'reptile exhibitor', 60,
+ 'Hands-on reptile shows and exhibits for schools, libraries, parties, and festivals. Search free and send your request straight to the operator.'),
+('reindeer-visits', 'Reindeer Visits', 'reindeer display', 70,
+ 'Live reindeer for holiday events, tree lots, markets, and Santa photo sessions. Search free and send your request straight to the operator.'),
+('alpaca-llama-visits', 'Alpaca & Llama Visits', 'alpaca and llama visit', 80,
+ 'Gentle alpacas and llamas for parties, senior communities, schools, and photo sessions. Search free and send your request straight to the operator.'),
+('camel-rides', 'Camel Rides', 'camel ride operator', 90,
+ 'Camel rides and nativity camels for fairs, festivals, churches, and private events. Search free and send your request straight to the operator.'),
+('pig-races', 'Pig Races', 'pig race show', 100,
+ 'Racing pig shows for county fairs, festivals, and community events. Search free and send your request straight to the operator.'),
+('birds-of-prey', 'Birds of Prey Shows', 'birds of prey show', 110,
+ 'Owl, hawk, and falcon programs for schools, libraries, nature centers, and festivals. Search free and send your request straight to the operator.'),
+('exotic-animal-encounters', 'Exotic Animal Encounters', 'exotic animal encounter', 120,
+ 'Traveling encounters with exotic animals for schools, parties, and corporate events. Search free and send your request straight to the operator.'),
+('wildlife-education', 'Wildlife Education Programs', 'wildlife education program', 130,
+ 'Educational programs with ambassador animals for classrooms, libraries, and camps. Search free and send your request straight to the operator.'),
+('animal-shows', 'Animal Shows & Performances', 'animal show', 140,
+ 'Trained-animal acts and dog shows for fairs, festivals, and school assemblies. Search free and send your request straight to the operator.'),
+('hayrides-carriage-rides', 'Hayrides & Carriage Rides', 'hayride or carriage ride service', 150,
+ 'Hayrides, wagon rides, and horse-drawn carriages for fall festivals, weddings, and holiday events. Search free and send your request straight to the operator.'),
+('live-nativity', 'Live Nativity Animals', 'live nativity animal provider', 160,
+ 'Sheep, donkeys, goats, and camels for church and community nativity scenes. Search free and send your request straight to the operator.')
+on conflict (slug) do update set name = excluded.name, singular = excluded.singular,
+  sort = excluded.sort, intro_md = excluded.intro_md;
 
 -- ── Sample listings (UNCLAIMED — profile_id null — obviously-fictional; ─────
 -- replace with real pre-seeded operators before launch) ─────────────────────
@@ -23,17 +49,17 @@ insert into listings (slug, business_name, contact_name, category_id, city, stat
 values
 ('sample-sunny-acres-petting-zoo', 'Sunny Acres Petting Zoo (Sample)', 'Sample Owner',
  (select id from cat where slug='petting-zoos'), 'Phoenix', 'AZ', '85004',
- '{Birthday parties,School visits,Fairs & festivals,Insured}',
+ '{Birthday parties,School visits,Fairs & festivals}',
  'Sample seed listing — mobile petting zoo with goats, sheep, bunnies, and ducks.',
  'Greater Phoenix, up to 60 miles', true),
 ('sample-happy-trails-pony-rides', 'Happy Trails Pony Rides (Sample)', 'Sample Owner',
  (select id from cat where slug='pony-rides'), 'Fort Worth', 'TX', '76102',
- '{Hand-led rides,Helmets provided,Birthday parties,Insured}',
+ '{Hand-led rides,Helmets provided,Birthday parties}',
  'Sample seed listing — hand-led pony rides for ages 2–10 with trained handlers.',
  'DFW metro', true),
 ('sample-cheers-burros', 'Cheers Burros (Sample)', 'Sample Owner',
  (select id from cat where slug='beer-burros'), 'Scottsdale', 'AZ', '85251',
- '{Weddings,Corporate events,Photo packages,Insured}',
+ '{Weddings,Corporate events,Photo packages}',
  'Sample seed listing — two mini donkeys with drink-service saddlebags for weddings and events.',
  'Phoenix & Scottsdale', true),
 ('sample-barnyard-on-wheels', 'Barnyard on Wheels (Sample)', 'Sample Owner',
