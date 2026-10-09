@@ -2,6 +2,7 @@
 import { useState, FormEvent } from "react";
 import { formatPhoneInput } from "@/lib/phone";
 import Icon from "./Icon";
+import { track } from "@/lib/track";
 
 // "Request availability" form on public member profiles. Same conventions as
 // ContactForm: honeypot, phone auto-format, tracking metadata submitted last.
@@ -47,6 +48,7 @@ export default function LeadForm({ listingId, businessName }: { listingId: strin
         setSubmitError(data.error || "Something went wrong. Please try again.");
         return;
       }
+      track("generate_lead", { lead_type: "directory_request", business_name: businessName });
       setSubmitted(true);
     } catch {
       setSubmitError("Network error. Please check your connection and try again.");

@@ -6,6 +6,7 @@ import { getDownload } from "@/content/downloads";
 import { getCurrentAccess } from "@/lib/access";
 import ContentNotice from "@/components/ContentNotice";
 import Icon from "@/components/Icon";
+import TrackedLink from "@/components/TrackedLink";
 import { SITE } from "@/lib/siteConfig";
 
 // One URL per article. Public articles render in full. Course lessons
@@ -121,9 +122,9 @@ export default async function LearnArticlePage({ params }: { params: Promise<{ s
             <Icon name="doc" />
             <span>
               Companion download:{" "}
-              <a href={`/api/downloads/${download.slug}`} className="font-semibold" style={{ color: "var(--blue)" }}>
+              <TrackedLink href={`/api/downloads/${download.slug}`} event="file_download" params={{ file_name: download.slug }} className="font-semibold" style={{ color: "var(--blue)" }}>
                 {download.title} (PDF)
-              </a>
+              </TrackedLink>
             </span>
           </div>
         )}

@@ -3,9 +3,11 @@ import { requireActiveMember } from "@/lib/access";
 import { createClient } from "@/lib/supabase/server";
 import { getMembershipDisplay, fullName, memberNumberLabel } from "@/lib/membership";
 import Icon from "@/components/Icon";
+import WelcomeTracker from "@/components/WelcomeTracker";
 import type { Listing } from "@/lib/types";
 
-export default async function DashboardHome() {
+export default async function DashboardHome({ searchParams }: { searchParams: Promise<{ welcome?: string }> }) {
+  const { welcome } = await searchParams;
   const profile = await requireActiveMember();
   const status = getMembershipDisplay(profile);
   const supabase = await createClient();
@@ -35,6 +37,7 @@ export default async function DashboardHome() {
 
   return (
     <div>
+      {welcome === "1" && <WelcomeTracker />}
       <div className="welcome">
         <div>
           <h1 className="display" style={{ fontSize: 25 }}>Welcome back, {fullName(profile)}</h1>

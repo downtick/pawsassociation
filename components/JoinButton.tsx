@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Icon from "./Icon";
+import { track } from "@/lib/track";
 
 // Starts Stripe Checkout for the $149/yr retail plan. If the visitor isn't
 // signed in yet, creates a bare Supabase auth account first (email +
@@ -68,6 +69,7 @@ export default function JoinButton({ email, password }: { email: string; passwor
         setStatus("error");
         return;
       }
+      track("begin_checkout", { currency: "USD", value: 149 });
       window.location.href = data.url;
     } catch {
       setError("Something went wrong. Please try again.");

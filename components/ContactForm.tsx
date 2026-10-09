@@ -3,6 +3,7 @@ import { useState, FormEvent } from "react";
 import { formatPhoneInput } from "@/lib/phone";
 import { STATES } from "@/lib/schemas";
 import Icon from "./Icon";
+import { track } from "@/lib/track";
 
 export default function ContactForm() {
   const [values, setValues] = useState<Record<string, string>>({});
@@ -45,6 +46,7 @@ export default function ContactForm() {
         setSubmitError(data.error || "Something went wrong. Please try again.");
         return;
       }
+      track("generate_lead", { lead_type: "contact_form" });
       setSubmitted(true);
     } catch {
       setSubmitError("Network error. Please check your connection and try again.");

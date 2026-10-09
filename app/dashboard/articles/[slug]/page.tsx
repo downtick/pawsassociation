@@ -6,6 +6,7 @@ import { MEMBER_ARTICLES, getArticleBySlug } from "@/content/articles";
 import { getDownload } from "@/content/downloads";
 import PrintButton from "@/components/PrintButton";
 import Icon from "@/components/Icon";
+import TrackedLink from "@/components/TrackedLink";
 
 export const dynamic = "force-dynamic";
 
@@ -45,9 +46,9 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
           <Icon name="doc" />
           <span>
             Companion download:{" "}
-            <a href={`/api/downloads/${download.slug}`} className="font-semibold" style={{ color: "var(--blue)" }}>
+            <TrackedLink href={`/api/downloads/${download.slug}`} event="file_download" params={{ file_name: download.slug }} className="font-semibold" style={{ color: "var(--blue)" }}>
               {download.title} (PDF)
-            </a>
+            </TrackedLink>
           </span>
         </div>
       )}

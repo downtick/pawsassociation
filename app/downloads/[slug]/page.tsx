@@ -6,6 +6,7 @@ import { getArticleBySlug } from "@/content/articles";
 import { getCurrentAccess } from "@/lib/access";
 import DownloadPreview from "@/components/DownloadPreview";
 import Icon from "@/components/Icon";
+import TrackedLink from "@/components/TrackedLink";
 import { SITE } from "@/lib/siteConfig";
 
 // Public, indexable preview of a member download. The PDF itself is only
@@ -77,9 +78,9 @@ export default async function DownloadDetailPage({
                   <p className="text-sm" style={{ color: "var(--ink-2)" }}>
                     Your copy is generated with your business name on it.
                   </p>
-                  <a href={`/api/downloads/${d.slug}`} className="btn btn-primary w-fit">
+                  <TrackedLink href={`/api/downloads/${d.slug}`} event="file_download" params={{ file_name: d.slug }} className="btn btn-primary w-fit">
                     <Icon name="doc" /> Download PDF
-                  </a>
+                  </TrackedLink>
                 </>
               ) : (
                 <>

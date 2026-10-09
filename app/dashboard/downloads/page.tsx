@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireActiveMember } from "@/lib/access";
 import { DOWNLOADS, DOWNLOAD_GROUPS } from "@/content/downloads";
 import Icon from "@/components/Icon";
+import TrackedLink from "@/components/TrackedLink";
 
 export const metadata: Metadata = { title: "Downloads", robots: { index: false } };
 
@@ -33,9 +34,9 @@ export default async function DashboardDownloadsPage() {
                 <p>{d.summary}</p>
                 <div className="perkfoot">
                   <Link href={`/downloads/${d.slug}`} className="text-sm" style={{ color: "var(--ink-3)" }}>Details</Link>
-                  <a href={`/api/downloads/${d.slug}`} className="btn btn-deal">
+                  <TrackedLink href={`/api/downloads/${d.slug}`} event="file_download" params={{ file_name: d.slug }} className="btn btn-deal">
                     <Icon name="doc" /> Download PDF
-                  </a>
+                  </TrackedLink>
                 </div>
               </div>
             ))}
