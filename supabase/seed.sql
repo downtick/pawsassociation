@@ -94,5 +94,12 @@ insert into articles (slug, title, summary, category, member_only) values
 ('get-booked-by-venues', 'The Venue Outreach Playbook: Get on Preferred-Vendor Lists', 'Scripts and a step-by-step outreach system for getting your attraction onto wedding-venue and event-planner preferred lists.', 'Marketing', true),
 ('price-your-attraction', 'Pricing Your Attraction: Rate Sheets That Win Bookings', 'How to structure hourly rates, travel fees, and add-ons — with a fill-in rate-sheet template.', 'Business', true),
 ('event-day-run-sheet', 'The Event-Day Run Sheet (Printable)', 'A printable checklist covering load-out, setup, animal rotation, breaks, waivers, and teardown.', 'Operations', true),
-('review-engine-for-operators', 'Get 5-Star Reviews on Autopilot', 'The post-event follow-up sequence that turns happy hosts into Google reviews — with copy-paste templates.', 'Marketing', true)
+('review-engine-for-operators', 'Get 5-Star Reviews on Autopilot', 'The post-event follow-up sequence that turns happy hosts into Google reviews — with copy-paste templates.', 'Marketing', true),
+('google-business-profile-for-mobile-operators', 'Google Business Profile for Mobile Animal Businesses', 'Set up and run a Google Business Profile when you don''t have a storefront.', 'Marketing', true),
+('seasonal-marketing-calendar', 'The Seasonal Marketing Calendar for Animal Attractions', 'What to market each season, six to eight weeks before the wave arrives.', 'Marketing', true),
+('schools-daycares-libraries', 'Booking Schools, Daycares, and Libraries', 'How institutions buy, the paperwork they ask for, who to contact, and the pitch email.', 'Marketing', true),
+('fairs-and-festivals', 'Fairs and Festivals: Vendor Applications That Get Accepted', 'Finding events, applications, animal health paperwork, pricing, and turning crowds into bookings.', 'Marketing', true),
+('facebook-groups-and-parent-groups', 'Facebook Groups and Parent Groups: Get Recommended, Not Banned', 'Showing up when a local parent asks for a petting zoo or pony rides.', 'Marketing', true),
+('referral-partners', 'Referral Partners: Bounce Houses, Planners, and Photographers', 'The businesses that talk to your customers every weekend, and how to work with them.', 'Marketing', true),
+('short-videos-that-book-parties', 'Short Videos That Book Parties', 'What to film, filming alone, captions local searchers find, and parent permission.', 'Marketing', true)
 on conflict (slug) do nothing;

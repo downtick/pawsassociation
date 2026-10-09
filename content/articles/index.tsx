@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { COURSE } from "./course";
 
 export interface ArticleContent {
   slug: string;
@@ -7,14 +8,23 @@ export interface ArticleContent {
   category: "Hiring Guides" | "Safety" | "Business" | "Marketing" | "Operations";
   memberOnly: boolean;
   printable: boolean;
+  /** Members-only body. For course lessons the full lesson = teaser + body. */
   body: ReactNode;
+  /** Course lessons: PUBLIC opening shown to everyone at /learn/[slug]. */
+  teaser?: ReactNode;
+  /** Course lessons: section headings listed publicly as "what's inside". */
+  outline?: string[];
+  /** Position in the "Grow Your Animal Business" course. */
+  lesson?: number;
+  /** Slug of the companion member download (content/downloads.ts). */
+  download?: string;
 }
 
 // v1 article library. Public articles render at /learn/[slug] (the SEO
 // surface); memberOnly articles render at /dashboard/articles/[slug] behind
 // the paywall. Written to the blog-writing skill's rules: concrete facts,
 // no filler, no invented premium or claim dollar amounts in insurance copy.
-export const ARTICLES: ArticleContent[] = [
+const PUBLIC_LIST: ArticleContent[] = [
   // ── PUBLIC: consumer-intent ──
   {
     slug: "how-to-hire-a-petting-zoo",
@@ -305,201 +315,12 @@ export const ARTICLES: ArticleContent[] = [
     ),
   },
 
-  // ── MEMBER-ONLY GUIDES ──
-  {
-    slug: "get-booked-by-venues",
-    title: "The Venue Outreach Playbook: Get on Preferred-Vendor Lists",
-    summary:
-      "A step-by-step outreach system for getting your attraction onto wedding-venue and event-planner preferred lists — with the exact email to send.",
-    category: "Marketing",
-    memberOnly: true,
-    printable: false,
-    body: (
-      <>
-        <p>
-          One venue that recommends you is worth twenty ad clicks. Wedding
-          venues, event barns, and corporate-event planners keep
-          preferred-vendor lists, and getting on three or four of them can fill
-          a season. This is the outreach system, start to finish.
-        </p>
-        <h2>Build the target list (30 minutes)</h2>
-        <ul>
-          <li>Search &ldquo;wedding venue&rdquo; + your metro on Google Maps; collect the 20 closest with outdoor space.</li>
-          <li>Add event barns, wineries, and breweries — beer burros book heavily at all three.</li>
-          <li>For each: venue name, events manager&apos;s name if listed, email, and one detail from their photos you can mention.</li>
-        </ul>
-        <h2>The first email</h2>
-        <p>Short beats thorough. Send this, personalized per venue:</p>
-        <ul>
-          <li><strong>Subject:</strong> Animal attraction vendor for [Venue Name]</li>
-          <li>One line on who you are and what you bring (name the animals).</li>
-          <li>One line proving you know their venue: &ldquo;Your lawn by the pond is exactly the kind of space we set up on.&rdquo;</li>
-          <li>The two things venues care about: you carry insurance and can name them as additional insured on your COI, and you handle all cleanup.</li>
-          <li>Close with a specific ask: &ldquo;Could we be added to your vendor list, or is there a walkthrough you&apos;d like first?&rdquo;</li>
-        </ul>
-        <h2>The follow-up rhythm</h2>
-        <p>
-          No reply after one week: reply to your own email with one new line —
-          a photo from a recent event works. No reply after two more weeks: one
-          final note offering a free 15-minute appearance at their next open
-          house. Open houses are how venues audition vendors; say yes to every
-          one.
-        </p>
-        <h2>Keep the list warm</h2>
-        <p>
-          After every event at a listed venue, email the coordinator two photos
-          and a thank-you within 48 hours. That one habit is why some operators
-          stay on lists for years while others fall off after a staff change.
-        </p>
-      </>
-    ),
-  },
-  {
-    slug: "price-your-attraction",
-    title: "Pricing Your Attraction: Rate Sheets That Win Bookings",
-    summary:
-      "How to structure hourly rates, travel fees, and add-ons — plus the fill-in rate-sheet template members use to quote in minutes.",
-    category: "Business",
-    memberOnly: true,
-    printable: false,
-    body: (
-      <>
-        <p>
-          Operators lose money in two places: quoting each job from scratch, and
-          forgetting that a two-hour party is really a six-hour day once you
-          count loading, driving, and cleanup. A rate sheet fixes both.
-        </p>
-        <h2>The base-rate formula</h2>
-        <p>
-          Price the first hour to cover your true event day, not the time on
-          site. Work backward: what do you need per event day to cover feed,
-          vet, insurance, fuel, equipment wear, and your own time — then divide
-          by realistic bookings per week. Most operators land on a first-hour
-          rate two to three times their added-hour rate, because setup and
-          teardown happen once regardless of duration.
-        </p>
-        <h2>Structure the sheet in four blocks</h2>
-        <ul>
-          <li><strong>Base packages:</strong> two or three named tiers (e.g. Starter Barnyard / Full Farm) with animal counts and durations spelled out.</li>
-          <li><strong>Travel:</strong> free within a radius you choose, then a per-mile or per-zone fee. Publish it — surprise travel fees kill reviews.</li>
-          <li><strong>Add-ons:</strong> extra half hour, extra handler, pony add-on to a petting zoo, floral saddlebags. Add-ons are where margin lives.</li>
-          <li><strong>Peak dates:</strong> a stated weekend/holiday premium. Saying it up front reads as professional; discounting quietly on slow days is easier than raising quietly on busy ones.</li>
-        </ul>
-        <h2>Deposits and cancellation</h2>
-        <p>
-          Take 25 to 50 percent to hold a date, balance due before or on the
-          day. Offer one free weather reschedule within a set window — it costs
-          little and closes hesitant bookers.
-        </p>
-        <h2>When to raise prices</h2>
-        <p>
-          If you booked more than 80 percent of the weekends you wanted last
-          season, raise the base 10 to 15 percent for the next one. Full
-          calendars at last year&apos;s rates mean the market was ready to pay more.
-        </p>
-      </>
-    ),
-  },
-  {
-    slug: "event-day-run-sheet",
-    title: "The Event-Day Run Sheet (Printable)",
-    summary:
-      "A printable checklist covering load-out, setup, animal rotation, waivers, and teardown — so no event day depends on memory.",
-    category: "Operations",
-    memberOnly: true,
-    printable: true,
-    body: (
-      <>
-        <p>
-          Print one per event. Fill the header in the truck before you pull
-          out, and initial each block as it happens. When two events run the
-          same weekend, the sheet is what keeps them from blurring.
-        </p>
-        <h2>Event header</h2>
-        <ul>
-          <li><span className="checkbox" />Client name / phone: ______________________</li>
-          <li><span className="checkbox" />Venue address + gate/loading notes: ______________________</li>
-          <li><span className="checkbox" />Start time: ________ Off-site by: ________</li>
-          <li><span className="checkbox" />COI sent to venue? Date: ________</li>
-          <li><span className="checkbox" />Balance collected? Method: ________</li>
-        </ul>
-        <h2>Load-out (night before)</h2>
-        <ul>
-          <li><span className="checkbox" />Animals selected and checked — eyes, gait, appetite</li>
-          <li><span className="checkbox" />Fencing panels, ground cover, shade canopy</li>
-          <li><span className="checkbox" />Water buckets, feed, hay for the day</li>
-          <li><span className="checkbox" />Hand-wash station + refill jug + sanitizer</li>
-          <li><span className="checkbox" />First-aid kit (human) and animal kit</li>
-          <li><span className="checkbox" />Waiver clipboard or QR sign, business cards</li>
-        </ul>
-        <h2>On site</h2>
-        <ul>
-          <li><span className="checkbox" />Pen up, gates latched, shade over water</li>
-          <li><span className="checkbox" />Wash station at the exit, visible sign up</li>
-          <li><span className="checkbox" />Walk the client through rules before guests arrive</li>
-          <li><span className="checkbox" />Rotation plan: rest each animal ______ minutes per hour</li>
-        </ul>
-        <h2>Teardown</h2>
-        <ul>
-          <li><span className="checkbox" />Headcount every animal before the trailer closes</li>
-          <li><span className="checkbox" />Ground cover bagged and hauled — leave nothing</li>
-          <li><span className="checkbox" />Photos of the clean site (dispute insurance)</li>
-          <li><span className="checkbox" />Thank the client in person; mention the review text they&apos;ll get tomorrow</li>
-        </ul>
-      </>
-    ),
-  },
-  {
-    slug: "review-engine-for-operators",
-    title: "Get 5-Star Reviews on Autopilot",
-    summary:
-      "The post-event follow-up sequence that turns happy hosts into Google reviews — with copy-paste messages.",
-    category: "Marketing",
-    memberOnly: true,
-    printable: false,
-    body: (
-      <>
-        <p>
-          Reviews decide who gets the booking when a planner compares three
-          operators at 11pm. The operators with 40 reviews didn&apos;t get them by
-          being 40 times better — they ask every client, the same way, at the
-          same moment. Here is the sequence.
-        </p>
-        <h2>Set up once (20 minutes)</h2>
-        <ul>
-          <li>Claim your Google Business Profile and get your direct review link (Profile → Ask for reviews → copy link).</li>
-          <li>Shorten it and save it as a phone keyboard shortcut so you can text it in five seconds.</li>
-        </ul>
-        <h2>The sequence</h2>
-        <ul>
-          <li><strong>At teardown, in person:</strong> &ldquo;I&apos;ll text you tomorrow with a review link — it&apos;s the single biggest thing that helps a small operation like ours.&rdquo; Priming doubles the response rate of the text that follows.</li>
-          <li><strong>Next morning, by text:</strong> &ldquo;Thanks again for having [animal names] out yesterday! If you have 60 seconds, a Google review helps us more than any ad: [link]. Either way — hope the party was a hit.&rdquo;</li>
-          <li><strong>Day 4, one nudge only:</strong> &ldquo;No pressure at all — resending the review link in case it got buried: [link].&rdquo; Then stop. Two asks is the ceiling.</li>
-        </ul>
-        <h2>Photos multiply everything</h2>
-        <p>
-          Send two or three good photos from the event with the first text.
-          Clients who receive photos post them with the review, and reviews
-          with photos get read.
-        </p>
-        <h2>Answer every review</h2>
-        <p>
-          Reply to each one within a week — two sentences, name an animal:
-          &ldquo;So glad Waffles was the hit of the party!&rdquo; Future clients
-          read the replies as closely as the reviews. For a rare bad one: reply
-          once, calmly, with the fix you offered, and take the rest offline.
-        </p>
-        <p>
-          Never buy reviews and never post fake ones — one flagged review can
-          sink the profile, and the FTC fines for fabricated reviews are real.
-        </p>
-      </>
-    ),
-  },
 ];
 
+export const ARTICLES: ArticleContent[] = [...PUBLIC_LIST, ...COURSE];
+
 export const PUBLIC_ARTICLES = ARTICLES.filter((a) => !a.memberOnly);
-export const MEMBER_ARTICLES = ARTICLES.filter((a) => a.memberOnly);
+export const MEMBER_ARTICLES = ARTICLES.filter((a) => a.memberOnly).sort((a, b) => (a.lesson ?? 99) - (b.lesson ?? 99));
 
 export function getArticleBySlug(slug: string): ArticleContent | undefined {
   return ARTICLES.find((a) => a.slug === slug);

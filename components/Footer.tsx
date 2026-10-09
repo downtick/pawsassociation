@@ -47,6 +47,7 @@ export default function Footer() {
           <ul className="space-y-2 text-sm" style={{ color: "var(--ink-2)" }}>
             <li><Link href="/about" className="navlink !px-0">About</Link></li>
             <li><Link href="/learn" className="navlink !px-0">Learning hub</Link></li>
+            <li><Link href="/downloads" className="navlink !px-0">Printable downloads</Link></li>
             <li><Link href="/contact" className="navlink !px-0">Contact</Link></li>
             <li><Link href="/terms" className="navlink !px-0">Terms of Service</Link></li>
             <li><Link href="/privacy" className="navlink !px-0">Privacy Policy</Link></li>

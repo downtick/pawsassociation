@@ -40,6 +40,7 @@ export default function MobileNav({ loggedIn, dashboardHref }: { loggedIn: boole
           <Link href="/directory" onClick={() => setOpen(false)}>Find a member</Link>
           <Link href="/benefits" onClick={() => setOpen(false)}>Member benefits</Link>
           <Link href="/learn" onClick={() => setOpen(false)}>Learn</Link>
+          <Link href="/downloads" onClick={() => setOpen(false)}>Downloads</Link>
           <Link href="/about" onClick={() => setOpen(false)}>About</Link>
           <Link href="/faq" onClick={() => setOpen(false)}>FAQ</Link>
           <Link href="/contact" onClick={() => setOpen(false)}>Contact</Link>

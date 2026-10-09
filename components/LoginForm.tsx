@@ -23,7 +23,10 @@ export default function LoginForm() {
       setStatus("error");
       return;
     }
-    window.location.href = "/post-login";
+    // Return to the page that sent them here (e.g. a locked lesson). Only
+    // same-site paths — post-login validates again server-side.
+    const next = new URLSearchParams(window.location.search).get("next");
+    window.location.href = next ? `/post-login?next=${encodeURIComponent(next)}` : "/post-login";
   }
 
   async function handleMagicLink(e: FormEvent) {

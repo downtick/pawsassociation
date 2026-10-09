@@ -1,13 +1,14 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/siteConfig";
 import { DIRECTORY } from "@/lib/directory";
-import { PUBLIC_ARTICLES } from "@/content/articles";
+import { ARTICLES } from "@/content/articles";
+import { DOWNLOADS } from "@/content/downloads";
 import { getAllListingSlugs, getStatesWithListings } from "@/lib/listings";
 
 // Dynamic sitemap: static pages + category pages + member profiles + only
 // the category/state geo pages that actually have members (thin pages hurt).
 const STATIC_ROUTES = [
-  "/", "/directory", "/join", "/benefits", "/get-listed", "/learn",
+  "/", "/directory", "/join", "/benefits", "/get-listed", "/learn", "/downloads",
   "/about", "/faq", "/contact", "/terms", "/privacy", "/disclaimer", "/login",
 ];
 
@@ -22,8 +23,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push({ url: `${SITE.url}/directory/${c.slug}`, lastModified: now });
   }
 
-  for (const a of PUBLIC_ARTICLES) {
+  // Every article, including course lessons: their public teaser pages are
+  // indexable (the full lesson renders only for members).
+  for (const a of ARTICLES) {
     entries.push({ url: `${SITE.url}/learn/${a.slug}`, lastModified: now });
+  }
+
+  for (const d of DOWNLOADS) {
+    entries.push({ url: `${SITE.url}/downloads/${d.slug}`, lastModified: now });
   }
 
   // Geo pages with ≥1 member, per category and for the "all" pseudo-category.

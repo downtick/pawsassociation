@@ -26,8 +26,9 @@ export default async function Header() {
           <Link href="/directory" className="navlink">Find a member</Link>
           <Link href="/benefits" className="navlink">Member benefits</Link>
           <Link href="/learn" className="navlink">Learn</Link>
-          <Link href="/faq" className="navlink">FAQ</Link>
-          <Link href="/contact" className="navlink">Contact</Link>
+          <Link href="/downloads" className="navlink">Downloads</Link>
+          <Link href="/faq" className="navlink hidden xl:inline-flex">FAQ</Link>
+          <Link href="/contact" className="navlink hidden xl:inline-flex">Contact</Link>
         </nav>
 
         <div className="flex items-center gap-2 md:ml-2 ml-auto">

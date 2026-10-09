@@ -14,7 +14,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
               <Link href="/dashboard/profile" className="tab">My listing</Link>
               <Link href="/dashboard/leads" className="tab">Leads</Link>
               <Link href="/dashboard/perks" className="tab">Benefits</Link>
-              <Link href="/dashboard/articles" className="tab">Guides</Link>
+              <Link href="/dashboard/articles" className="tab">Course</Link>
+              <Link href="/dashboard/downloads" className="tab">Downloads</Link>
               {/* Comp/partner-provided members never see billing — no price, no cancel control. */}
               {profile.billing_source === "stripe" && (
                 <Link href="/dashboard/billing" className="tab">Billing</Link>

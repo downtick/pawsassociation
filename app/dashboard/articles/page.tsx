@@ -3,44 +3,38 @@ import Link from "next/link";
 import { requireActiveMember } from "@/lib/access";
 import { MEMBER_ARTICLES, PUBLIC_ARTICLES } from "@/content/articles";
 
-export const metadata: Metadata = { title: "Member guides" };
-
-const CATEGORIES = ["Marketing", "Business", "Operations"] as const;
+export const metadata: Metadata = { title: "Grow Your Animal Business", robots: { index: false } };
 
 export default async function GuidesPage() {
   await requireActiveMember();
 
   return (
     <div>
-      <h1 className="mb-2 text-3xl">Member guides</h1>
+      <h1 className="mb-2 text-3xl">Grow Your Animal Business</h1>
       <p className="mb-8" style={{ color: "var(--ink-3)" }}>
-        Playbooks written for animal-attraction and amusement operators —
-        outreach scripts, pricing structure, and printable checklists.
+        {MEMBER_ARTICLES.length} lessons on marketing, pricing, and operations.
+        Most come with a printable download in the Downloads tab.
       </p>
 
-      {CATEGORIES.map((cat) => {
-        const items = MEMBER_ARTICLES.filter((a) => a.category === cat);
-        if (items.length === 0) return null;
-        return (
-          <section key={cat} className="mb-10">
-            <h2 className="mb-3 text-xl">{cat}</h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map((a) => (
-                <Link key={a.slug} href={`/dashboard/articles/${a.slug}`} className="card card-hover block p-5">
-                  {a.printable && <span className="badge mb-2 inline-flex !px-2 !py-0.5 text-[10px]">Printable</span>}
-                  <h3 className="mb-1 font-semibold">{a.title}</h3>
-                  <p className="text-sm" style={{ color: "var(--ink-3)" }}>{a.summary}</p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        );
-      })}
+      <ol className="mb-12 grid gap-3">
+        {MEMBER_ARTICLES.map((a) => (
+          <li key={a.slug}>
+            <Link href={`/dashboard/articles/${a.slug}`} className="card card-hover flex items-start gap-4 p-5">
+              <span className="stepno mt-1 w-6 flex-none">{String(a.lesson).padStart(2, "0")}</span>
+              <span>
+                <span className="block font-semibold" style={{ color: "var(--ink)" }}>{a.title}</span>
+                <span className="text-sm" style={{ color: "var(--ink-3)" }}>{a.summary}</span>
+                {a.download && <span className="badge mt-2 inline-flex !px-2 !py-0.5 text-[10px]">Includes download</span>}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ol>
 
       <section className="mb-4">
         <h2 className="mb-3 text-xl">Public guides</h2>
         <p className="mb-3 text-sm" style={{ color: "var(--ink-3)" }}>
-          Also on the site&apos;s public learning hub — useful to share with venues and clients.
+          On the public learning hub — useful to share with venues and clients.
         </p>
         <ul className="space-y-2 text-[15px]">
           {PUBLIC_ARTICLES.map((a) => (

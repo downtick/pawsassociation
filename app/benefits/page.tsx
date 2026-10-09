@@ -39,13 +39,24 @@ const BENEFIT_GROUPS: { icon: IconName; title: string; blurb: string; items: str
   },
   {
     icon: "doc",
-    title: "Operator guides",
-    blurb: "Playbooks written for event operators.",
+    title: "Grow Your Animal Business course",
+    blurb: "11 lessons, each opening free to read.",
     items: [
-      "The venue outreach playbook: getting on preferred-vendor lists",
-      "Pricing your attraction: rate sheets that win bookings",
-      "A printable event-day run sheet (setup, rotation, waivers, teardown)",
-      "The review engine: turning happy hosts into 5-star reviews",
+      "Google Business Profile, Facebook groups, and short video for local bookings",
+      "Getting booked by venues, schools, libraries, fairs, and festivals",
+      "Pricing, referral partners, and a 5-star review system",
+      "A seasonal marketing calendar and an event-day run sheet",
+    ],
+  },
+  {
+    icon: "printer",
+    title: "Printable downloads",
+    blurb: "Printed with your business name.",
+    items: [
+      "Event signs: hand washing, ask before petting, don't feed the animals",
+      "Rate sheet, inquiry intake form, and venue site-visit checklist",
+      "Animal care and transport log",
+      "12-month marketing calendar and a fillable flyer",
     ],
   },
   {

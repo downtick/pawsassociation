@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { ARTICLES } from "@/content/articles";
 import { RESOURCES_SEED } from "@/lib/data/resourcesSeed";
+import { DOWNLOADS } from "@/content/downloads";
 
 // Simple preloaded search index for the header omni-search — filters
 // resources + articles by title, client-side. No search-index service.
@@ -14,6 +15,12 @@ export async function GET() {
       title: a.title,
       subtitle: a.summary,
       href: a.memberOnly ? `/dashboard/articles/${a.slug}` : `/learn/${a.slug}`,
+    })),
+    ...DOWNLOADS.map((d) => ({
+      type: "article" as const,
+      title: d.title,
+      subtitle: `Download — ${d.summary}`,
+      href: `/downloads/${d.slug}`,
     })),
     ...RESOURCES_SEED.map((r) => ({
       type: "resource" as const,

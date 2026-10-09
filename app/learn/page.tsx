@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PUBLIC_ARTICLES } from "@/content/articles";
+import { PUBLIC_ARTICLES, MEMBER_ARTICLES } from "@/content/articles";
 import ContentNotice from "@/components/ContentNotice";
+import Icon from "@/components/Icon";
 
 export const metadata: Metadata = {
-  title: "Learning hub — hiring guides & operator resources",
+  title: "Learning hub — hiring guides & how to market an animal business",
   description:
-    "Guides for hiring petting zoos, pony rides, beer burros, and mobile farms — plus resources for operators starting or growing an animal-attraction business.",
+    "Free guides for hiring petting zoos, pony rides, beer burros, and mobile farms — plus the Grow Your Animal Business course: 11 lessons on marketing, pricing, and running an animal attraction.",
+  alternates: { canonical: "/learn" },
 };
 
-const CATEGORIES = ["Hiring Guides", "Safety", "Business"] as const;
+const PUBLIC_CATEGORIES = ["Hiring Guides", "Safety", "Business"] as const;
 
 export default function LearnPage() {
   return (
@@ -18,12 +20,44 @@ export default function LearnPage() {
         <span className="eyebrow">Learning hub</span>
         <h1 className="mt-2 text-3xl sm:text-4xl">Guides for planners and operators</h1>
         <p className="lede mt-4">
-          How to hire an animal attraction with confidence — and how to run one
-          well. Members get the full playbook library in their dashboard.
+          How to hire an animal attraction with confidence — and how to grow one.
+          Free guides below; the full marketing course and printable business
+          tools are part of PAWS membership.
         </p>
         <div className="mt-6 max-w-2xl"><ContentNotice /></div>
 
-        {CATEGORIES.map((cat) => {
+        {/* ── The course ── */}
+        <div className="panel mb-12">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <span className="badge"><Icon name="badge" /> Member course</span>
+              <h2 className="mt-2 text-2xl">Grow Your Animal Business</h2>
+              <p className="!m-0 text-sm" style={{ color: "var(--ink-3)" }}>
+                {MEMBER_ARTICLES.length} lessons on marketing, pricing, and operations — each opening is free to read.
+              </p>
+            </div>
+            <Link href="/downloads" className="btn btn-ghost">Printable downloads</Link>
+          </div>
+          <ol className="mt-2 grid gap-2 sm:grid-cols-2">
+            {MEMBER_ARTICLES.map((a) => (
+              <li key={a.slug}>
+                <Link
+                  href={`/learn/${a.slug}`}
+                  className="flex items-start gap-3 rounded-xl border p-3 !no-underline transition-colors hover:bg-[var(--blue-wash)]"
+                  style={{ borderColor: "var(--rule)" }}
+                >
+                  <span className="stepno mt-0.5 w-6 flex-none">{String(a.lesson).padStart(2, "0")}</span>
+                  <span>
+                    <span className="block font-semibold" style={{ color: "var(--ink)" }}>{a.title}</span>
+                    <span className="text-sm" style={{ color: "var(--ink-3)" }}>{a.summary}</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {PUBLIC_CATEGORIES.map((cat) => {
           const items = PUBLIC_ARTICLES.filter((a) => a.category === cat);
           if (items.length === 0) return null;
           return (
@@ -40,17 +74,6 @@ export default function LearnPage() {
             </div>
           );
         })}
-
-        <div className="note mt-4">
-          <span>
-            Operators: members also get the venue outreach playbook, the pricing
-            rate-sheet guide, the printable event-day run sheet, and the review
-            engine —{" "}
-            <Link href="/benefits" className="font-semibold" style={{ color: "var(--blue)" }}>
-              see all member benefits
-            </Link>.
-          </span>
-        </div>
       </div>
     </section>
   );
