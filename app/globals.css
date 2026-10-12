@@ -349,12 +349,62 @@ input:focus-visible, a:focus-visible, button:focus-visible, select:focus-visible
 .statchip b { color: var(--orange); font-size: 16px; }
 
 /* ── Motion: one staggered fade-up + one meter fill. Nothing else. ───────── */
-.rise { opacity: 0; transform: translateY(12px); animation: rise .5s cubic-bezier(.22,.7,.3,1) forwards; }
-.rise:nth-child(1) { animation-delay: .05s; }
-.rise:nth-child(2) { animation-delay: .16s; }
-.rise:nth-child(3) { animation-delay: .27s; }
-.rise:nth-child(4) { animation-delay: .4s; }
-@keyframes rise { to { opacity: 1; transform: none; } }
+/* ── Motion kit (same approach as airfilterslasvegas) ─────────────────────
+   .rise    — staggered entrance on load; set --d for the delay
+   .reveal  — fades up when scrolled into view (components/Reveal.tsx adds .in)
+   Every effect is disabled by the OS reduce-motion setting and by the
+   accessibility widget's reduce-motion mode (see the a11y block above). */
+@keyframes rise { from { opacity: 0; transform: translateY(18px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+.rise { opacity: 0; animation: rise .9s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: var(--d, 0ms); }
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1); transition-delay: var(--d, 0ms); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Shimmer sweep across orange CTAs */
+.btn-primary { position: relative; overflow: hidden; }
+.btn-primary::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.38) 50%, transparent 70%);
+  transform: translateX(-120%); animation: shimmer 3.8s ease-in-out infinite;
+}
+@keyframes shimmer { 0%, 55% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+
+/* Live-status dot */
+@keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(253,186,116,.6); } 100% { box-shadow: 0 0 0 12px rgba(253,186,116,0); } }
+.pulse-dot { display: inline-block; width: 8px; height: 8px; border-radius: 999px; background: #FDBA74; animation: pulse-ring 2s ease-out infinite; }
+
+/* Hero: drifting glow blobs + floating paw prints */
+.hero-stage { position: relative; overflow: hidden; isolation: isolate; }
+.hero-blob { position: absolute; border-radius: 999px; filter: blur(60px); opacity: .45; z-index: -1; pointer-events: none; }
+@keyframes drift-a { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(60px, 40px) scale(1.15); } }
+@keyframes drift-b { 0%, 100% { transform: translate(0, 0) scale(1.1); } 50% { transform: translate(-70px, -30px) scale(.95); } }
+.hero-blob.a { width: 420px; height: 420px; background: #60A5FA; top: -140px; left: -120px; animation: drift-a 16s ease-in-out infinite; }
+.hero-blob.b { width: 360px; height: 360px; background: #F97316; bottom: -170px; right: -100px; opacity: .3; animation: drift-b 19s ease-in-out infinite; }
+@keyframes paw-float {
+  0% { transform: translateY(0) rotate(var(--r, 0deg)); opacity: 0; }
+  15% { opacity: var(--o, .18); }
+  85% { opacity: var(--o, .18); }
+  100% { transform: translateY(-160px) rotate(calc(var(--r, 0deg) + 18deg)); opacity: 0; }
+}
+.paw { position: absolute; z-index: -1; color: #fff; pointer-events: none; opacity: 0; animation: paw-float var(--t, 12s) ease-in-out infinite; animation-delay: var(--d, 0s); }
+
+/* Gentle hover float for cards */
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.floaty { animation: floaty 6s ease-in-out infinite; }
+
+/* Scrolling band of attraction types */
+.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee-track { display: flex; width: max-content; gap: 12px; animation: marquee 48s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .paw, .hero-blob, .btn-primary::after { display: none; }
+  .marquee-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+}
+html.a11y-reduce-motion .rise, html.a11y-reduce-motion .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+html.a11y-reduce-motion .paw, html.a11y-reduce-motion .hero-blob, html.a11y-reduce-motion .btn-primary::after { display: none; }
+html.a11y-reduce-motion .marquee-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
 
 /* ── Panels & cards ──────────────────────────────────────────────────────── */
 .panel {
