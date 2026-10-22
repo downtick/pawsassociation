@@ -61,6 +61,16 @@ per the `membership-website` skill.
   must be replaced before launch.
 - **Sample listings** (4 rows, clearly marked "(Sample)") must be replaced
   with real pre-seeded operators before launch.
+- **New tables need explicit GRANTs (Supabase change, 2026-10-30).** The
+  current tables kept their old automatic grants and are protected by RLS
+  (audited 2026-10-22: every table has RLS on, both views are
+  `security_invoker`, and the anon role reads 0 rows from every private
+  table). Any table added after Oct 30 is invisible to the site (error
+  42501) until granted. Fix per table — enable RLS + policies, then grant
+  only the roles/operations the app uses. NEVER run the blanket
+  `grant … on all tables in schema public to anon, authenticated` fix.
+  New security-definer functions: `revoke execute … from public, anon`
+  unless anon genuinely needs them (see `admin_user_activity()`).
 - `.env*` files are permission-protected in this workspace — env var list
   lives in README.md §Setup.
 
