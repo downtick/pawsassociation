@@ -316,9 +316,10 @@ from profiles p;
 -- public_listings view — the SINGLE public-visibility rule. Everything the
 -- anonymous web sees (directory search, category/state/city pages, member
 -- profiles, sitemap) reads this view: approved listing AND owner has access.
--- SECURITY DEFINER-style barrier via security_invoker=false is NOT used;
--- instead this is a plain view over tables whose RLS policies already allow
--- the anon role to read exactly these rows (see policies below).
+-- security_invoker = true, so the caller's RLS applies. The owner check MUST
+-- go through has_public_access() (SECURITY DEFINER): joining member_access
+-- here silently hid every CLAIMED listing from visitors, because the anon
+-- role can't read profiles, so the joined has_access was always null.
 -- ============================================================================
 create or replace view public_listings with (security_invoker = true) as
 select l.*, c.slug as category_slug, c.name as category_name,
@@ -331,9 +332,8 @@ select l.*, c.slug as category_slug, c.name as category_name,
        ) as category_slugs
 from listings l
 left join categories c on c.id = l.category_id
-left join member_access m on m.id = l.profile_id
 where l.approved
-  and (l.profile_id is null or m.has_access);   -- unclaimed OR owner has access
+  and (l.profile_id is null or public.has_public_access(l.profile_id));   -- unclaimed OR owner has access
 
 -- ============================================================================
 -- is_admin() — SECURITY DEFINER so it reads profiles with RLS bypassed
@@ -435,10 +435,7 @@ drop policy if exists "admins manage all profiles" on profiles;
 create policy "admins manage all profiles" on profiles for all
   using (public.is_admin());
 
-revoke update (
-  role, member_number, plan, membership_status, billing_source, comp_until,
-  admin_note, stripe_customer_id, stripe_subscription_id, current_period_end
-) on profiles from authenticated;
+-- (No member writes to profiles at all — see "Table privileges" below.)
 
 -- categories: public read (they're on public pages); admins manage
 drop policy if exists "public read categories" on categories;
@@ -468,7 +465,10 @@ drop policy if exists "admins manage listings" on listings;
 create policy "admins manage listings" on listings for all
   using (public.is_admin());
 
-revoke update (approved, featured, profile_id) on listings from authenticated;
+-- Members can't approve/feature themselves: the owner policies above allow
+-- their own row, and "Table privileges" below grants only the editable
+-- columns. (A column REVOKE after a table-wide grant does nothing in
+-- Postgres, which is why this is done with column-level GRANTs.)
 
 -- listing_categories: public read (it only says which types a listing
 -- offers; listing visibility is still enforced by listings' own policy).
@@ -554,6 +554,44 @@ create policy "admins read email log" on email_log for select
 drop policy if exists "admins read stripe events" on stripe_events;
 create policy "admins read stripe events" on stripe_events for select
   using (public.is_admin());
+
+-- ============================================================================
+-- Table privileges — explicit and least-privilege.
+--
+-- Supabase stopped auto-granting new public tables to the API roles
+-- (new projects from 2026-05-30, existing projects from 2026-10-30), so a
+-- fresh project needs these or the site gets "permission denied" (42501).
+-- GRANTs decide whether a role may touch a table at all; RLS decides which
+-- rows. Rule: grant a role an operation only where a policy above allows it
+-- for that role. NEVER `grant … on all tables in schema public to anon` —
+-- that blanket fix is how thousands of Supabase apps leaked data.
+-- Server code that uses the service-role key (admin actions, webhooks, the
+-- lead form) bypasses all of this; only browser/member-session queries
+-- need the grants below. Re-runnable: starts from a clean slate.
+-- ============================================================================
+revoke all on all tables in schema public from anon, authenticated;
+
+-- Public directory (signed-out visitors and members alike)
+grant select on categories, listings, listing_categories, articles, public_listings
+  to anon, authenticated;
+
+-- Signed-in reads; RLS limits each to the member's own rows (or admins)
+grant select on profiles, member_access, leads, member_events, resources,
+  resource_clicks, email_log, stripe_events, listing_private_contacts
+  to authenticated;
+
+-- Member self-service listing editor (lib/listing-actions.ts). approved and
+-- featured are deliberately absent: only admins (service role) set them.
+grant insert (profile_id, slug, category_id, business_name, contact_name, bio,
+  services, city, state, zip, service_area, phone, website, logo_url, photo_urls)
+  on listings to authenticated;
+grant update (category_id, business_name, contact_name, bio, services, city,
+  state, zip, service_area, phone, website, logo_url, photo_urls)
+  on listings to authenticated;
+grant insert, delete on listing_categories to authenticated;
+grant insert on resource_clicks to authenticated;
+
+grant all on all tables in schema public to service_role;
 
 -- ============================================================================
 -- Seed: first admin. Replace the email, then run once after your first

@@ -7,8 +7,8 @@ import { ListingSchema, type ListingFormData } from "@/lib/schemas";
 
 // Member self-service listing editor. Runs under the member's OWN session
 // (RLS-governed): the owner insert/update policies allow exactly their row,
-// and the approved/featured columns are revoked from authenticated updates,
-// so a member can never approve or feature themselves.
+// and the column-level grants in schema.sql leave out approved/featured, so a
+// member can never approve or feature themselves.
 
 function slugify(v: string): string {
   return v.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
@@ -72,7 +72,8 @@ export async function saveMyListing(input: ListingFormData): Promise<{ ok: boole
         ...fields,
         profile_id: profile.id,
         slug,
-        approved: false, // admin review flips this on
+        // approved/featured are left to their false defaults — members have
+        // no INSERT grant on those columns, so sending them would fail.
       }).select("id").single();
       if (!error) { listingId = inserted?.id ?? null; break; }
       if (error.code === "23505") {
