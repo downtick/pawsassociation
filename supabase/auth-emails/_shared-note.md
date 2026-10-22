@@ -37,8 +37,16 @@ Verify the sending domain (SPF + DKIM) in SMTP2GO before switching this on.
 ## 3. Templates
 
 Paste each file in this folder into Authentication → Emails → the matching
-template. Supabase substitutes `{{ .ConfirmationURL }}` itself — leave that
-token exactly as written.
+template. Supabase fills in `{{ .SiteURL }}` and `{{ .TokenHash }}` itself —
+leave those tokens exactly as written.
+
+The links deliberately do NOT use `{{ .ConfirmationURL }}`. That one-click
+link is consumed by corporate mail scanners (Microsoft 365 Safe Links opened
+the owner's first confirmation link 26 seconds after it was sent, from a
+Microsoft IP), so members on business email got "link expired". Instead each
+link opens `/auth/confirm` on the site, which only spends the token when a
+person presses the button. Site URL in Authentication → URL Configuration
+must be `https://pawsassociation.com` for `{{ .SiteURL }}` to be right.
 
 | File | Supabase template |
 |---|---|

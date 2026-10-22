@@ -7,23 +7,30 @@ import {
   toggleAdminRole,
   cancelMembership,
   setAdminNote,
+  resendVerificationEmail,
+  markEmailVerified,
+  sendPasswordResetEmail,
+  resendWelcomeEmail,
 } from "@/lib/admin/actions";
 import type { Profile } from "@/lib/types";
 import Icon from "@/components/Icon";
 
-export default function AdminMemberActions({ member }: { member: Profile }) {
+export default function AdminMemberActions({ member, emailVerified }: { member: Profile; emailVerified: boolean }) {
   const [pending, startTransition] = useTransition();
   const router = useRouter();
   const [days, setDays] = useState(30);
   const [reason, setReason] = useState("");
   const [note, setNote] = useState(member.admin_note || "");
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
 
-  function run(fn: () => Promise<unknown>) {
+  function run(fn: () => Promise<unknown>, done?: string) {
     setError("");
+    setNotice("");
     startTransition(async () => {
       try {
         await fn();
+        if (done) setNotice(done);
         router.refresh();
       } catch (e) {
         setError(e instanceof Error ? e.message : "Action failed.");
@@ -34,6 +41,50 @@ export default function AdminMemberActions({ member }: { member: Profile }) {
   return (
     <div className="space-y-6">
       {error && <p className="form-error"><Icon name="info" />{error}</p>}
+      {notice && <p className="text-sm font-semibold" style={{ color: "var(--good)" }}>{notice}</p>}
+
+      <div className="card p-5">
+        <p className="font-semibold mb-1">Account emails</p>
+        <p className="text-xs text-[var(--ink-3)] mb-3">Sent to {member.email}. Each send is logged in the timeline.</p>
+        <div className="flex flex-wrap gap-2">
+          {!emailVerified && (
+            <>
+              <button
+                disabled={pending}
+                onClick={() => run(() => resendVerificationEmail(member.id), "Verification email sent.")}
+                className="btn-primary !py-2 !px-4 text-sm"
+              >
+                Resend verification email
+              </button>
+              <button
+                disabled={pending}
+                onClick={() => {
+                  if (confirm(`Mark ${member.email} as verified without them clicking the email? Only do this if you know the address is theirs.`)) {
+                    run(() => markEmailVerified(member.id), "Email marked as verified.");
+                  }
+                }}
+                className="btn-outline !py-2 !px-4 text-sm"
+              >
+                Mark email verified
+              </button>
+            </>
+          )}
+          <button
+            disabled={pending}
+            onClick={() => run(() => sendPasswordResetEmail(member.id), "Password-reset email sent.")}
+            className="btn-outline !py-2 !px-4 text-sm"
+          >
+            Send password-reset email
+          </button>
+          <button
+            disabled={pending}
+            onClick={() => run(() => resendWelcomeEmail(member.id), "Welcome email sent.")}
+            className="btn-outline !py-2 !px-4 text-sm"
+          >
+            Resend welcome email
+          </button>
+        </div>
+      </div>
 
       <div className="card p-5">
         <p className="font-semibold mb-3">Status</p>

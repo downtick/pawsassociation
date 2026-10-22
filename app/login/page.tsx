@@ -3,7 +3,8 @@ import LoginForm from "@/components/LoginForm";
 
 export const metadata: Metadata = { title: "Log In" };
 
-export default function LoginPage() {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ reset?: string }> }) {
+  const { reset } = await searchParams;
   return (
     <section className="section flex-1 flex items-center justify-center py-16 px-6">
       <div className="max-w-md w-full">
@@ -12,7 +13,7 @@ export default function LoginPage() {
           Members and admins log in here.
         </p>
         <div className="card p-8">
-          <LoginForm />
+          <LoginForm initialMode={reset ? "reset" : "password"} />
         </div>
       </div>
     </section>

@@ -374,6 +374,41 @@ as $$
   );
 $$;
 
+-- admin_user_activity() — login facts that live in the auth schema, for the
+-- admin members pages: whether the email was verified, last sign-in, and last
+-- activity. Supabase refreshes a session roughly hourly while someone is
+-- using the site, so the newest session refresh is "last active" without
+-- writing anything on every page view. Service role ONLY: it exposes every
+-- account's login history, so anon/authenticated can't execute it.
+create or replace function public.admin_user_activity()
+returns table (
+  id uuid,
+  email_confirmed_at timestamptz,
+  confirmation_sent_at timestamptz,
+  last_sign_in_at timestamptz,
+  last_active_at timestamptz
+)
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select
+    u.id,
+    u.email_confirmed_at,
+    u.confirmation_sent_at,
+    u.last_sign_in_at,
+    greatest(
+      u.last_sign_in_at,
+      (select max(greatest(s.updated_at, s.refreshed_at at time zone 'UTC'))
+         from auth.sessions s where s.user_id = u.id)
+    )
+  from auth.users u;
+$$;
+
+revoke all on function public.admin_user_activity() from public, anon, authenticated;
+grant execute on function public.admin_user_activity() to service_role;
+
 -- ============================================================================
 -- Row Level Security
 -- ============================================================================

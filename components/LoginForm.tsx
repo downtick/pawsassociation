@@ -3,10 +3,10 @@ import { useState, FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Icon from "./Icon";
 
-type Mode = "password" | "magic";
+type Mode = "password" | "magic" | "reset";
 
-export default function LoginForm() {
-  const [mode, setMode] = useState<Mode>("password");
+export default function LoginForm({ initialMode = "password" }: { initialMode?: Mode }) {
+  const [mode, setMode] = useState<Mode>(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
@@ -48,12 +48,40 @@ export default function LoginForm() {
     setStatus("sent");
   }
 
+  // Sends the "Reset your PAWS password" email. Its link goes through
+  // /auth/confirm (button-protected from mail scanners) to /reset-password.
+  async function handleReset(e: FormEvent) {
+    e.preventDefault();
+    setStatus("loading");
+    setError("");
+    const supabase = createClient();
+    const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (err) {
+      setError(err.message);
+      setStatus("error");
+      return;
+    }
+    setStatus("sent");
+  }
+
+  if (status === "sent" && mode === "reset") {
+    return (
+      <div className="text-center py-4">
+        <span className="icbox" style={{ margin: "0 auto 12px" }}><Icon name="doc" /></span>
+        <p className="font-semibold mb-1">Check your email</p>
+        <p className="text-sm text-[var(--ink-3)]">If {email} has a PAWS account, we sent it a link to set a new password. Check your spam or junk folder if it hasn&apos;t arrived in a few minutes.</p>
+      </div>
+    );
+  }
+
   if (status === "sent") {
     return (
       <div className="text-center py-4">
         <span className="icbox" style={{ margin: "0 auto 12px" }}><Icon name="doc" /></span>
         <p className="font-semibold mb-1">Check your email</p>
-        <p className="text-sm text-[var(--ink-3)]">We sent a login link to {email}. It also works as a password reset — click it and you&apos;ll be signed in.</p>
+        <p className="text-sm text-[var(--ink-3)]">We sent a login link to {email}. Check your spam or junk folder if it hasn&apos;t arrived in a few minutes.</p>
       </div>
     );
   }
@@ -79,7 +107,13 @@ export default function LoginForm() {
         </button>
       </div>
 
-      <form onSubmit={mode === "password" ? handlePasswordLogin : handleMagicLink}>
+      {mode === "reset" && (
+        <p className="text-sm text-[var(--ink-3)] mb-4">
+          Enter your email and we&apos;ll send you a link to choose a new password.
+        </p>
+      )}
+
+      <form onSubmit={mode === "password" ? handlePasswordLogin : mode === "magic" ? handleMagicLink : handleReset}>
         <div className="mb-4">
           <label className="form-label" htmlFor="l-email">Email</label>
           <input id="l-email" type="email" required className="form-input" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -93,15 +127,15 @@ export default function LoginForm() {
         )}
 
         {mode === "password" && (
-          <button type="button" onClick={() => setMode("magic")} className="text-xs text-[var(--ink-3)] nav-link mb-4 inline-block">
-            Forgot your password? Email me a login link instead.
+          <button type="button" onClick={() => setMode("reset")} className="text-xs text-[var(--ink-3)] nav-link mb-4 inline-block">
+            Forgot your password?
           </button>
         )}
 
         {error && <p className="form-error mb-3"><Icon name="info" />{error}</p>}
 
         <button type="submit" disabled={status === "loading"} className="btn-primary w-full justify-center mt-2">
-          {status === "loading" ? "Please wait…" : mode === "password" ? "Log In" : "Email me a login link"}
+          {status === "loading" ? "Please wait…" : mode === "password" ? "Log In" : mode === "magic" ? "Email me a login link" : "Email me a reset link"}
         </button>
       </form>
     </div>

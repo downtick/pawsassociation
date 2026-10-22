@@ -57,7 +57,7 @@ export async function sendWelcomeEmail(opts: {
     : setPasswordLink
       ? `<p>Click below to set your password and activate your account:</p>
          <p><a href="${setPasswordLink}" style="color:${BLUE};font-weight:700">Set your password &rarr;</a></p>
-         <p style="color:${MUTED};font-size:13px">This link expires in 72 hours.</p>`
+         <p style="color:${MUTED};font-size:13px">This link expires in 24 hours. After that, use <a href="${SITE_URL}/login?reset=1" style="color:${BLUE}">Forgot your password?</a> on the login page.</p>`
       : `<p>To get in, go to the login page and choose <strong>Email me a sign-in link</strong>. Your login is <strong>${to}</strong> &mdash; no password needed.</p>
          <p><a href="${SITE_URL}/login" style="color:${BLUE};font-weight:700">Go to the login page &rarr;</a></p>`;
 

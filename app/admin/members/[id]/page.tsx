@@ -4,6 +4,7 @@ import AdminMemberActions from "@/components/admin/AdminMemberActions";
 import { memberNumberLabel } from "@/lib/membership";
 import type { Profile, MemberEvent } from "@/lib/types";
 import { requireAdmin } from "@/lib/access";
+import { getAuthActivity, formatDateTime } from "@/lib/admin/authActivity";
 
 const EVENT_LABELS: Record<string, string> = {
   joined: "Joined",
@@ -21,6 +22,9 @@ const EVENT_LABELS: Record<string, string> = {
   status_set: "Status changed",
   admin_granted: "Admin access granted",
   admin_revoked: "Admin access revoked",
+  verification_resent: "Verification email re-sent",
+  email_verified_by_admin: "Email marked verified by admin",
+  password_reset_sent: "Password-reset email sent",
 };
 
 export default async function AdminMemberDetail({ params }: { params: Promise<{ id: string }> }) {
@@ -39,6 +43,8 @@ export default async function AdminMemberDetail({ params }: { params: Promise<{ 
     .limit(50);
 
   const m = member as Profile;
+  const a = (await getAuthActivity()).get(id);
+  const verifiedAt = a?.email_confirmed_at ?? null;
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
@@ -56,7 +62,26 @@ export default async function AdminMemberDetail({ params }: { params: Promise<{ 
           <p><span className="text-[var(--ink-3)]">Joined:</span> {new Date(m.created_at).toLocaleDateString()}</p>
         </div>
 
-        <AdminMemberActions member={m} />
+        <div className="card p-5 mb-6 space-y-2 text-sm">
+          <p className="font-semibold mb-1">Login &amp; email</p>
+          <p>
+            <span className="text-[var(--ink-3)]">Email verified:</span>{" "}
+            {verifiedAt ? (
+              <span className="font-semibold" style={{ color: "var(--good)" }}>✓ Yes — {formatDateTime(verifiedAt)}</span>
+            ) : (
+              <span className="font-semibold" style={{ color: "var(--danger)" }}>
+                Not yet{a?.confirmation_sent_at ? ` (confirmation sent ${formatDateTime(a.confirmation_sent_at)})` : ""}
+              </span>
+            )}
+          </p>
+          <p><span className="text-[var(--ink-3)]">Last login:</span> {formatDateTime(a?.last_sign_in_at)}</p>
+          <p><span className="text-[var(--ink-3)]">Last active:</span> {formatDateTime(a?.last_active_at)}</p>
+          <p className="text-xs text-[var(--ink-3)]">
+            &ldquo;Last active&rdquo; updates about once an hour while someone is using the site.
+          </p>
+        </div>
+
+        <AdminMemberActions member={m} emailVerified={Boolean(verifiedAt)} />
       </div>
 
       <div>

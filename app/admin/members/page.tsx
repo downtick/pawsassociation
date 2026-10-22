@@ -2,27 +2,32 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { memberNumberDigits } from "@/lib/membership";
 import { requireAdmin } from "@/lib/access";
+import { getAuthActivity, formatDay } from "@/lib/admin/authActivity";
 
 export default async function AdminMembersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; status?: string }>;
+  searchParams: Promise<{ q?: string; status?: string; verified?: string }>;
 }) {
   await requireAdmin();
-  const { q = "", status = "" } = await searchParams;
+  const { q = "", status = "", verified = "" } = await searchParams;
   const supabase = await createClient();
 
   let query = supabase
     .from("profiles")
     .select("id, email, first_name, last_name, member_number, role, membership_status, plan, billing_source, created_at")
-    .eq("role", "member")
     .order("created_at", { ascending: false })
     .limit(200);
 
   if (status) query = query.eq("membership_status", status);
   if (q) query = query.or(`email.ilike.%${q}%,first_name.ilike.%${q}%,last_name.ilike.%${q}%,member_number.ilike.%${q}%`);
 
-  const { data: members } = await query;
+  const [{ data: rows }, activity] = await Promise.all([query, getAuthActivity()]);
+  const members = (rows ?? []).filter((m) => {
+    if (!verified) return true;
+    const isVerified = Boolean(activity.get(m.id)?.email_confirmed_at);
+    return verified === "yes" ? isVerified : !isVerified;
+  });
 
   return (
     <div>
@@ -41,6 +46,11 @@ export default async function AdminMembersPage({
           <option value="canceled">Canceled</option>
           <option value="pending">Pending</option>
         </select>
+        <select name="verified" defaultValue={verified} className="form-input max-w-[180px]">
+          <option value="">Verified or not</option>
+          <option value="no">Email NOT verified</option>
+          <option value="yes">Email verified</option>
+        </select>
         <button type="submit" className="btn-outline">Filter</button>
       </form>
 
@@ -53,24 +63,40 @@ export default async function AdminMembersPage({
               <th className="p-3">Member no.</th>
               <th className="p-3">Plan</th>
               <th className="p-3">Status</th>
+              <th className="p-3">Last login</th>
+              <th className="p-3">Last active</th>
             </tr>
           </thead>
           <tbody>
-            {(members ?? []).map((m) => (
+            {members.map((m) => {
+              const a = activity.get(m.id);
+              return (
               <tr key={m.id} className="border-b" style={{ borderColor: "var(--rule)" }}>
                 <td className="p-3">
                   <Link href={`/admin/members/${m.id}`} className="nav-link font-semibold">
                     {[m.first_name, m.last_name].filter(Boolean).join(" ") || "—"}
                   </Link>
+                  {m.role === "admin" && <span className="ml-2 text-xs font-semibold" style={{ color: "var(--blue)" }}>ADMIN</span>}
                 </td>
-                <td className="p-3">{m.email}</td>
+                <td className="p-3">
+                  {m.email}
+                  <span
+                    className="block text-xs font-semibold"
+                    style={{ color: a?.email_confirmed_at ? "var(--good)" : "var(--danger)" }}
+                  >
+                    {a?.email_confirmed_at ? "✓ Verified" : "Not verified"}
+                  </span>
+                </td>
                 <td className="p-3 mono">{memberNumberDigits(m.member_number)}</td>
                 <td className="p-3">{m.billing_source === "comp" ? "Comp" : "Retail"}</td>
                 <td className="p-3 capitalize">{m.membership_status}</td>
+                <td className="p-3 whitespace-nowrap">{formatDay(a?.last_sign_in_at)}</td>
+                <td className="p-3 whitespace-nowrap">{formatDay(a?.last_active_at)}</td>
               </tr>
-            ))}
-            {(!members || members.length === 0) && (
-              <tr><td colSpan={5} className="p-6 text-center text-[var(--ink-3)]">No members found.</td></tr>
+              );
+            })}
+            {members.length === 0 && (
+              <tr><td colSpan={7} className="p-6 text-center text-[var(--ink-3)]">No members found.</td></tr>
             )}
           </tbody>
         </table>
