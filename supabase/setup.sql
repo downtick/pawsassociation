@@ -577,11 +577,14 @@ create policy "admins read stripe events" on stripe_events for select
 revoke all on all tables in schema public from anon, authenticated;
 
 -- Public directory (signed-out visitors and members alike)
-grant select on categories, listings, listing_categories, articles, public_listings
+grant select on categories, listings, listing_categories, public_listings
   to anon, authenticated;
 
--- Signed-in reads; RLS limits each to the member's own rows (or admins)
-grant select on profiles, member_access, leads, member_events, resources,
+-- Signed-in reads; RLS limits each to the member's own rows (or admins).
+-- articles is signed-in only: the public learning hub renders from
+-- content/articles, and the member-article policy reads member_access,
+-- which anon can't — an anon grant would only produce errors.
+grant select on articles, profiles, member_access, leads, member_events, resources,
   resource_clicks, email_log, stripe_events, listing_private_contacts
   to authenticated;
 

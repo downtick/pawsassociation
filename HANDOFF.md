@@ -61,16 +61,20 @@ per the `membership-website` skill.
   must be replaced before launch.
 - **Sample listings** (4 rows, clearly marked "(Sample)") must be replaced
   with real pre-seeded operators before launch.
-- **New tables need explicit GRANTs (Supabase change, 2026-10-30).** The
-  current tables kept their old automatic grants and are protected by RLS
-  (audited 2026-10-22: every table has RLS on, both views are
-  `security_invoker`, and the anon role reads 0 rows from every private
-  table). Any table added after Oct 30 is invisible to the site (error
-  42501) until granted. Fix per table — enable RLS + policies, then grant
-  only the roles/operations the app uses. NEVER run the blanket
-  `grant … on all tables in schema public to anon, authenticated` fix.
+- **Table access is explicit GRANTs** (schema.sql "Table privileges",
+  applied live 2026-10-22). Supabase stops auto-granting new tables on
+  2026-10-30, so a NEW table is invisible to the site (error 42501) until
+  you add RLS + policies AND a grant there. Rule: grant a role an operation
+  only where a policy allows it. Member listing edits are column-level
+  grants — approved/featured are deliberately absent (a column REVOKE after
+  a table-wide grant does nothing in Postgres; that's how members could
+  self-approve before this fix). NEVER run the blanket
+  `grant … on all tables in schema public to anon, authenticated`.
   New security-definer functions: `revoke execute … from public, anon`
   unless anon genuinely needs them (see `admin_user_activity()`).
+- **public_listings must use `has_public_access()`**, never a join to
+  member_access/profiles — anon can't read profiles, so a join silently
+  hides every claimed (paid) listing from visitors (bug fixed 2026-10-22).
 - `.env*` files are permission-protected in this workspace — env var list
   lives in README.md §Setup.
 
