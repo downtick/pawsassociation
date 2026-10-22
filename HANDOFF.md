@@ -67,7 +67,22 @@ per the `membership-website` skill.
 ## Open items (owner)
 
 1. Register pawsassociation.com (+ .com) — both confirmed available 2026-09-24
-2. Supabase project, Stripe product/webhook, SMTP2GO domain keys
+2. Stripe product/webhook (Supabase + SMTP2GO done 2026-10-21: SMTP2GO
+   domain verified via 3 CNAMEs at SiteGround, Supabase custom SMTP on,
+   3 branded auth templates loaded)
+7. **Real office@ inbox** — right now there is NO mailbox; SiteGround's
+   catch-all (*@pawsassociation.com) forwards everything to
+   david@yesbaker.com (owner set 2026-10-21, temporary). Plan: add
+   pawsassociation.com as an alias/secondary domain on the owner's paid
+   Google Workspace and create office@ there. When switching: replace the
+   3 SiteGround MX records with Google's, change SPF to include
+   `_spf.google.com` (keep it to ONE SPF TXT record), add Google DKIM, and
+   turn the catch-all back to discard (catch-alls forward spam and hurt
+   the forwarding reputation). The SMTP2GO CNAMEs are unaffected.
+   Then sign office@ up at /join and make it admin.
+8. Make office@pawsassociation.com an admin once it can receive the
+   confirmation email (david@yesbaker.com is admin as of 2026-10-21)
+9. Re-set backup secret DB_URL_PAWSASSOCIATION — see HANDOFF-supabase-backup.md
 3. Hertz CDP + Rakuten links; real seed listings
 4. Counsel review: Terms §12 (entity/venue/arbitration), Privacy, Disclaimer
 5. Logo/OG image (public/og-image.jpg is still the MPC placeholder)
