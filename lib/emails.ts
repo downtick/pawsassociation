@@ -47,15 +47,15 @@ export async function sendWelcomeEmail(opts: {
   memberNumber: string;
   tempPassword?: string;
   setPasswordLink?: string;
-  /** Set when the member is on the free trial — the email then says when it ends. */
-  trialEndsAt?: string;
+  /** Set for a first-time member — the email then says when the 7-day money-back guarantee ends. */
+  guaranteeUntil?: string;
 }) {
-  const { to, firstName, memberNumber, tempPassword, setPasswordLink, trialEndsAt } = opts;
-  const trialEnd = trialEndsAt
-    ? new Date(trialEndsAt).toLocaleDateString("en-US", { timeZone: "America/Los_Angeles", month: "long", day: "numeric", year: "numeric" })
+  const { to, firstName, memberNumber, tempPassword, setPasswordLink, guaranteeUntil } = opts;
+  const guaranteeEnd = guaranteeUntil
+    ? new Date(guaranteeUntil).toLocaleDateString("en-US", { timeZone: "America/Los_Angeles", month: "long", day: "numeric", year: "numeric" })
     : "";
-  const trialHtml = trialEnd
-    ? `<p style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:12px 14px"><strong>Your free trial runs until ${trialEnd}.</strong> You won't be charged before then, and you can cancel online anytime from your <a href="${SITE_URL}/dashboard/billing" style="color:${BLUE}">Billing page</a>. If you keep your membership, $149 is charged on ${trialEnd} and it renews yearly.</p>`
+  const guaranteeHtml = guaranteeEnd
+    ? `<p style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:12px 14px"><strong>7-day money-back guarantee:</strong> if PAWS isn't right for you, cancel by ${guaranteeEnd} from your <a href="${SITE_URL}/dashboard/billing" style="color:${BLUE}">Billing page</a> and your $149 is refunded in full.</p>`
     : "";
   // Members never see the internal PAWS- prefix in the number itself.
   const memberDigits = (memberNumber || "").replace(/^PAWS-/i, "");
@@ -77,7 +77,7 @@ export async function sendWelcomeEmail(opts: {
     `Welcome to ${SITE.name}`,
     `<p>Hi ${esc(firstName) || "there"},</p>
      <p>Your membership is active. Your member number is <strong>Member no. ${memberDigits}</strong>.</p>
-     ${trialHtml}
+     ${guaranteeHtml}
      ${credentialsHtml}
      <h3 style="color:${INK};font-size:16px;margin-top:24px">Get the most from your membership</h3>
      <ul style="padding-left:20px;color:#334155">
@@ -89,7 +89,7 @@ export async function sendWelcomeEmail(opts: {
      <p>Questions? Just reply to this email or visit our <a href="${SITE_URL}/contact" style="color:${BLUE}">contact page</a>.</p>`
   );
   const text = `Welcome to ${SITE.name}\n\nYour member number is ${memberDigits}.\n${
-    trialEnd ? `Your free trial runs until ${trialEnd}. Cancel anytime at ${SITE_URL}/dashboard/billing — otherwise $149 is charged on ${trialEnd}.\n` : ""
+    guaranteeEnd ? `7-day money-back guarantee: cancel by ${guaranteeEnd} at ${SITE_URL}/dashboard/billing for a full refund.\n` : ""
   }${
     tempPassword
       ? `Login: ${to} / Temp password: ${tempPassword} — please change it after signing in.`
@@ -336,8 +336,9 @@ export async function sendRemovalRequest(opts: {
   });
 }
 
-// ── Renewal cancelled + refunded (member self-service, 30-day rule) ───────
-export async function sendRenewalRefundEmails(opts: {
+// ── Cancelled + refunded (member self-service: 7-day guarantee or 30-day renewal rule)
+export async function sendRefundEmails(opts: {
+  kind: "guarantee" | "renewal";
   to: string;
   firstName: string;
   lastName: string;
@@ -346,17 +347,19 @@ export async function sendRenewalRefundEmails(opts: {
   refundId: string;
 }) {
   const amount = `$${(opts.amountCents / 100).toFixed(2)}`;
+  const what = opts.kind === "guarantee" ? "membership payment" : "renewal payment";
   const html = wrap(
     "Your membership is cancelled and refunded",
     `<p>Hi ${esc(opts.firstName) || "there"},</p>
-     <p>As requested, your ${SITE.name} membership has been cancelled and your renewal payment of <strong>${amount}</strong> has been refunded in full.</p>
+     <p>As requested, your ${SITE.name} membership has been cancelled and your ${what} of <strong>${amount}</strong> has been refunded in full.</p>
      <p>Refunds usually reach your card within 5&ndash;10 business days, depending on your bank. Your directory listing is now hidden; you can rejoin anytime at <a href="${SITE_URL}/join" style="color:${BLUE}">${SITE.domain}/join</a>.</p>
-     <p>Thanks for being part of ${SITE.name}.</p>`
+     <p>Thanks for giving ${SITE.name} a try.</p>`
   );
-  const text = `Your ${SITE.name} membership has been cancelled and your renewal payment of ${amount} has been refunded in full. Refunds usually reach your card within 5-10 business days. Rejoin anytime: ${SITE_URL}/join`;
+  const text = `Your ${SITE.name} membership has been cancelled and your ${what} of ${amount} has been refunded in full. Refunds usually reach your card within 5-10 business days. Rejoin anytime: ${SITE_URL}/join`;
   await sendEmail({ to: opts.to, subject: `Your ${SITE.name} membership is cancelled and refunded`, html, text });
 
-  await sendAdminNotice(`Renewal refunded: ${opts.firstName} ${opts.lastName}`.trim(), "Member cancelled within 30 days of renewal", [
+  const label = opts.kind === "guarantee" ? "New member cancelled within 7 days (money-back guarantee)" : "Member cancelled within 30 days of renewal";
+  await sendAdminNotice(`${opts.kind === "guarantee" ? "7-day refund" : "Renewal refunded"}: ${opts.firstName} ${opts.lastName}`.trim(), label, [
     { title: "Member", rows: [
       ["Name", `${opts.firstName} ${opts.lastName}`.trim() || "—"],
       ["Email", opts.to],

@@ -3,12 +3,14 @@ import Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendWelcomeEmail, sendMemberAdminNotice } from "@/lib/emails";
+import { GUARANTEE_DAYS } from "@/lib/membershipPolicy";
 
 // Stripe webhook — the $149/yr membership subscription lifecycle. Comp
 // (admin-granted) memberships never touch Stripe; they live entirely on
 // profiles.comp_until.
-// Stripe subscription status → our membership_status. "trialing" is a full
-// member during the free trial; incomplete/unpaid/expired lose access.
+// Stripe subscription status → our membership_status. "trialing" counts as a
+// full member (no trials are sold today, but an admin could add one in
+// Stripe); incomplete/unpaid/expired lose access.
 function membershipStatusFor(status: Stripe.Subscription.Status): "active" | "past_due" | "lapsed" | "canceled" {
   if (status === "active" || status === "trialing") return "active";
   if (status === "past_due") return "past_due";
@@ -96,7 +98,7 @@ async function handleEvent(event: Stripe.Event) {
         detail: {
           stripe_event: event.id,
           plan: "retail_annual",
-          trial_ends: subscription?.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null,
+          guarantee: subscription?.metadata?.guarantee === "1",
         },
       });
 
@@ -105,7 +107,9 @@ async function handleEvent(event: Stripe.Event) {
           to: profile.email,
           firstName: profile.first_name || "",
           memberNumber: profile.member_number || "",
-          trialEndsAt: subscription?.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : undefined,
+          guaranteeUntil: subscription?.metadata?.guarantee === "1"
+            ? new Date(Date.now() + GUARANTEE_DAYS * 24 * 60 * 60 * 1000).toISOString()
+            : undefined,
         }).catch((err) => console.error("Welcome email error:", err));
 
         await sendMemberAdminNotice({

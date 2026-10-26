@@ -2,13 +2,14 @@
 import { useState } from "react";
 import Icon from "./Icon";
 
-export default function CancelRefundButton({ amount, deadline }: { amount: string; deadline: string }) {
+export default function CancelRefundButton({ kind, amount, deadline }: { kind: "guarantee" | "renewal"; amount: string; deadline: string }) {
+  const what = kind === "guarantee" ? "membership payment" : "renewal";
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
 
   async function go() {
-    if (!confirm(`Cancel your membership now and refund your ${amount} renewal? Your listing will be hidden right away.`)) return;
+    if (!confirm(`Cancel your membership now and refund your ${amount} ${what}? Your listing will be hidden right away.`)) return;
     setBusy(true);
     setError("");
     try {
@@ -37,10 +38,12 @@ export default function CancelRefundButton({ amount, deadline }: { amount: strin
   return (
     <div>
       <p className="text-sm mb-3" style={{ color: "var(--ink-2)" }}>
-        Your membership renewed recently. You can cancel and get the full {amount} back until <strong>{deadline}</strong>.
+        {kind === "guarantee"
+          ? <>Not the right fit? Under our 7-day money-back guarantee you can cancel and get the full {amount} back until <strong>{deadline}</strong>.</>
+          : <>Your membership renewed recently. You can cancel and get the full {amount} back until <strong>{deadline}</strong>.</>}
       </p>
       <button type="button" onClick={go} disabled={busy} className="btn-outline" style={{ borderColor: "var(--danger)", color: "var(--danger)" }}>
-        {busy ? "Processing…" : `Cancel and refund my ${amount} renewal`}
+        {busy ? "Processing…" : `Cancel and refund my ${amount}`}
       </button>
       {error && <p className="form-error mt-2"><Icon name="info" />{error}</p>}
     </div>

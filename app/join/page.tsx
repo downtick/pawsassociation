@@ -44,8 +44,8 @@ export default function JoinPage() {
               ))}
             </ul>
             <p className="terms">
-              7-day free trial for new members: cancel online before it ends and you&apos;re never
-              charged. Renews automatically each year, with a reminder email first; cancel within
+              7-day money-back guarantee for new members: cancel online within 7 days of joining
+              for a full refund. Renews automatically each year, with a reminder email first; cancel within
               30 days after a renewal for a full refund of it.
             </p>
           </div>

@@ -27,6 +27,7 @@ const EVENT_LABELS: Record<string, string> = {
   password_reset_sent: "Password-reset email sent",
   auto_renew_consent: "Agreed to automatic renewal (checkbox)",
   renewal_refunded: "Cancelled within 30 days of renewal — refunded",
+  guarantee_refunded: "Cancelled within 7 days of joining — refunded",
   series_listing: "Welcome series: finish your listing",
   series_course: "Welcome series: marketing course",
   series_benefits: "Welcome series: member benefits",

@@ -144,7 +144,7 @@ export default async function HomePage() {
               <li><Icon name="check" /> The {SITE.name} member badge for your website and booth</li>
             </ul>
             <div className="herocta mt-6">
-              <Link href="/join" className="btn btn-primary">Start a 7-day free trial</Link>
+              <Link href="/join" className="btn btn-primary">Join PAWS</Link>
               <Link href="/benefits" className="btn btn-ghost">See all benefits</Link>
             </div>
           </Reveal>
@@ -181,8 +181,8 @@ export default async function HomePage() {
         <Reveal>
           <h2 className="text-2xl text-white sm:text-3xl">Put your attraction in front of event planners</h2>
           <p className="mx-auto mt-3 max-w-lg text-[15px]" style={{ color: "#DBEAFE" }}>
-            Try it free for 7 days, then $149 a year. Includes your public listing, a leads
-            inbox, partner discounts, and the member guide library.
+            $149 a year with a 7-day money-back guarantee. Includes your public listing, a
+            leads inbox, partner discounts, and the member guide library.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/get-listed" className="btn btn-primary">Claim your listing</Link>

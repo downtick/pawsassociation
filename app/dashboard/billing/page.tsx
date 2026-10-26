@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { requireActiveMember } from "@/lib/access";
 import { getStripe } from "@/lib/stripe";
-import { findRefundableRenewal, type RefundableRenewal } from "@/lib/renewalRefund";
-import { PRICE_DOLLARS, RENEWAL_REFUND_DAYS, TRIAL_DAYS } from "@/lib/membershipPolicy";
+import { findRefundableCharge, type RefundableCharge } from "@/lib/renewalRefund";
+import { PRICE_DOLLARS, RENEWAL_REFUND_DAYS, GUARANTEE_DAYS } from "@/lib/membershipPolicy";
 import CancelRefundButton from "@/components/CancelRefundButton";
 
 export const metadata: Metadata = { title: "Billing" };
@@ -22,19 +22,17 @@ export default async function BillingPage() {
     redirect("/dashboard/settings");
   }
 
-  // Live facts from Stripe: trial, scheduled cancellation, and whether the
-  // 30-day renewal refund applies right now. A Stripe hiccup must not break
+  // Live facts from Stripe: scheduled cancellation, and whether the 7-day
+  // guarantee or the 30-day renewal refund applies right now. A Stripe hiccup must not break
   // the page, so each lookup degrades to "unknown".
-  let trialEnd: Date | null = null;
   let cancelsAt: Date | null = null;
-  let refundable: RefundableRenewal | null = null;
+  let refundable: RefundableCharge | null = null;
   if (profile.stripe_subscription_id) {
     try {
       const stripe = getStripe();
       const sub = await stripe.subscriptions.retrieve(profile.stripe_subscription_id);
-      if (sub.status === "trialing" && sub.trial_end) trialEnd = new Date(sub.trial_end * 1000);
       if (sub.cancel_at) cancelsAt = new Date(sub.cancel_at * 1000);
-      refundable = await findRefundableRenewal(stripe, profile.stripe_subscription_id);
+      refundable = await findRefundableCharge(stripe, profile.stripe_subscription_id);
     } catch (err) {
       console.error("Billing page Stripe lookup failed:", err);
     }
@@ -51,16 +49,6 @@ export default async function BillingPage() {
         <p className="text-sm text-[var(--ink-3)] mb-1">Plan</p>
         <p className="font-semibold mb-4">Annual Membership — ${PRICE_DOLLARS}/year, auto-renewing</p>
 
-        {trialEnd && !cancelsAt && (
-          <div className="note mb-4">
-            <span>
-              <strong>You&apos;re on your free trial until {fmt(trialEnd)}.</strong> You won&apos;t be
-              charged before then. To cancel at no cost, choose <em>Manage billing &amp; cancel</em>{" "}
-              below before that date; otherwise ${PRICE_DOLLARS} is charged on {fmt(trialEnd)}.
-            </span>
-          </div>
-        )}
-
         {cancelsAt ? (
           <>
             <p className="text-sm text-[var(--ink-3)] mb-1">Membership ends</p>
@@ -68,9 +56,9 @@ export default async function BillingPage() {
           </>
         ) : (
           <>
-            <p className="text-sm text-[var(--ink-3)] mb-1">{trialEnd ? "First charge" : "Next renewal"}</p>
+            <p className="text-sm text-[var(--ink-3)] mb-1">Next renewal</p>
             <p className="font-semibold mb-4">
-              {trialEnd ? fmt(trialEnd) : profile.current_period_end ? fmt(profile.current_period_end) : "—"}
+              {profile.current_period_end ? fmt(profile.current_period_end) : "—"}
             </p>
           </>
         )}
@@ -82,13 +70,12 @@ export default async function BillingPage() {
 
       {refundable && (
         <div className="card p-6 mb-6">
-          <CancelRefundButton amount={`$${(refundable.amountCents / 100).toFixed(2)}`} deadline={fmt(refundable.refundDeadline)} />
+          <CancelRefundButton kind={refundable.kind} amount={`$${(refundable.amountCents / 100).toFixed(2)}`} deadline={fmt(refundable.refundDeadline)} />
         </div>
       )}
 
       <p className="text-xs text-[var(--ink-3)]">
-        New members get a {TRIAL_DAYS}-day free trial: cancel before it ends and you&apos;re never
-        charged. Membership renews automatically each year, and we email you a reminder about 30
+        New members can cancel within {GUARANTEE_DAYS} days of joining for a full refund. Membership renews automatically each year, and we email you a reminder about 30
         days before. If you cancel within {RENEWAL_REFUND_DAYS} days after an automatic renewal
         charge, that renewal is refunded in full. Otherwise fees are non-refundable, and you can
         turn off future renewals anytime here.

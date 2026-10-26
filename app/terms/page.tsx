@@ -42,16 +42,17 @@ export default function TermsPage() {
           business; these are identified on the listing page.
         </p>
 
-        <h2>3. Membership, Free Trial, Automatic Renewal, and Refunds</h2>
+        <h2>3. Membership, Money-Back Guarantee, Automatic Renewal, and Refunds</h2>
         <p>
           <strong>Price.</strong> Operators may join at <a href="/join">/join</a> for{" "}
           <strong>$149 per year</strong>, billed through our payment processor (Stripe).
         </p>
         <p>
-          <strong>Free trial.</strong> First-time members receive a <strong>7-day free
-          trial</strong>. A payment card is required to start it. You will not be charged if you
-          cancel online before the trial ends; otherwise the first $149 annual charge is made
-          when the trial ends. The free trial is available once per business or person.
+          <strong>7-day money-back guarantee.</strong> The first $149 annual fee is charged when
+          you join. First-time members who cancel online from their Billing page within{" "}
+          <strong>7 days of that first charge</strong> receive a full refund, and their
+          membership and listing end immediately. The guarantee is available once per business
+          or person; returning members are not eligible.
         </p>
         <p>
           <strong>Automatic renewal.</strong> Your membership <strong>renews automatically every
@@ -63,7 +64,7 @@ export default function TermsPage() {
         <p>
           <strong>Refunds.</strong> If you cancel within <strong>30 days after an automatic
           renewal charge</strong>, that renewal is refunded in full, and you can do this yourself
-          from your Billing page. Apart from the free trial and this 30-day renewal window,
+          from your Billing page. Apart from the 7-day guarantee and this 30-day renewal window,
           membership fees are non-refundable, including for partial or unused periods.
         </p>
         <p>

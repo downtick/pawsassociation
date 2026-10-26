@@ -3,7 +3,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Icon from "./Icon";
 import AutoRenewConsent from "./AutoRenewConsent";
-import { TRIAL_DAYS, PRICE_DOLLARS } from "@/lib/membershipPolicy";
+import { GUARANTEE_DAYS, PRICE_DOLLARS } from "@/lib/membershipPolicy";
 import { track } from "@/lib/track";
 
 // Starts Stripe Checkout for the $149/yr retail plan. If the visitor isn't
@@ -108,10 +108,10 @@ export default function JoinButton({ email, password }: { email: string; passwor
     <div className="grid gap-3">
       <AutoRenewConsent checked={consent} invalid={consentMissing && !consent} onChange={(v) => { setConsent(v); if (v) { setConsentMissing(false); setError(""); } }} />
       <button onClick={handleJoin} disabled={status === "loading"} className="btn-primary btn-join w-full justify-center">
-        {status === "loading" ? "Redirecting to checkout…" : `Start my ${TRIAL_DAYS}-day free trial`}
+        {status === "loading" ? "Redirecting to checkout…" : `Join PAWS for $${PRICE_DOLLARS}/year`}
       </button>
       <p className="text-center text-xs" style={{ color: "var(--ink-3)", margin: 0 }}>
-        Card required. $0 today, then ${PRICE_DOLLARS}/year starting day {TRIAL_DAYS + 1}. Cancel online anytime.
+        {GUARANTEE_DAYS}-day money-back guarantee. Cancel online anytime.
       </p>
       {error && <p className="form-error mt-3"><Icon name="info" />{error}</p>}
     </div>

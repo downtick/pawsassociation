@@ -11,7 +11,6 @@ import { RENEWAL_REMINDER_DAYS } from "@/lib/membershipPolicy";
 //   1 listing (only if they have no listing yet) · 3 course · 10 benefits
 //   21 share · 60 check-in
 // Billing notices — always sent (they're about money):
-//   trial_ending ~2 days before a free trial converts
 //   renewal_reminder ~30 days before each automatic renewal
 //
 // Every send is recorded in member_events, which is also the dedupe: a step
@@ -110,20 +109,6 @@ export async function GET(request: NextRequest) {
       }
 
       if (m.billing_source !== "stripe" || !m.stripe_subscription_id) continue;
-
-      // ── Trial ending (~2 days out) ──
-      const trialEndsIso = evs.find((e) => e.event === "joined")?.detail?.trial_ends;
-      if (typeof trialEndsIso === "string" && !has("trial_ending_sent")) {
-        const msLeft = new Date(trialEndsIso).getTime() - now;
-        if (msLeft > 0 && msLeft <= 2.5 * DAY) {
-          const sub = await subscription(m.stripe_subscription_id);
-          if (sub.status === "trialing" && !sub.cancel_at_period_end && !sub.cancel_at && sub.trial_end) {
-            const res = await sendBillingNotice("trial_ending", { to: m.email, firstName: m.first_name || "", date: new Date(sub.trial_end * 1000) });
-            if (res.ok) await record(m.id, "trial_ending_sent", { trial_end: trialEndsIso });
-            else failures.push(`trial_ending:${m.id}`);
-          }
-        }
-      }
 
       // ── Renewal reminder (~30 days before; once per renewal date) ──
       if (m.current_period_end) {

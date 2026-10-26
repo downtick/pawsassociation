@@ -12,7 +12,7 @@ const ORANGE_DEEP = "#C2410C";
 const MUTED = "#64748B";
 
 export type SeriesKey = "listing" | "course" | "benefits" | "share" | "checkin";
-export type BillingKey = "trial_ending" | "renewal_reminder";
+export type BillingKey = "renewal_reminder";
 
 const cta = (href: string, label: string) =>
   `<p style="margin:22px 0"><a href="${href}" style="display:inline-block;background:${ORANGE_DEEP};color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 22px;border-radius:9px">${label} &rarr;</a></p>`;
@@ -108,26 +108,15 @@ export async function sendSeriesEmail(key: SeriesKey, c: SeriesContext) {
 export async function sendBillingNotice(key: BillingKey, c: { to: string; firstName: string; date: Date }) {
   const date = fmtDate(c.date);
   const billing = `${SITE_URL}/dashboard/billing`;
-  const e =
-    key === "trial_ending"
-      ? {
-          subject: `Your PAWS free trial ends ${date}`,
-          title: "Your free trial ends soon",
-          html: `<p>Hi ${esc(c.firstName) || "there"},</p>
-            <p>Your ${SITE.name} free trial ends on <strong>${date}</strong>. If you keep your membership, $${PRICE_DOLLARS} will be charged to your card on file that day, and it renews yearly after that.</p>
-            <p>Not for you? Cancel online before ${date} and you won't be charged anything.</p>
-            ${cta(billing, "Review my membership")}`,
-          text: `Your PAWS free trial ends ${date}. $${PRICE_DOLLARS} will be charged then unless you cancel: ${billing}`,
-        }
-      : {
-          subject: `Your PAWS membership renews ${date}`,
-          title: "Your membership renews soon",
-          html: `<p>Hi ${esc(c.firstName) || "there"},</p>
-            <p>Your ${SITE.name} membership renews automatically on <strong>${date}</strong> for <strong>$${PRICE_DOLLARS}</strong>, charged to your card on file. You don't need to do anything to keep your listing and benefits.</p>
-            <p>To stop the renewal, cancel online anytime before then. And if you cancel within ${RENEWAL_REFUND_DAYS} days after the renewal charge, we'll refund it in full.</p>
-            ${cta(billing, "Manage my membership")}`,
-          text: `Your PAWS membership renews ${date} for $${PRICE_DOLLARS}. Manage or cancel: ${billing}. Cancel within ${RENEWAL_REFUND_DAYS} days after renewal for a full refund.`,
-        };
+  const e = {
+    subject: `Your PAWS membership renews ${date}`,
+    title: "Your membership renews soon",
+    html: `<p>Hi ${esc(c.firstName) || "there"},</p>
+      <p>Your ${SITE.name} membership renews automatically on <strong>${date}</strong> for <strong>$${PRICE_DOLLARS}</strong>, charged to your card on file. You don't need to do anything to keep your listing and benefits.</p>
+      <p>To stop the renewal, cancel online anytime before then. And if you cancel within ${RENEWAL_REFUND_DAYS} days after the renewal charge, we'll refund it in full.</p>
+      ${cta(billing, "Manage my membership")}`,
+    text: `Your PAWS membership renews ${date} for $${PRICE_DOLLARS}. Manage or cancel: ${billing}. Cancel within ${RENEWAL_REFUND_DAYS} days after renewal for a full refund.`,
+  };
   return sendEmail({
     to: c.to,
     subject: e.subject,
