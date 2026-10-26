@@ -14,6 +14,7 @@
 | business_name | yes | yes | |
 | main_attraction | yes | yes | Loose wording OK: "petting zoo", "Reptiles", "goat yoga" |
 | also_offers | | yes | Semicolon-separated: `Goat yoga; beer burros` |
+| address, address2 | | **NO** | Full street address for mailings/outreach. Stored admin-only and never shown on the site, even after the business claims its listing |
 | city | yes | yes | |
 | state | yes | yes | `AZ` or `Arizona` |
 | zip | | yes | 5 digits |

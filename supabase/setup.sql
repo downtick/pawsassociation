@@ -196,6 +196,8 @@ create index if not exists listing_categories_category_idx on listing_categories
 create table if not exists listing_private_contacts (
   listing_id uuid primary key references listings(id) on delete cascade,
   owner_name text,
+  address_line1 text,                         -- street address: mailing/outreach
+  address_line2 text,                         --   only, NEVER shown publicly
   email text,
   phone text,
   website text,

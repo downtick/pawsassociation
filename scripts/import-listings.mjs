@@ -100,6 +100,9 @@ const out = [
   `-- PAWS listing import from ${file} (source: ${source})`,
   `-- Generated ${new Date().toISOString()} — paste into the Supabase SQL editor.`,
   "begin;",
+  "-- street address lives only in the admin-only private table (safe to re-run)",
+  "alter table listing_private_contacts add column if not exists address_line1 text;",
+  "alter table listing_private_contacts add column if not exists address_line2 text;",
 ];
 const used = new Set();
 let ok = 0, skipped = 0, warnings = 0;
@@ -148,12 +151,15 @@ on conflict (slug) do update set business_name = excluded.business_name, categor
 select ${ref}, id from categories where slug in (${extras.map(sql).join(", ")})
 on conflict do nothing;`);
   }
-  const priv = ["owner_name", "email", "phone", "website", "notes"].map((k) => col(r, k));
+  // Private (admin-only) contact + full street address. Public pages show
+  // only business name, city, state and attraction types.
+  const priv = ["owner_name", "address", "address2", "email", "phone", "website", "notes"].map((k) => col(r, k));
   if (priv.some(Boolean)) {
-    out.push(`insert into listing_private_contacts (listing_id, owner_name, email, phone, website, notes, source)
+    out.push(`insert into listing_private_contacts (listing_id, owner_name, address_line1, address_line2, email, phone, website, notes, source)
 values (${ref}, ${priv.map(sql).join(", ")}, ${sql(source)})
-on conflict (listing_id) do update set owner_name = excluded.owner_name, email = excluded.email,
-  phone = excluded.phone, website = excluded.website, notes = excluded.notes, source = excluded.source;`);
+on conflict (listing_id) do update set owner_name = excluded.owner_name, address_line1 = excluded.address_line1,
+  address_line2 = excluded.address_line2, email = excluded.email, phone = excluded.phone,
+  website = excluded.website, notes = excluded.notes, source = excluded.source;`);
   }
   ok++;
 });
