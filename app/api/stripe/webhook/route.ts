@@ -7,6 +7,15 @@ import { sendWelcomeEmail, sendMemberAdminNotice } from "@/lib/emails";
 // Stripe webhook — the $149/yr membership subscription lifecycle. Comp
 // (admin-granted) memberships never touch Stripe; they live entirely on
 // profiles.comp_until.
+// Stripe subscription status → our membership_status. "trialing" is a full
+// member during the free trial; incomplete/unpaid/expired lose access.
+function membershipStatusFor(status: Stripe.Subscription.Status): "active" | "past_due" | "lapsed" | "canceled" {
+  if (status === "active" || status === "trialing") return "active";
+  if (status === "past_due") return "past_due";
+  if (status === "canceled") return "canceled";
+  return "lapsed";
+}
+
 export async function POST(request: NextRequest) {
   const sig = request.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -69,7 +78,7 @@ async function handleEvent(event: Stripe.Event) {
         // checkout) must stay an admin.
         .update({
           plan: "retail_annual",
-          membership_status: "active",
+          membership_status: subscription ? membershipStatusFor(subscription.status) : "active",
           billing_source: "stripe",
           stripe_customer_id: session.customer as string,
           stripe_subscription_id: subscription?.id ?? null,
@@ -84,7 +93,11 @@ async function handleEvent(event: Stripe.Event) {
       await admin.from("member_events").insert({
         member_id: profileId,
         event: "joined",
-        detail: { stripe_event: event.id, plan: "retail_annual" },
+        detail: {
+          stripe_event: event.id,
+          plan: "retail_annual",
+          trial_ends: subscription?.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null,
+        },
       });
 
       if (profile) {
@@ -92,6 +105,7 @@ async function handleEvent(event: Stripe.Event) {
           to: profile.email,
           firstName: profile.first_name || "",
           memberNumber: profile.member_number || "",
+          trialEndsAt: subscription?.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : undefined,
         }).catch((err) => console.error("Welcome email error:", err));
 
         await sendMemberAdminNotice({
@@ -109,7 +123,7 @@ async function handleEvent(event: Stripe.Event) {
 
     case "customer.subscription.updated": {
       const sub = event.data.object as Stripe.Subscription;
-      const status = sub.status === "active" ? "active" : sub.status === "past_due" ? "past_due" : "lapsed";
+      const status = membershipStatusFor(sub.status);
       await admin
         .from("profiles")
         .update({

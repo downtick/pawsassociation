@@ -105,7 +105,7 @@ export default function BenefitsPage() {
       <section className="px-6 py-14 text-center" style={{ background: "var(--blue)" }}>
         <h2 className="text-2xl text-white">Ready to join?</h2>
         <p className="mx-auto mt-3 max-w-md text-[15px]" style={{ color: "#DBEAFE" }}>
-          $149 a year. Cancel within 7 days for a full refund.
+          7-day free trial, then $149 a year. Cancel online anytime.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/join" className="btn btn-primary">Become a member</Link>

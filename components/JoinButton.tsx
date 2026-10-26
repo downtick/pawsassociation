@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Icon from "./Icon";
+import AutoRenewConsent from "./AutoRenewConsent";
+import { TRIAL_DAYS, PRICE_DOLLARS } from "@/lib/membershipPolicy";
 import { track } from "@/lib/track";
 
 // Starts Stripe Checkout for the $149/yr retail plan. If the visitor isn't
@@ -11,8 +13,16 @@ export default function JoinButton({ email, password }: { email: string; passwor
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [error, setError] = useState("");
   const [confirmSent, setConfirmSent] = useState(false);
+  const [consent, setConsent] = useState(false);
+  const [consentMissing, setConsentMissing] = useState(false);
 
   async function handleJoin() {
+    if (!consent) {
+      setConsentMissing(true);
+      setError("Please check the box to confirm you understand the automatic renewal.");
+      setStatus("error");
+      return;
+    }
     setStatus("loading");
     setError("");
 
@@ -62,7 +72,11 @@ export default function JoinButton({ email, password }: { email: string; passwor
         }
       }
 
-      const res = await fetch("/api/stripe/checkout", { method: "POST" });
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ autoRenewConsent: true }),
+      });
       const data = await res.json();
       if (!res.ok || !data.url) {
         setError(data.error || "Unable to start checkout.");
@@ -91,10 +105,14 @@ export default function JoinButton({ email, password }: { email: string; passwor
   }
 
   return (
-    <div>
-      <button onClick={handleJoin} disabled={status === "loading"} className="btn-primary btn-join w-full justify-center mt-2">
-        {status === "loading" ? "Redirecting to checkout…" : "Continue to payment — $149/year"}
+    <div className="grid gap-3">
+      <AutoRenewConsent checked={consent} invalid={consentMissing && !consent} onChange={(v) => { setConsent(v); if (v) { setConsentMissing(false); setError(""); } }} />
+      <button onClick={handleJoin} disabled={status === "loading"} className="btn-primary btn-join w-full justify-center">
+        {status === "loading" ? "Redirecting to checkout…" : `Start my ${TRIAL_DAYS}-day free trial`}
       </button>
+      <p className="text-center text-xs" style={{ color: "var(--ink-3)", margin: 0 }}>
+        Card required. $0 today, then ${PRICE_DOLLARS}/year starting day {TRIAL_DAYS + 1}. Cancel online anytime.
+      </p>
       {error && <p className="form-error mt-3"><Icon name="info" />{error}</p>}
     </div>
   );

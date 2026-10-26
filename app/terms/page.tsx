@@ -42,17 +42,34 @@ export default function TermsPage() {
           business; these are identified on the listing page.
         </p>
 
-        <h2>3. Membership, Price, and Refunds</h2>
+        <h2>3. Membership, Free Trial, Automatic Renewal, and Refunds</h2>
         <p>
-          Operators may join at <a href="/join">/join</a> for <strong>$149 per year</strong>,
-          billed via our payment processor (Stripe) and <strong>auto-renewing annually</strong>{" "}
-          until canceled. You may cancel free of charge within{" "}
-          <strong>7 days of your original signup date</strong> for a full refund. After that
-          7-day window, <strong>membership fees are non-refundable</strong>, including for
-          partial or unused periods. You can view billing history and cancel future renewals
-          anytime from your account&apos;s billing page (Stripe Customer Portal). Memberships may
-          also be provided on a complimentary basis through partner programs; such memberships
-          run for a fixed term, do not auto-renew, and involve no charge to the member.
+          <strong>Price.</strong> Operators may join at <a href="/join">/join</a> for{" "}
+          <strong>$149 per year</strong>, billed through our payment processor (Stripe).
+        </p>
+        <p>
+          <strong>Free trial.</strong> First-time members receive a <strong>7-day free
+          trial</strong>. A payment card is required to start it. You will not be charged if you
+          cancel online before the trial ends; otherwise the first $149 annual charge is made
+          when the trial ends. The free trial is available once per business or person.
+        </p>
+        <p>
+          <strong>Automatic renewal.</strong> Your membership <strong>renews automatically every
+          year</strong> at the then-current annual price, charged to your card on file, until you
+          cancel. You agree to this when you check the automatic-renewal box at signup. We will
+          email you a reminder about 30 days before each renewal. You can cancel online anytime
+          from your account&apos;s Billing page, and cancellation stops all future renewals.
+        </p>
+        <p>
+          <strong>Refunds.</strong> If you cancel within <strong>30 days after an automatic
+          renewal charge</strong>, that renewal is refunded in full, and you can do this yourself
+          from your Billing page. Apart from the free trial and this 30-day renewal window,
+          membership fees are non-refundable, including for partial or unused periods.
+        </p>
+        <p>
+          Memberships may also be provided on a complimentary basis through partner programs;
+          such memberships run for a fixed term, do not auto-renew, and involve no charge to the
+          member.
         </p>
 
         <h2>4. Listings and Member Content</h2>

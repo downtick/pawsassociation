@@ -11,7 +11,7 @@ const INK = "#0F172A";
 const MUTED = "#64748B";
 const HAIR = "#E2E8F0";
 
-function wrap(title: string, bodyHtml: string): string {
+export function wrap(title: string, bodyHtml: string, footerHtml = ""): string {
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><title>${title}</title></head>
@@ -29,14 +29,14 @@ function wrap(title: string, bodyHtml: string): string {
       ${bodyHtml}
     </div>
     <div style="background:#F8FAFC;padding:16px 32px;font-size:12px;color:${MUTED};border-top:1px solid ${HAIR}">
-      ${SITE.domain}
+      ${SITE.domain}${footerHtml}
     </div>
   </div>
 </body>
 </html>`;
 }
 
-function esc(v: string): string {
+export function esc(v: string): string {
   return (v || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 }
 
@@ -47,8 +47,16 @@ export async function sendWelcomeEmail(opts: {
   memberNumber: string;
   tempPassword?: string;
   setPasswordLink?: string;
+  /** Set when the member is on the free trial — the email then says when it ends. */
+  trialEndsAt?: string;
 }) {
-  const { to, firstName, memberNumber, tempPassword, setPasswordLink } = opts;
+  const { to, firstName, memberNumber, tempPassword, setPasswordLink, trialEndsAt } = opts;
+  const trialEnd = trialEndsAt
+    ? new Date(trialEndsAt).toLocaleDateString("en-US", { timeZone: "America/Los_Angeles", month: "long", day: "numeric", year: "numeric" })
+    : "";
+  const trialHtml = trialEnd
+    ? `<p style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:12px 14px"><strong>Your free trial runs until ${trialEnd}.</strong> You won't be charged before then, and you can cancel online anytime from your <a href="${SITE_URL}/dashboard/billing" style="color:${BLUE}">Billing page</a>. If you keep your membership, $149 is charged on ${trialEnd} and it renews yearly.</p>`
+    : "";
   // Members never see the internal PAWS- prefix in the number itself.
   const memberDigits = (memberNumber || "").replace(/^PAWS-/i, "");
 
@@ -69,6 +77,7 @@ export async function sendWelcomeEmail(opts: {
     `Welcome to ${SITE.name}`,
     `<p>Hi ${esc(firstName) || "there"},</p>
      <p>Your membership is active. Your member number is <strong>Member no. ${memberDigits}</strong>.</p>
+     ${trialHtml}
      ${credentialsHtml}
      <h3 style="color:${INK};font-size:16px;margin-top:24px">Get the most from your membership</h3>
      <ul style="padding-left:20px;color:#334155">
@@ -80,6 +89,8 @@ export async function sendWelcomeEmail(opts: {
      <p>Questions? Just reply to this email or visit our <a href="${SITE_URL}/contact" style="color:${BLUE}">contact page</a>.</p>`
   );
   const text = `Welcome to ${SITE.name}\n\nYour member number is ${memberDigits}.\n${
+    trialEnd ? `Your free trial runs until ${trialEnd}. Cancel anytime at ${SITE_URL}/dashboard/billing — otherwise $149 is charged on ${trialEnd}.\n` : ""
+  }${
     tempPassword
       ? `Login: ${to} / Temp password: ${tempPassword} — please change it after signing in.`
       : setPasswordLink
@@ -323,5 +334,40 @@ export async function sendRemovalRequest(opts: {
     text: `Listing removal request\n\n${sectionsText(sections)}`,
     replyTo: opts.email,
   });
+}
+
+// ── Renewal cancelled + refunded (member self-service, 30-day rule) ───────
+export async function sendRenewalRefundEmails(opts: {
+  to: string;
+  firstName: string;
+  lastName: string;
+  memberNumber: string;
+  amountCents: number;
+  refundId: string;
+}) {
+  const amount = `$${(opts.amountCents / 100).toFixed(2)}`;
+  const html = wrap(
+    "Your membership is cancelled and refunded",
+    `<p>Hi ${esc(opts.firstName) || "there"},</p>
+     <p>As requested, your ${SITE.name} membership has been cancelled and your renewal payment of <strong>${amount}</strong> has been refunded in full.</p>
+     <p>Refunds usually reach your card within 5&ndash;10 business days, depending on your bank. Your directory listing is now hidden; you can rejoin anytime at <a href="${SITE_URL}/join" style="color:${BLUE}">${SITE.domain}/join</a>.</p>
+     <p>Thanks for being part of ${SITE.name}.</p>`
+  );
+  const text = `Your ${SITE.name} membership has been cancelled and your renewal payment of ${amount} has been refunded in full. Refunds usually reach your card within 5-10 business days. Rejoin anytime: ${SITE_URL}/join`;
+  await sendEmail({ to: opts.to, subject: `Your ${SITE.name} membership is cancelled and refunded`, html, text });
+
+  await sendAdminNotice(`Renewal refunded: ${opts.firstName} ${opts.lastName}`.trim(), "Member cancelled within 30 days of renewal", [
+    { title: "Member", rows: [
+      ["Name", `${opts.firstName} ${opts.lastName}`.trim() || "—"],
+      ["Email", opts.to],
+      ["Member no.", digits(opts.memberNumber)],
+    ]},
+    { title: "Refund", rows: [
+      ["Amount", amount],
+      ["Stripe refund", opts.refundId],
+      ["Membership", "Cancelled immediately; listing hidden"],
+      ["When", nowPT()],
+    ]},
+  ]);
 }
 

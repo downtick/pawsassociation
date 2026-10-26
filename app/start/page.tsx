@@ -32,7 +32,7 @@ export default function StartPage() {
             animal attractions.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="/join" className="btn btn-primary">Join for $149/year</Link>
+            <Link href="/join" className="btn btn-primary">Start a 7-day free trial</Link>
             <Link href="/get-listed" className="btn" style={{ background: "#fff", color: "var(--blue)" }}>
               Already listed? Claim it
             </Link>
@@ -91,7 +91,7 @@ export default function StartPage() {
             <p className="eyebrow">How to join</p>
             <h2 className="mt-2 text-2xl">Three steps, about ten minutes</h2>
             <div className="three !mt-6 !grid-cols-1 gap-4">
-              <div className="step"><span className="stepno">01</span><h3 className="text-base">Join for $149 a year</h3><p>Pay securely by card. Cancel within 7 days for a full refund.</p></div>
+              <div className="step"><span className="stepno">01</span><h3 className="text-base">Start a 7-day free trial</h3><p>Then $149 a year. Cancel online before the trial ends and you&apos;re never charged.</p></div>
               <div className="step"><span className="stepno">02</span><h3 className="text-base">Create your listing</h3><p>Attraction type, services, service area, and contact details.</p></div>
               <div className="step"><span className="stepno">03</span><h3 className="text-base">Start getting inquiries</h3><p>Your listing goes live after a quick review, and the course and downloads unlock right away.</p></div>
             </div>

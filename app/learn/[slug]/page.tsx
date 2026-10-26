@@ -103,7 +103,7 @@ export default async function LearnArticlePage({ params }: { params: Promise<{ s
                 </p>
               )}
               <div className="flex flex-wrap gap-3">
-                <Link href="/join" className="btn btn-primary">Join for $149/year</Link>
+                <Link href="/join" className="btn btn-primary">Start a 7-day free trial</Link>
                 {access ? (
                   <Link href="/membership" className="btn btn-ghost">Reactivate membership</Link>
                 ) : (

@@ -25,6 +25,17 @@ const EVENT_LABELS: Record<string, string> = {
   verification_resent: "Verification email re-sent",
   email_verified_by_admin: "Email marked verified by admin",
   password_reset_sent: "Password-reset email sent",
+  auto_renew_consent: "Agreed to automatic renewal (checkbox)",
+  renewal_refunded: "Cancelled within 30 days of renewal — refunded",
+  series_listing: "Welcome series: finish your listing",
+  series_course: "Welcome series: marketing course",
+  series_benefits: "Welcome series: member benefits",
+  series_share: "Welcome series: share your profile",
+  series_checkin: "Welcome series: 60-day check-in",
+  trial_ending_sent: "Trial-ending reminder sent",
+  renewal_reminder_sent: "Renewal reminder sent",
+  email_unsubscribed: "Unsubscribed from tips emails",
+  email_resubscribed: "Resubscribed to tips emails",
 };
 
 export default async function AdminMemberDetail({ params }: { params: Promise<{ id: string }> }) {

@@ -163,6 +163,7 @@ create table if not exists listings (
 -- Columns added after launch (create table above won't add them to an
 -- existing database; these make re-running this file bring it up to date).
 alter table listings add column if not exists notes text check (char_length(notes) <= 1000);
+alter table profiles add column if not exists email_opt_out boolean not null default false;  -- unsubscribed from welcome-series/tips emails (billing notices still sent)
 
 create index if not exists listings_search_idx on listings using gin(search);
 create index if not exists listings_geo_idx on listings(state, city);
@@ -310,9 +311,16 @@ create table if not exists stripe_events (
 -- member_access view — the SINGLE gating source of truth. Every dashboard
 -- route and RLS policy checks has_access, never membership_status directly.
 -- ============================================================================
+-- Explicit column list (not p.*): RLS policies depend on this view, so it
+-- can't be dropped and recreated, and "create or replace" refuses when a new
+-- profiles column would shift has_access. New profiles columns that the
+-- member-facing code needs must be appended AFTER has_access.
 create or replace view member_access with (security_invoker = true) as
 select
-  p.*,
+  p.id, p.email, p.member_number, p.role, p.first_name, p.last_name, p.phone, p.state,
+  p.plan, p.membership_status, p.billing_source, p.comp_until, p.admin_note,
+  p.stripe_customer_id, p.stripe_subscription_id, p.current_period_end,
+  p.created_at, p.updated_at,
   (
     p.membership_status in ('active','past_due')
     or (p.comp_until is not null and p.comp_until > now())

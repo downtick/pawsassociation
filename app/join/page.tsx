@@ -44,8 +44,9 @@ export default function JoinPage() {
               ))}
             </ul>
             <p className="terms">
-              Cancel within 7 days of purchase for a full refund. After 7 days the membership is
-              non-refundable. Renews automatically each year unless you cancel.
+              7-day free trial for new members: cancel online before it ends and you&apos;re never
+              charged. Renews automatically each year, with a reminder email first; cancel within
+              30 days after a renewal for a full refund of it.
             </p>
           </div>
 

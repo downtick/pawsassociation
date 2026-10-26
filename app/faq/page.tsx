@@ -31,7 +31,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Can I cancel my membership?",
-    a: "Yes. Cancel free of charge within 7 days of signing up for a full refund. After 7 days, membership fees are non-refundable, but you can cancel future renewals anytime from your dashboard billing page.",
+    a: "Yes, online, anytime, from your dashboard's Billing page. New members get a 7-day free trial: cancel before it ends and you're never charged. Membership renews automatically each year, and we email you a reminder about 30 days before. If you cancel within 30 days after an automatic renewal, that renewal is refunded in full.",
   },
   {
     q: "My membership was provided through a partner — what can I change?",
