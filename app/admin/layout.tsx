@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import LogoutButton from "@/components/LogoutButton";
 import { requireAdmin } from "@/lib/access";
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <Link href="/admin/articles" className="tab">Guides</Link>
               <Link href="/admin/audit" className="tab">Audit log</Link>
             </div>
+            <LogoutButton className="tab" />
           </div>
           <div className="appbody">{children}</div>
         </div>

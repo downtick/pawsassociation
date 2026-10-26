@@ -45,9 +45,14 @@ export default function MobileNav({ loggedIn, dashboardHref }: { loggedIn: boole
           <Link href="/faq" onClick={() => setOpen(false)}>FAQ</Link>
           <Link href="/contact" onClick={() => setOpen(false)}>Contact</Link>
           {loggedIn ? (
-            <Link href={dashboardHref} onClick={() => setOpen(false)} className="font-semibold" style={{ color: "var(--blue)" }}>
-              Dashboard
-            </Link>
+            <>
+              <Link href={dashboardHref} onClick={() => setOpen(false)} className="font-semibold" style={{ color: "var(--blue)" }}>
+                Dashboard
+              </Link>
+              <form action="/auth/signout" method="post">
+                <button type="submit" className="text-left">Log out</button>
+              </form>
+            </>
           ) : (
             <>
               <Link href="/login" onClick={() => setOpen(false)}>Log in</Link>

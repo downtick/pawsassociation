@@ -4,6 +4,7 @@ import { SITE } from "@/lib/siteConfig";
 import Icon from "./Icon";
 import OmniSearch from "./OmniSearch";
 import MobileNav from "./MobileNav";
+import LogoutButton from "./LogoutButton";
 
 export default async function Header() {
   const profile = await getCurrentProfile();
@@ -34,7 +35,10 @@ export default async function Header() {
         <div className="flex items-center gap-2 md:ml-2 ml-auto">
           {profile && <OmniSearch />}
           {profile ? (
-            <Link href={dashboardHref} className="btn btn-primary">Dashboard</Link>
+            <>
+              <Link href={dashboardHref} className="btn btn-primary">Dashboard</Link>
+              <span className="hidden md:contents"><LogoutButton /></span>
+            </>
           ) : (
             <>
               <Link href="/login" className="btn btn-ghost hidden sm:inline-flex">Log in</Link>

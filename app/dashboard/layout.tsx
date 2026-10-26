@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LogoutButton from "@/components/LogoutButton";
 import { requireActiveMember } from "@/lib/access";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -22,6 +23,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
               )}
               <Link href="/dashboard/settings" className="tab">Settings</Link>
             </div>
+            <LogoutButton className="tab" />
           </div>
           <div className="appbody">{children}</div>
         </div>
