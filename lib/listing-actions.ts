@@ -49,6 +49,7 @@ export async function saveMyListing(input: ListingFormData): Promise<{ ok: boole
     business_name: d.businessName,
     contact_name: d.contactName || null,
     bio: d.bio || null,
+    notes: d.notes || null,
     services: d.services,
     city: d.city,
     state: d.state.toUpperCase(),

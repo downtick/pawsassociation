@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { cleanText, containsLink } from "./sanitize";
 
 const optStr = (max: number) => z.string().max(max).trim().optional().or(z.literal(""));
 
@@ -55,7 +56,14 @@ export const ListingSchema = z.object({
   categorySlug: z.string().min(1, "Check at least one attraction type you offer").max(60),
   /** Every other attraction type the business offers. */
   alsoOffer: z.array(z.string().max(60)).max(20).default([]),
-  bio: z.string().max(2000).trim().optional().or(z.literal("")),
+  bio: z.string().max(2000).transform(cleanText),
+  /** Free-text "additional services & notes" — plain text, no links. */
+  notes: z
+    .string()
+    .max(1000, "Keep notes under 1,000 characters")
+    .transform(cleanText)
+    .refine((v) => !containsLink(v), "Notes can't include web or email addresses. Put your website in the Website field.")
+    .default(""),
   services: z.array(z.string().max(60)).max(12).default([]),
   city: z.string().min(1, "City is required").max(80).trim(),
   state: z.string().min(2, "State is required").max(2),
@@ -65,7 +73,22 @@ export const ListingSchema = z.object({
     .trim(),
   serviceArea: optStr(160),
   phone: optStr(20),
-  website: optStr(200),
+  // http(s) only — anything else (javascript:, data:) is rejected outright.
+  website: z
+    .string()
+    .max(200)
+    .trim()
+    .refine((v) => {
+      if (!v) return true;
+      try {
+        const u = new URL(/^https?:\/\//i.test(v) ? v : `https://${v}`);
+        return (u.protocol === "https:" || u.protocol === "http:") && u.hostname.includes(".");
+      } catch {
+        return false;
+      }
+    }, "Enter a valid website, like example.com")
+    .optional()
+    .or(z.literal("")),
 });
 
 export type ListingFormData = z.infer<typeof ListingSchema>;

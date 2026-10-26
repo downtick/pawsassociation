@@ -143,6 +143,7 @@ create table if not exists listings (
   business_name text not null,
   contact_name text,
   bio text,
+  notes text check (char_length(notes) <= 1000),  -- "additional services & notes", plain text, no links (lib/sanitize.ts)
   services text[] not null default '{}',     -- service-tag chips
   city text, state text, zip text,
   service_area text,                          -- e.g. "Greater Phoenix, up to 60 miles"
@@ -159,6 +160,10 @@ create table if not exists listings (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+-- Columns added after launch (create table above won't add them to an
+-- existing database; these make re-running this file bring it up to date).
+alter table listings add column if not exists notes text check (char_length(notes) <= 1000);
+
 create index if not exists listings_search_idx on listings using gin(search);
 create index if not exists listings_geo_idx on listings(state, city);
 create index if not exists listings_category_idx on listings(category_id);
@@ -323,7 +328,10 @@ from profiles p;
 -- here silently hid every CLAIMED listing from visitors, because the anon
 -- role can't read profiles, so the joined has_access was always null.
 -- ============================================================================
-create or replace view public_listings with (security_invoker = true) as
+-- drop + create (not "create or replace"): the view selects l.*, so adding a
+-- column to listings changes its column order, which replace refuses.
+drop view if exists public_listings;
+create view public_listings with (security_invoker = true) as
 select l.*, c.slug as category_slug, c.name as category_name,
        (l.profile_id is not null) as claimed,
        -- main type + every "also offers" type, for directory filtering
@@ -587,10 +595,10 @@ grant select on articles, profiles, member_access, leads, member_events, resourc
 
 -- Member self-service listing editor (lib/listing-actions.ts). approved and
 -- featured are deliberately absent: only admins (service role) set them.
-grant insert (profile_id, slug, category_id, business_name, contact_name, bio,
+grant insert (profile_id, slug, category_id, business_name, contact_name, bio, notes,
   services, city, state, zip, service_area, phone, website, logo_url, photo_urls)
   on listings to authenticated;
-grant update (category_id, business_name, contact_name, bio, services, city,
+grant update (category_id, business_name, contact_name, bio, notes, services, city,
   state, zip, service_area, phone, website, logo_url, photo_urls)
   on listings to authenticated;
 grant insert, delete on listing_categories to authenticated;

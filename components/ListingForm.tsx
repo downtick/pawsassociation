@@ -23,6 +23,7 @@ export default function ListingForm({
     contactName: listing?.contact_name ?? "",
     categorySlug: categorySlug ?? "",
     bio: listing?.bio ?? "",
+    notes: listing?.notes ?? "",
     city: listing?.city ?? "",
     state: listing?.state ?? "",
     zip: listing?.zip ?? "",
@@ -69,6 +70,7 @@ export default function ListingForm({
         categorySlug: values.categorySlug,
         alsoOffer: offered.filter((x) => x !== values.categorySlug),
         bio: values.bio,
+        notes: values.notes,
         services,
         city: values.city,
         state: values.state,
@@ -153,6 +155,18 @@ export default function ListingForm({
         <textarea id="p-bio" className="form-input" rows={4} style={{ resize: "vertical" }}
           placeholder="What you bring, which animals, what events you serve…"
           value={values.bio} onChange={(e) => set("bio", e.target.value)} />
+      </div>
+
+      <div className="mb-4">
+        <label className="form-label" htmlFor="p-notes">
+          Additional services &amp; notes <span className="font-normal" style={{ color: "var(--ink-3)" }}>(optional)</span>
+        </label>
+        <textarea id="p-notes" className="form-input" rows={4} maxLength={1000} style={{ resize: "vertical" }}
+          placeholder="Anything else planners should know: add-ons, seasonal offerings, travel range, setup needs, insurance certificates on request…"
+          value={values.notes} onChange={(e) => set("notes", e.target.value)} />
+        <p className="mt-1 text-xs" style={{ color: "var(--ink-3)" }}>
+          Plain text only, no links ({1000 - values.notes.length} characters left). Shown on your public profile.
+        </p>
       </div>
 
       <div className="mb-5">

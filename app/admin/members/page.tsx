@@ -35,6 +35,10 @@ export default async function AdminMembersPage({
         <h1 className="text-3xl">Members</h1>
         <Link href="/admin/members/new" className="btn-dark !py-2 !px-4 text-sm">+ Add member</Link>
       </div>
+      <p className="text-sm text-[var(--ink-3)] -mt-3 mb-6">
+        Click <strong>Manage</strong> on a row to resend the welcome or verification email, send a
+        password reset, grant free days, change status, or make someone an admin.
+      </p>
 
       <form className="flex flex-wrap gap-3 mb-6" method="GET">
         <input name="q" defaultValue={q} placeholder="Search name, email, member #…" className="form-input max-w-xs" />
@@ -65,6 +69,7 @@ export default async function AdminMembersPage({
               <th className="p-3">Status</th>
               <th className="p-3">Last login</th>
               <th className="p-3">Last active</th>
+              <th className="p-3"><span className="sr-only">Actions</span></th>
             </tr>
           </thead>
           <tbody>
@@ -73,8 +78,9 @@ export default async function AdminMembersPage({
               return (
               <tr key={m.id} className="border-b" style={{ borderColor: "var(--rule)" }}>
                 <td className="p-3">
-                  <Link href={`/admin/members/${m.id}`} className="nav-link font-semibold">
-                    {[m.first_name, m.last_name].filter(Boolean).join(" ") || "—"}
+                  {/* Fall back to the email so the link is never a bare "—". */}
+                  <Link href={`/admin/members/${m.id}`} className="nav-link font-semibold" style={{ color: "var(--blue)" }}>
+                    {[m.first_name, m.last_name].filter(Boolean).join(" ") || m.email}
                   </Link>
                   {m.role === "admin" && <span className="ml-2 text-xs font-semibold" style={{ color: "var(--blue)" }}>ADMIN</span>}
                 </td>
@@ -92,11 +98,16 @@ export default async function AdminMembersPage({
                 <td className="p-3 capitalize">{m.membership_status}</td>
                 <td className="p-3 whitespace-nowrap">{formatDay(a?.last_sign_in_at)}</td>
                 <td className="p-3 whitespace-nowrap">{formatDay(a?.last_active_at)}</td>
+                <td className="p-3 whitespace-nowrap">
+                  <Link href={`/admin/members/${m.id}`} className="btn-outline !py-1.5 !px-3 !text-xs">
+                    Manage →
+                  </Link>
+                </td>
               </tr>
               );
             })}
             {members.length === 0 && (
-              <tr><td colSpan={7} className="p-6 text-center text-[var(--ink-3)]">No members found.</td></tr>
+              <tr><td colSpan={8} className="p-6 text-center text-[var(--ink-3)]">No members found.</td></tr>
             )}
           </tbody>
         </table>
