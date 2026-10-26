@@ -1,4 +1,5 @@
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
+import { JOIN_QR_PNG_BASE64 } from "./joinQr";
 
 // Small layout engine for the member downloads. Every page gets the PAWS
 // header band and a footer carrying pawsassociation.com plus the member's
@@ -55,6 +56,7 @@ export class PawsDoc {
   pdf!: PDFDocument;
   font!: PDFFont;
   bold!: PDFFont;
+  joinQr!: PDFImage;
   page!: PDFPage;
   y = 0;
   readonly margin = 48;
@@ -71,6 +73,7 @@ export class PawsDoc {
     d.pdf.setSubject(`Member resource — ${SITE_LINE}`);
     d.font = await d.pdf.embedFont(StandardFonts.Helvetica);
     d.bold = await d.pdf.embedFont(StandardFonts.HelveticaBold);
+    d.joinQr = await d.pdf.embedPng(Buffer.from(JOIN_QR_PNG_BASE64, "base64"));
     d.size = opts.landscape ? [LETTER[1], LETTER[0]] : LETTER;
     d.preparedFor = opts.preparedFor;
     d.docTitle = docTitle;
@@ -97,12 +100,22 @@ export class PawsDoc {
       x: width - this.margin - this.font.widthOfTextAtSize(tag, 8.5), y: height - 27,
       size: 8.5, font: this.font, color: rgb(0.86, 0.92, 1),
     });
-    // Footer
-    this.page.drawLine({ start: { x: this.margin, y: 44 }, end: { x: width - this.margin, y: 44 }, thickness: 0.6, color: COLOR.rule });
+    // Footer: site line left; "Join the Association" QR bottom-right (to
+    // /go/pdf), with the prepared-for stamp and a scan caption beside it.
+    // Everything stays below `bottom`, so body content never overlaps it.
+    const qr = 46;
+    const qrX = width - this.margin - qr;
+    const textRight = qrX - 8;
+    this.page.drawLine({ start: { x: this.margin, y: 44 }, end: { x: textRight, y: 44 }, thickness: 0.6, color: COLOR.rule });
     this.page.drawText(SITE_LINE, { x: this.margin, y: 30, size: 9, font: this.bold, color: COLOR.blue });
+    this.page.drawImage(this.joinQr, { x: qrX, y: 8, width: qr, height: qr });
     const right = clean(this.preparedFor ? `Prepared for ${this.preparedFor}` : this.docTitle);
     this.page.drawText(right, {
-      x: width - this.margin - this.font.widthOfTextAtSize(right, 8.5), y: 30, size: 8.5, font: this.font, color: COLOR.muted,
+      x: textRight - this.font.widthOfTextAtSize(right, 8.5), y: 30, size: 8.5, font: this.font, color: COLOR.muted,
+    });
+    const scan = "Join the Association - scan to visit pawsassociation.com";
+    this.page.drawText(scan, {
+      x: textRight - this.bold.widthOfTextAtSize(scan, 7.5), y: 17, size: 7.5, font: this.bold, color: COLOR.orange,
     });
     this.y = height - 76;
   }

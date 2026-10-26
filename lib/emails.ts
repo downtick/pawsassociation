@@ -277,3 +277,47 @@ export async function sendLeadAdminNotice(opts: {
   ];
   return sendAdminNotice(`Directory lead: ${o.lead.name} → ${o.businessName}`, "New directory lead", sections);
 }
+
+// ── Listing removal request — to admin (public form, /request-removal) ────
+export async function sendRemovalRequest(opts: {
+  listingSlug?: string;
+  businessName: string;
+  cityState?: string;
+  requesterName: string;
+  email: string;
+  phone?: string;
+  relationship: string;
+  reason?: string;
+  referrer?: string;
+  pageUrl?: string;
+  listing: { business_name: string; city: string | null; state: string | null; claimed: boolean } | null;
+}) {
+  const l = opts.listing;
+  const sections: Section[] = [
+    { title: "Listing", rows: [
+      ["Business (as entered)", opts.businessName],
+      ["City / state (as entered)", opts.cityState || "—"],
+      ["Matched listing", l ? `${l.business_name} — ${[l.city, l.state].filter(Boolean).join(", ")}` : "Not matched — find it in the directory"],
+      ["Listing URL", opts.listingSlug ? `${SITE_URL}/members/${opts.listingSlug}` : "—"],
+      ["Claimed by a member?", l ? (l.claimed ? "YES — a paying member owns this listing; talk to them first" : "No (pre-listed)") : "—"],
+      ["Remove it here", `${SITE_URL}/admin/listings`],
+    ]},
+    { title: "Requested by", rows: [
+      ["Name", opts.requesterName],
+      ["Email", opts.email],
+      ["Phone", opts.phone || "—"],
+      ["Relationship", opts.relationship],
+    ]},
+    { title: "Reason", rows: [["Reason", opts.reason || "(none given)"]] },
+    { title: "Received", rows: [["When", nowPT()]] },
+    trackingSection(opts.referrer, opts.pageUrl),
+  ];
+  return sendEmail({
+    to: adminNotifyAddress(),
+    subject: `Removal request: ${opts.businessName}`,
+    html: wrap("Listing removal request", sectionsHtml(sections)),
+    text: `Listing removal request\n\n${sectionsText(sections)}`,
+    replyTo: opts.email,
+  });
+}
+

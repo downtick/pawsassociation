@@ -8,7 +8,7 @@ export default function PrivacyPage() {
     <section className="section">
       <div className="max-w-3xl mx-auto px-6 py-16 prose-warm">
         <h1>Privacy Policy</h1>
-        <p className="text-sm text-[var(--ink-3)]">Last updated: September 24, 2026</p>
+        <p className="text-sm text-[var(--ink-3)]">Last updated: October 26, 2026</p>
 
         <p>
           {SITE.legalEntity} ("we," "us," or "our") operates pawsassociation.com (the "Site").
@@ -101,7 +101,7 @@ export default function PrivacyPage() {
         </p>
         <ul>
           <li><strong>California (CCPA/CPRA)</strong> and other U.S. states with privacy laws: you may request access to, deletion of, and correction of your personal information. We do not discriminate against you for exercising these rights.</li>
-          <li>To exercise any right, contact us at <a href="mailto:office@pawsassociation.com">office@pawsassociation.com</a>.</li>
+          <li>To exercise any right, send us a request through our <a href="/contact">contact form</a>. To have a business removed from the directory, use the <a href="/request-removal">listing removal request form</a>.</li>
         </ul>
 
         <h2>8. Children's Privacy</h2>
@@ -121,7 +121,7 @@ export default function PrivacyPage() {
         <p>
           {SITE.legalEntity}
           <br />
-          Email: <a href="mailto:office@pawsassociation.com">office@pawsassociation.com</a>
+          Please reach us through our <a href="/contact">contact form</a>.
         </p>
       </div>
     </section>

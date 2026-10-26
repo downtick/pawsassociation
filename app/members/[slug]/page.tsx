@@ -161,7 +161,8 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
                   This listing was added by the association and hasn&apos;t been claimed yet.
                   Is this your business? <Link href="/get-listed" className="font-semibold" style={{ color: "var(--blue)" }}>Claim your listing</Link> to
                   show your phone and website, manage the profile, and receive
-                  leads by email.
+                  leads by email. Rather not be listed?{" "}
+                  <Link href={`/request-removal?listing=${listing.slug}`} style={{ color: "var(--blue)" }}>Request removal</Link>.
                 </span>
               </div>
             )}

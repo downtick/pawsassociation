@@ -4,10 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 // GA4 attributes visits — and the purchase that follows — to its channel.
 //   pawsassociation.com/go/brochure  → printed brochure / QR code
 //   pawsassociation.com/go/email     → mailing-list emails
+//   pawsassociation.com/go/pdf       → QR code in every member PDF footer
 // Add a channel by adding a row here; unknown sources still land on /start.
 const CAMPAIGNS: Record<string, { source: string; medium: string }> = {
   brochure: { source: "brochure", medium: "print" },
   email: { source: "mailing_list", medium: "email" },
+  pdf: { source: "pdf_download", medium: "print" },
 };
 
 export function GET(request: NextRequest, { params }: { params: Promise<{ source: string }> }) {

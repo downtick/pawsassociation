@@ -8,7 +8,7 @@ export default function TermsPage() {
     <section className="section">
       <div className="max-w-3xl mx-auto px-6 py-16 prose-warm">
         <h1>Terms of Service</h1>
-        <p className="text-sm text-[var(--ink-3)]">Last updated: September 24, 2026</p>
+        <p className="text-sm text-[var(--ink-3)]">Last updated: October 26, 2026</p>
 
         <p>
           These Terms of Service (&ldquo;Terms&rdquo;) govern your use of {SITE.domain} (the
@@ -63,8 +63,8 @@ export default function TermsPage() {
           and distribute that content on the Site and in association marketing of the directory.
           We may edit, decline, or remove any listing at our discretion, including for
           complaints, inaccurate information, or lapsed membership. Businesses that
-          appear in an unclaimed pre-listed entry may request removal via the{" "}
-          <a href="/contact">contact page</a>.
+          appear in an unclaimed pre-listed entry may ask us to remove it using the{" "}
+          <a href="/request-removal">listing removal request form</a>.
         </p>
 
         <h2>5. Leads</h2>
@@ -75,7 +75,21 @@ export default function TermsPage() {
           may use lead information only to respond to that inquiry and as permitted by law.
         </p>
 
-        <h2>6. Partner Discounts and Third-Party Offers</h2>
+        <h2>6. No Guarantee of Availability or Results</h2>
+        <p>
+          We do not guarantee that the Site, the directory, your listing, the lead form, or any
+          member feature will be available at any particular time or without interruption, and
+          we assume no responsibility for downtime, outages, maintenance, errors, data loss, or
+          delays, whether caused by us, our hosting, email, or payment providers, or anyone
+          else. We may suspend, change, or discontinue any part of the Site at any time.
+        </p>
+        <p>
+          Membership does not guarantee any number of leads, inquiries, bookings, search
+          ranking, visibility, or revenue, and membership fees are not contingent on results.
+          We assume no responsibility for lead generation or for the outcome of any inquiry.
+        </p>
+
+        <h2>7. Partner Discounts and Third-Party Offers</h2>
         <p>
           The member benefits vault contains <strong>affiliate links</strong> — {SITE.name} may
           receive a commission when a member uses a link or discount code, at no extra cost to
@@ -87,7 +101,7 @@ export default function TermsPage() {
           or prevent any disease.
         </p>
 
-        <h2>7. Eligibility and Acceptable Use</h2>
+        <h2>8. Eligibility and Acceptable Use</h2>
         <p>
           You must be at least 18 years old and able to form a binding contract to create an
           account. You agree not to:
@@ -101,7 +115,7 @@ export default function TermsPage() {
           <li>Use the Site for any unlawful purpose.</li>
         </ul>
 
-        <h2>8. Intellectual Property</h2>
+        <h2>9. Intellectual Property</h2>
         <p>
           The Site and its content (text, graphics, logos, design) are owned by{" "}
           {SITE.legalEntity} or its licensors. You may not copy, reproduce, or redistribute Site
@@ -110,7 +124,7 @@ export default function TermsPage() {
           by current members and only in the forms we provide.
         </p>
 
-        <h2>9. Disclaimers</h2>
+        <h2>10. Disclaimers</h2>
         <p>
           THE SITE AND ALL CONTENT ARE PROVIDED &ldquo;AS IS&rdquo; AND &ldquo;AS
           AVAILABLE&rdquo; WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. WE DO NOT WARRANT
@@ -119,10 +133,11 @@ export default function TermsPage() {
           DISCOUNT, OFFER, OR PRODUCT WILL BE AVAILABLE, ACCURATE, OR SUITABLE FOR YOU.
         </p>
 
-        <h2>10. Limitation of Liability</h2>
+        <h2>11. Limitation of Liability</h2>
         <p>
           TO THE MAXIMUM EXTENT PERMITTED BY LAW, {SITE.legalEntity.toUpperCase()} AND ITS
-          OFFICERS, EMPLOYEES, AND AGENTS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL,
+          OWNERS, MEMBERS, MANAGERS, OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, AFFILIATES,
+          SUCCESSORS, AND ASSIGNS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL,
           SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF THE SITE, YOUR
           MEMBERSHIP, ANY LISTING OR LEAD, ANY EVENT OR SERVICE PROVIDED BY AN OPERATOR, OR ANY
           THIRD-PARTY OFFER. OUR TOTAL LIABILITY FOR ANY CLAIM RELATING TO THE SITE OR YOUR
@@ -130,15 +145,32 @@ export default function TermsPage() {
           AROSE.
         </p>
 
-        <h2>11. Indemnification</h2>
+        <h2>12. Release, Defense, and Indemnification</h2>
         <p>
-          You agree to indemnify and hold harmless {SITE.legalEntity} from any claims, damages,
-          or expenses (including reasonable attorneys&apos; fees) arising from your listing
-          content, your services or events, your misuse of the Site, or your violation of these
-          Terms.
+          In these Terms, the &ldquo;PAWS Parties&rdquo; means {SITE.legalEntity}, the Site
+          owner, and each of their owners, members, managers, officers, directors, employees,
+          agents, representatives, affiliates, successors, and assigns, and anyone else acting
+          on their behalf in connection with the Site.
+        </p>
+        <p>
+          To the maximum extent permitted by law, you agree to <strong>hold harmless</strong>{" "}
+          the PAWS Parties from any and all liability, claims, demands, losses, damages, costs,
+          and expenses of every kind, and to <strong>defend and indemnify</strong> the PAWS
+          Parties against any such claim, including reasonable attorneys&apos; fees and costs,
+          arising out of or relating to: your use of the Site or membership; your listing or
+          any content you submit; any event, service, animal, or attraction you provide or
+          book; any dealings between you and another user, operator, or event host; any
+          third-party offer you use; or your violation of these Terms or any law or the rights
+          of anyone else.
+        </p>
+        <p>
+          We may choose to control the defense of any claim subject to this section, at your
+          expense, and you agree to cooperate with that defense. You may not settle any such
+          claim without our written consent. This section survives the end of your membership
+          and your use of the Site.
         </p>
 
-        <h2>12. Governing Law and Disputes</h2>
+        <h2>13. Governing Law and Disputes</h2>
         <p>
           These Terms are governed by the laws of the State of Nevada, without regard to
           conflict-of-law rules. Any dispute will be resolved in the state or federal courts
@@ -146,20 +178,22 @@ export default function TermsPage() {
           <em>[Counsel: confirm entity name, venue, and whether arbitration is preferred.]</em>
         </p>
 
-        <h2>13. Changes to These Terms</h2>
+        <h2>14. Changes to These Terms and Site Rules</h2>
         <p>
-          We may update these Terms at any time. Changes are effective when posted with a new
-          &ldquo;Last updated&rdquo; date. Continued use of the Site after changes means you
-          accept the updated Terms.
+          These Terms, our directory and listing rules, member benefits, features, and
+          policies are subject to change at any time. Changes are effective when posted with a
+          new &ldquo;Last updated&rdquo; date. If we change the membership price, the new price
+          applies from your next renewal, and we will tell you before it does. Continued use of
+          the Site after changes means you accept them.
         </p>
 
-        <h2>14. Contact Us</h2>
+        <h2>15. Contact Us</h2>
         <p>
           {SITE.legalEntity}
           <br />
-          Email: <a href={`mailto:${SITE.supportEmail}`}>{SITE.supportEmail}</a>
-          <br />
-          Or use our <a href="/contact">contact form</a>.
+          Please use our <a href="/contact">contact form</a>. To have a pre-listed business
+          removed from the directory, use the{" "}
+          <a href="/request-removal">listing removal request form</a>.
         </p>
       </div>
     </section>

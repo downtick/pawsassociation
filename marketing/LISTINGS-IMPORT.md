@@ -25,4 +25,4 @@
 
 Only list businesses that already advertise to the public. Pre-listing uses
 public business facts (name, city, state, attractions); anyone can ask to be
-removed via the contact page (Terms §4).
+removed with the form at pawsassociation.com/request-removal (Terms §4).

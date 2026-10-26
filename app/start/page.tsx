@@ -112,7 +112,7 @@ export default function StartPage() {
       <section className="px-6 py-14 text-center" style={{ background: "var(--blue)" }}>
         <h2 className="text-2xl text-white sm:text-3xl">Ready to get listed?</h2>
         <p className="mx-auto mt-3 max-w-lg text-[15px]" style={{ color: "#DBEAFE" }}>
-          $149 a year. Questions first? Email {SITE.supportEmail}.
+          $149 a year. Questions first? <Link href="/contact">Send us a message</Link>.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/join" className="btn btn-primary">Join {SITE.name}</Link>
