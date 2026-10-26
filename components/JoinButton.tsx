@@ -92,7 +92,7 @@ export default function JoinButton({ email, password }: { email: string; passwor
 
   return (
     <div>
-      <button onClick={handleJoin} disabled={status === "loading"} className="btn-primary w-full justify-center">
+      <button onClick={handleJoin} disabled={status === "loading"} className="btn-primary btn-join w-full justify-center mt-2">
         {status === "loading" ? "Redirecting to checkout…" : "Continue to payment — $149/year"}
       </button>
       {error && <p className="form-error mt-3"><Icon name="info" />{error}</p>}
