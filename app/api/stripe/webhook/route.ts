@@ -28,10 +28,30 @@ export async function POST(request: NextRequest) {
 
   const admin = createAdminClient();
 
-  // Idempotency guard
-  const { data: existing } = await admin.from("stripe_events").select("id").eq("id", event.id).maybeSingle();
-  if (existing) return NextResponse.json({ received: true });
-  await admin.from("stripe_events").insert({ id: event.id, type: event.type });
+  // Idempotency guard. The event id is claimed up front (the primary key
+  // stops a concurrent retry processing it twice) and released again if
+  // processing throws, so Stripe's automatic retry gets another chance
+  // instead of the update being silently lost.
+  const { error: claimError } = await admin.from("stripe_events").insert({ id: event.id, type: event.type });
+  if (claimError) {
+    if (claimError.code === "23505") return NextResponse.json({ received: true }); // already processed
+    console.error("Stripe webhook: could not record event", claimError.message);
+    return NextResponse.json({ error: "Could not record event." }, { status: 500 });
+  }
+
+  try {
+    await handleEvent(event);
+  } catch (err) {
+    console.error(`Stripe webhook: ${event.type} ${event.id} failed`, err);
+    await admin.from("stripe_events").delete().eq("id", event.id);
+    return NextResponse.json({ error: "Processing failed; Stripe will retry." }, { status: 500 });
+  }
+
+  return NextResponse.json({ received: true });
+}
+
+async function handleEvent(event: Stripe.Event) {
+  const admin = createAdminClient();
 
   switch (event.type) {
     case "checkout.session.completed": {
@@ -45,8 +65,9 @@ export async function POST(request: NextRequest) {
 
       const { data: profile } = await admin
         .from("profiles")
+        // Never touch role here: an admin who buys a membership (or tests
+        // checkout) must stay an admin.
         .update({
-          role: "member",
           plan: "retail_annual",
           membership_status: "active",
           billing_source: "stripe",
@@ -115,7 +136,9 @@ export async function POST(request: NextRequest) {
 
     case "invoice.payment_failed": {
       const invoice = event.data.object as Stripe.Invoice;
-      const subId = (invoice as unknown as { subscription?: string }).subscription;
+      // API 2025-03+ moved the subscription under parent.subscription_details.
+      const fromParent = invoice.parent?.subscription_details?.subscription;
+      const subId = typeof fromParent === "string" ? fromParent : fromParent?.id;
       if (subId) {
         const { data: profile } = await admin
           .from("profiles")
@@ -133,6 +156,4 @@ export async function POST(request: NextRequest) {
     default:
       break;
   }
-
-  return NextResponse.json({ received: true });
 }

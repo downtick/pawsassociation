@@ -28,12 +28,24 @@ export async function POST(request: NextRequest) {
     const admin = createAdminClient();
     const { data: profile } = await admin.from("profiles").select("*").eq("id", user.id).single();
 
+    // Don't sell a second subscription to someone who already has one.
+    if (profile?.stripe_subscription_id && ["active", "past_due"].includes(profile.membership_status)) {
+      return NextResponse.json(
+        { error: "You already have an active membership. Manage it from your dashboard's Billing page." },
+        { status: 409 }
+      );
+    }
+
     const origin = request.headers.get("origin") || process.env.NEXT_PUBLIC_SITE_URL || "https://pawsassociation.com";
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       client_reference_id: user.id,
-      customer_email: profile?.email || user.email || undefined,
+      // Reuse the Stripe customer for a returning member so their billing
+      // history stays in one place; otherwise Checkout creates one.
+      ...(profile?.stripe_customer_id
+        ? { customer: profile.stripe_customer_id }
+        : { customer_email: profile?.email || user.email || undefined }),
       line_items: [{ price: STRIPE_PRICE_ANNUAL, quantity: 1 }],
       allow_promotion_codes: true,
       success_url: `${origin}/dashboard?welcome=1`,
