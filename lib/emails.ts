@@ -17,10 +17,14 @@ function wrap(title: string, bodyHtml: string): string {
 <head><meta charset="UTF-8"><title>${title}</title></head>
 <body style="font-family:Arial,sans-serif;background:#F8FAFC;margin:0;padding:20px">
   <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(15,23,42,0.10)">
-    <div style="background:linear-gradient(135deg,${BLUE},${BLUE_DEEP});padding:28px 32px;border-bottom:3px solid ${ORANGE}">
-      <p style="color:#FDBA74;margin:0;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-weight:700">${SITE.name} &mdash; Professional Association of Wildlife &amp; Sports</p>
-      <h1 style="color:#fff;margin:8px 0 0;font-size:21px">${title}</h1>
-    </div>
+    <!-- Solid bgcolor first: Outlook ignores CSS gradients, which left the
+         white title invisible on a white band. -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse"><tr>
+      <td bgcolor="${BLUE}" style="background-color:${BLUE};background-image:linear-gradient(135deg,${BLUE},${BLUE_DEEP});padding:28px 32px;border-bottom:3px solid ${ORANGE}">
+        <p style="color:#FDBA74;margin:0;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-weight:700">${SITE.name} &mdash; Professional Association of Wildlife &amp; Sports</p>
+        <h1 style="color:#ffffff;margin:8px 0 0;font-size:21px">${title}</h1>
+      </td>
+    </tr></table>
     <div style="padding:28px 32px;color:#334155;font-size:15px;line-height:1.6">
       ${bodyHtml}
     </div>
