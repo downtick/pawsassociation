@@ -55,7 +55,7 @@ export async function sendWelcomeEmail(opts: {
     ? new Date(guaranteeUntil).toLocaleDateString("en-US", { timeZone: "America/Los_Angeles", month: "long", day: "numeric", year: "numeric" })
     : "";
   const guaranteeHtml = guaranteeEnd
-    ? `<p style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:12px 14px"><strong>7-day money-back guarantee:</strong> if PAWS isn't right for you, cancel by ${guaranteeEnd} from your <a href="${SITE_URL}/dashboard/billing" style="color:${BLUE}">Billing page</a> and your $149 is refunded in full.</p>`
+    ? `<p style="color:${MUTED};font-size:13px">7-day money-back guarantee: if PAWS isn't right for you, cancel by ${guaranteeEnd} from your <a href="${SITE_URL}/dashboard/billing" style="color:${BLUE}">Billing page</a> and your $149 is refunded in full.</p>`
     : "";
   // Members never see the internal PAWS- prefix in the number itself.
   const memberDigits = (memberNumber || "").replace(/^PAWS-/i, "");
@@ -77,7 +77,6 @@ export async function sendWelcomeEmail(opts: {
     `Welcome to ${SITE.name}`,
     `<p>Hi ${esc(firstName) || "there"},</p>
      <p>Your membership is active. Your member number is <strong>Member no. ${memberDigits}</strong>.</p>
-     ${guaranteeHtml}
      ${credentialsHtml}
      <h3 style="color:${INK};font-size:16px;margin-top:24px">Get the most from your membership</h3>
      <ul style="padding-left:20px;color:#334155">
@@ -86,17 +85,18 @@ export async function sendWelcomeEmail(opts: {
        <li><strong>Member guides</strong> — marketing playbooks, pricing templates, and printable event-day checklists</li>
      </ul>
      <p><a href="${SITE_URL}/dashboard/profile" style="display:inline-block;background:${ORANGE};color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 22px;border-radius:9px">Complete your listing &rarr;</a></p>
-     <p>Questions? Just reply to this email or visit our <a href="${SITE_URL}/contact" style="color:${BLUE}">contact page</a>.</p>`
+     <p>Questions? Just reply to this email or visit our <a href="${SITE_URL}/contact" style="color:${BLUE}">contact page</a>.</p>
+     ${guaranteeHtml}`
   );
   const text = `Welcome to ${SITE.name}\n\nYour member number is ${memberDigits}.\n${
-    guaranteeEnd ? `7-day money-back guarantee: cancel by ${guaranteeEnd} at ${SITE_URL}/dashboard/billing for a full refund.\n` : ""
-  }${
     tempPassword
       ? `Login: ${to} / Temp password: ${tempPassword} — please change it after signing in.`
       : setPasswordLink
         ? `Set your password: ${setPasswordLink}`
         : `Sign in at ${SITE_URL}/login and choose "Email me a sign-in link".`
-  }\n\nComplete your listing so planners can find you: ${SITE_URL}/dashboard/profile`;
+  }\n\nComplete your listing so planners can find you: ${SITE_URL}/dashboard/profile${
+    guaranteeEnd ? `\n\n7-day money-back guarantee: cancel by ${guaranteeEnd} at ${SITE_URL}/dashboard/billing for a full refund.` : ""
+  }`;
 
   return sendEmail({ to, subject: `Welcome to ${SITE.name}`, html, text });
 }
