@@ -10,11 +10,11 @@ export async function POST(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return NextResponse.redirect(new URL("/login", request.url));
+  if (!user) return NextResponse.redirect(new URL("/login", request.url), 303);
 
   const { data: profile } = await supabase.from("profiles").select("stripe_customer_id").eq("id", user.id).single();
   if (!profile?.stripe_customer_id) {
-    return NextResponse.redirect(new URL("/dashboard/billing", request.url));
+    return NextResponse.redirect(new URL("/dashboard/billing", request.url), 303);
   }
 
   try {
@@ -24,9 +24,9 @@ export async function POST(request: NextRequest) {
       customer: profile.stripe_customer_id,
       return_url: `${origin}/dashboard/billing`,
     });
-    return NextResponse.redirect(portalSession.url);
+    return NextResponse.redirect(portalSession.url, 303);
   } catch (err) {
     console.error("Stripe portal error:", err);
-    return NextResponse.redirect(new URL("/dashboard/billing?error=portal", request.url));
+    return NextResponse.redirect(new URL("/dashboard/billing?error=portal", request.url), 303);
   }
 }
