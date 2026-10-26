@@ -7,6 +7,7 @@ import ListingCard from "@/components/ListingCard";
 import { getListingBySlug, searchListings } from "@/lib/listings";
 import { stateSlug, STATE_NAMES, getCategory } from "@/lib/directory";
 import { SITE } from "@/lib/siteConfig";
+import JsonLd from "@/components/JsonLd";
 
 // Public member profile — the indexable lead-gen asset. LocalBusiness +
 // BreadcrumbList JSON-LD; lead form is the killer member benefit.
@@ -65,7 +66,7 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
 
   return (
     <section className="section">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
       <div className="wrap">
         <nav className="text-xs" style={{ color: "var(--ink-3)" }} aria-label="Breadcrumb">
           <Link href="/directory" style={{ color: "var(--blue)" }}>Directory</Link>
@@ -107,7 +108,15 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
               </div>
             )}
 
-            {listing.bio && <p className="lede mt-6 !max-w-none">{listing.bio}</p>}
+            {listing.bio && <p className="lede mt-6 !max-w-none" style={{ whiteSpace: "pre-line" }}>{listing.bio}</p>}
+
+            {listing.notes && (
+              <div className="mt-6">
+                <p className="eyebrow">Additional services &amp; notes</p>
+                {/* Plain text rendered as text (React escapes it); pre-line keeps the member's line breaks. */}
+                <p className="mt-3 text-[15px]" style={{ whiteSpace: "pre-line", color: "var(--ink-2)" }}>{listing.notes}</p>
+              </div>
+            )}
 
             {listing.services.length > 0 && (
               <div className="mt-6">

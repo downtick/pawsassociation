@@ -8,6 +8,7 @@ import ContentNotice from "@/components/ContentNotice";
 import Icon from "@/components/Icon";
 import TrackedLink from "@/components/TrackedLink";
 import { SITE } from "@/lib/siteConfig";
+import JsonLd from "@/components/JsonLd";
 
 // One URL per article. Public articles render in full. Course lessons
 // ("memberOnly") render the public teaser + a locked outline for everyone
@@ -52,7 +53,7 @@ export default async function LearnArticlePage({ params }: { params: Promise<{ s
 
   return (
     <section className="section">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
       <div className="wrap" style={{ maxWidth: 760 }}>
         <nav className="text-xs" style={{ color: "var(--ink-3)" }} aria-label="Breadcrumb">
           <Link href="/learn" style={{ color: "var(--blue)" }}>Learning hub</Link>

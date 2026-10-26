@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE } from "@/lib/siteConfig";
+import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -59,7 +60,7 @@ export default function FaqPage() {
 
   return (
     <section className="section">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
       <div className="max-w-3xl mx-auto px-6 py-16">
         <h1 className="text-3xl mb-8">Frequently Asked Questions</h1>
         <div className="space-y-6">

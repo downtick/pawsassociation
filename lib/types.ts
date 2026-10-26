@@ -45,6 +45,7 @@ export interface Listing {
   business_name: string;
   contact_name: string | null;
   bio: string | null;
+  notes: string | null;
   services: string[];
   city: string | null;
   state: string | null;

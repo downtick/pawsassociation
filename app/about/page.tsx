@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE } from "@/lib/siteConfig";
+import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "About",
@@ -21,7 +22,7 @@ export default function AboutPage() {
 
   return (
     <section className="section">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
       <div className="max-w-3xl mx-auto px-6 py-16 prose-warm">
         <h1>About {SITE.name}</h1>
         <p>

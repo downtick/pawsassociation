@@ -8,6 +8,7 @@ import DownloadPreview from "@/components/DownloadPreview";
 import Icon from "@/components/Icon";
 import TrackedLink from "@/components/TrackedLink";
 import { SITE } from "@/lib/siteConfig";
+import JsonLd from "@/components/JsonLd";
 
 // Public, indexable preview of a member download. The PDF itself is only
 // served by /api/downloads/[slug] to members with access.
@@ -54,7 +55,7 @@ export default async function DownloadDetailPage({
 
   return (
     <section className="section">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
       <div className="wrap">
         <nav className="text-xs" style={{ color: "var(--ink-3)" }} aria-label="Breadcrumb">
           <Link href="/downloads" style={{ color: "var(--blue)" }}>Downloads</Link> / {d.group}
