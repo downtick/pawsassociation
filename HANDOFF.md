@@ -78,27 +78,33 @@ per the `membership-website` skill.
 - `.env*` files are permission-protected in this workspace — env var list
   lives in README.md §Setup.
 
-## Open items (owner)
+## Status 2026-10-26 — LIVE for signups
 
-1. Register pawsassociation.com (+ .com) — both confirmed available 2026-09-24
-2. Stripe product/webhook (Supabase + SMTP2GO done 2026-10-21: SMTP2GO
-   domain verified via 3 CNAMEs at SiteGround, Supabase custom SMTP on,
-   3 branded auth templates loaded)
-7. **Real office@ inbox** — right now there is NO mailbox; SiteGround's
-   catch-all (*@pawsassociation.com) forwards everything to
-   david@yesbaker.com (owner set 2026-10-21, temporary). Plan: add
-   pawsassociation.com as an alias/secondary domain on the owner's paid
-   Google Workspace and create office@ there. When switching: replace the
-   3 SiteGround MX records with Google's, change SPF to include
-   `_spf.google.com` (keep it to ONE SPF TXT record), add Google DKIM, and
-   turn the catch-all back to discard (catch-alls forward spam and hurt
-   the forwarding reputation). The SMTP2GO CNAMEs are unaffected.
-   Then sign office@ up at /join and make it admin.
-8. Make office@pawsassociation.com an admin once it can receive the
-   confirmation email (david@yesbaker.com is admin as of 2026-10-21)
-9. Re-set backup secret DB_URL_PAWSASSOCIATION — see HANDOFF-supabase-backup.md
-3. Hertz CDP + Rakuten links; real seed listings
-4. Counsel review: Terms §12 (entity/venue/arbitration), Privacy, Disclaimer
-5. Logo/OG image (public/og-image.jpg is still the MPC placeholder)
-6. Decide whether to add promo-code self-serve redemption (schema supports
-   comp layer already; needs a redemption UI + codes table if wanted)
+Live Stripe verified end to end (owner's real signup: charge, webhook →
+welcome email, portal cancel-at-period-end). Pricing: $149/yr charged at
+signup, 7-day money-back guarantee (first-time members, self-serve refund
+on /dashboard/billing), 30-day refund after an automatic renewal. Admin
+notices go to ADMIN_NOTIFY_EMAIL = office@ + owner (comma-separated).
+Stripe support email = office@. Hertz CDP 2105180 + Rakuten referral live.
+
+## Open items — resume here
+
+1. **Mailing address** — owner to supply the real one; the Garden City
+   placeholder (SITE.mailingAddress) is in every series/billing email footer.
+2. **Listing CSV** — owner to supply petting zoos / animal businesses for
+   pre-seeded "claim your listing" rows (template:
+   marketing/listings-import-template.csv, importer scripts/import-listings.mjs;
+   private street address goes to listing_private_contacts). Optional: Asana
+   scan for leads after a date (needs date + Asana auth via /mcp).
+3. **Nightly backup failing** — re-set GitHub secret DB_URL_PAWSASSOCIATION
+   in downtick/supabase-backups (steps: HANDOFF-supabase-backup.md).
+4. **Delete test member office+test1** (sandbox subscription, not in live).
+   Owner's live test member office+live1 is real: paid, auto-renew off.
+5. **Admin → Resources DB rows** for Hertz/Rakuten still show the old
+   [TODO-LINK] text (members don't see it — /dashboard/perks renders from
+   lib/data/resourcesSeed.ts). Update the 2 rows in the live resources table.
+6. Counsel review of Terms (§3 money terms, §12 indemnity), Privacy, Disclaimer.
+7. Logo / OG image (public/og-image.jpg is still the MPC placeholder).
+8. Google Workspace DKIM: click "Start authentication" in Google Admin.
+9. Decide: "Find animal attractions" QR on the flyer + 3 signs?
+10. Optional: promo-code self-serve redemption (schema supports comp layer).
