@@ -13,7 +13,8 @@ const SMTP2GO_API_KEY = process.env.SMTP2GO_API_KEY?.trim();
 const SENDER = process.env.EMAIL_FROM || "office@pawsassociation.com";
 
 // Back-end only — never rendered on any page. Admin notifications (new
-// members, leads, contact form) go here.
+// members, leads, contact form) go here. Comma-separated for several
+// recipients: ADMIN_NOTIFY_EMAIL="office@pawsassociation.com,ops@example.com".
 const ADMIN_NOTIFY_EMAIL = process.env.ADMIN_NOTIFY_EMAIL || "admin@pawsassociation.com";
 
 // Silent archive copy of every outbound email, member-facing ones included.
@@ -44,17 +45,21 @@ export async function sendEmail({ to, subject, html, text, replyTo }: SendEmailA
     return { ok: false, error: "SMTP2GO_API_KEY not configured" };
   }
 
+  // `to` may be a comma-separated list (see ADMIN_NOTIFY_EMAIL).
+  const toList = to.split(",").map((a) => a.trim()).filter(Boolean);
+
   try {
     const res = await fetch(SMTP2GO_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
         api_key: SMTP2GO_API_KEY,
-        to: [to],
-        // Drop any BCC that is already the To: — otherwise an admin notice
+        to: toList,
+        // Drop any BCC that is already a To: — otherwise an admin notice
         // addressed to club@ would arrive twice in that same mailbox.
         ...(() => {
-          const bcc = EMAIL_BCC.filter((a) => a.toLowerCase() !== to.toLowerCase());
+          const toLower = toList.map((a) => a.toLowerCase());
+          const bcc = EMAIL_BCC.filter((a) => !toLower.includes(a.toLowerCase()));
           return bcc.length ? { bcc } : {};
         })(),
         sender: SENDER,
