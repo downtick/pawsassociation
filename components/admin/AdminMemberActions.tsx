@@ -11,6 +11,8 @@ import {
   markEmailVerified,
   sendPasswordResetEmail,
   resendWelcomeEmail,
+  grantFreeMembership,
+  deleteMemberAccount,
 } from "@/lib/admin/actions";
 import type { Profile } from "@/lib/types";
 import Icon from "@/components/Icon";
@@ -21,6 +23,8 @@ export default function AdminMemberActions({ member, emailVerified }: { member: 
   const [days, setDays] = useState(30);
   const [reason, setReason] = useState("");
   const [note, setNote] = useState(member.admin_note || "");
+  const [freeDays, setFreeDays] = useState(365);
+  const [confirmEmail, setConfirmEmail] = useState("");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
@@ -103,7 +107,34 @@ export default function AdminMemberActions({ member, emailVerified }: { member: 
       </div>
 
       <div className="card p-5">
-        <p className="font-semibold mb-3">Grant free days (access only)</p>
+        <p className="font-semibold mb-1">Free membership (upgrade)</p>
+        <p className="text-xs text-[var(--ink-3)] mb-3">
+          Gives this account full member access without paying: listing, course, downloads, perks.
+          No card, no charge, nothing in Stripe. Access ends on its own when the free period runs out.
+        </p>
+        <div className="flex flex-wrap items-end gap-3">
+          <div>
+            <label className="form-label" htmlFor="freeDays">Length</label>
+            <select id="freeDays" className="form-input w-40" value={freeDays} onChange={(e) => setFreeDays(Number(e.target.value))}>
+              <option value={30}>30 days</option>
+              <option value={90}>90 days</option>
+              <option value={365}>1 year</option>
+              <option value={730}>2 years</option>
+              <option value={3650}>10 years</option>
+            </select>
+          </div>
+          <button
+            disabled={pending}
+            onClick={() => run(() => grantFreeMembership(member.id, freeDays), "Free membership granted.")}
+            className="btn-primary !py-2 !px-4 text-sm"
+          >
+            Give free membership
+          </button>
+        </div>
+      </div>
+
+      <div className="card p-5">
+        <p className="font-semibold mb-3">Add free days (custom)</p>
         <div className="flex flex-wrap items-end gap-3">
           <div>
             <label className="form-label" htmlFor="days">Days</label>
@@ -143,6 +174,42 @@ export default function AdminMemberActions({ member, emailVerified }: { member: 
         <button disabled={pending} onClick={() => run(() => cancelMembership(member.id))} className="btn-outline !py-2 !px-4 text-sm" style={{ borderColor: "var(--danger)", color: "var(--danger)" }}>
           Cancel membership
         </button>
+      </div>
+
+      <div className="card p-5" style={{ borderColor: "var(--danger)" }}>
+        <p className="font-semibold mb-1" style={{ color: "var(--danger)" }}>Delete user</p>
+        <p className="text-xs text-[var(--ink-3)] mb-3">
+          Permanently deletes the login, profile, timeline, leads, and their listing. This can&apos;t be undone.
+          Members with an active Stripe subscription must be cancelled first. To confirm, type their email.
+        </p>
+        <div className="flex flex-wrap items-end gap-3">
+          <input
+            className="form-input max-w-xs"
+            placeholder={member.email}
+            value={confirmEmail}
+            onChange={(e) => setConfirmEmail(e.target.value)}
+            aria-label="Type the member's email to confirm"
+          />
+          <button
+            disabled={pending || confirmEmail.trim().toLowerCase() !== member.email.toLowerCase()}
+            onClick={() => {
+              if (!confirm(`Permanently delete ${member.email}? This can't be undone.`)) return;
+              setError("");
+              startTransition(async () => {
+                try {
+                  await deleteMemberAccount(member.id, confirmEmail);
+                  router.push("/admin/members");
+                } catch (e) {
+                  setError(e instanceof Error ? e.message : "Delete failed.");
+                }
+              });
+            }}
+            className="btn-outline !py-2 !px-4 text-sm"
+            style={{ borderColor: "var(--danger)", color: "var(--danger)" }}
+          >
+            Delete user
+          </button>
+        </div>
       </div>
     </div>
   );

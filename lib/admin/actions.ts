@@ -98,6 +98,53 @@ export async function cancelMembership(memberId: string) {
   revalidatePath(`/admin/members/${memberId}`);
 }
 
+// "Upgrade" a registered account to a free (comp) membership: full member
+// access for `days` without paying. Same mechanism as grantFreeDays, recorded
+// as its own event so the timeline reads clearly.
+export async function grantFreeMembership(memberId: string, days: number, reason?: string) {
+  if (!Number.isFinite(days) || days < 1 || days > 3650) throw new Error("Pick between 1 day and 10 years.");
+  await grantFreeDays(memberId, days, reason || "Free membership (admin upgrade)");
+  const admin = await requireAdmin();
+  await createAdminClient().from("member_events").insert({
+    member_id: memberId,
+    actor_id: admin.id,
+    event: "comp_started",
+    detail: { days, reason: reason || "Free membership (admin upgrade)" },
+  });
+  revalidatePath(`/admin/members/${memberId}`);
+  revalidatePath("/admin/members");
+}
+
+// Permanently delete an account: the auth user, and by cascade their
+// profile, timeline, leads and their listing. Guard rails: never yourself,
+// never the last admin, and never someone with a live Stripe subscription
+// (deleting them here would leave Stripe billing a person who no longer
+// exists — cancel in Stripe first).
+export async function deleteMemberAccount(memberId: string, confirmEmail: string) {
+  const admin = await requireAdmin();
+  if (memberId === admin.id) throw new Error("You can't delete your own account.");
+  const db = createAdminClient();
+
+  const { data: m } = await db
+    .from("profiles")
+    .select("email, role, membership_status, billing_source, stripe_subscription_id")
+    .eq("id", memberId)
+    .single();
+  if (!m) throw new Error("Member not found.");
+  if (confirmEmail.trim().toLowerCase() !== (m.email || "").toLowerCase()) {
+    throw new Error("The email you typed doesn't match this member.");
+  }
+  if (m.role === "admin") throw new Error("Revoke their admin access first.");
+  if (m.stripe_subscription_id && ["active", "past_due"].includes(m.membership_status)) {
+    throw new Error("They still have an active Stripe subscription. Cancel it in Stripe (or Cancel membership) first, then delete.");
+  }
+
+  const { error } = await db.auth.admin.deleteUser(memberId);
+  if (error) throw new Error(`Delete failed: ${error.message}`);
+  console.info(`[admin] ${admin.id} deleted member ${memberId} (${m.email})`);
+  revalidatePath("/admin/members");
+}
+
 export interface CreateMemberInput {
   email: string;
   firstName: string;
