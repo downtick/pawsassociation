@@ -1,5 +1,6 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { PawsDoc, COLOR, SITE_LINE, clean, wrap } from "./builder";
+import { SIGN_QR_PNG_BASE64, FLYER_QR_PNG_BASE64 } from "./findQr";
 
 export interface BuildContext {
   /** Member's business name (or name), stamped on every page. */
@@ -53,6 +54,14 @@ async function sign(headline: string, line2: string, ctx: BuildContext, docTitle
     page.drawText(foot, { x: (W - bold.widthOfTextAtSize(foot, 16)) / 2, y: 70, size: 16, font: bold, color: COLOR.blue });
   }
   page.drawText(SITE_LINE, { x: (W - font.widthOfTextAtSize(SITE_LINE, 10)) / 2, y: 44, size: 10, font, color: COLOR.muted });
+
+  // Bottom-right: "find animal attractions" QR → /go/sign → the directory.
+  const qrImg = await pdf.embedPng(Buffer.from(SIGN_QR_PNG_BASE64, "base64"));
+  const qr = 78;
+  const qrX = W - 24 - 18 - qr;
+  page.drawImage(qrImg, { x: qrX, y: 42, width: qr, height: qr });
+  const cap = "Find animal attractions";
+  page.drawText(cap, { x: qrX + qr / 2 - bold.widthOfTextAtSize(cap, 8) / 2, y: 32, size: 8, font: bold, color: COLOR.blue });
   return pdf.save();
 }
 
@@ -279,6 +288,9 @@ const flyer: Builder = async () => {
   const m1 = "Find us in the PAWS member directory";
   page.drawText(m1, { x: (W - bold.widthOfTextAtSize(m1, 12)) / 2, y: 28, size: 12, font: bold, color: COLOR.blueDeep });
   page.drawText(SITE_LINE, { x: (W - font.widthOfTextAtSize(SITE_LINE, 10)) / 2, y: 13, size: 10, font, color: COLOR.blue });
+  // QR in the band → /go/flyer → the directory, where the member's listing lives.
+  const qrImg = await pdf.embedPng(Buffer.from(FLYER_QR_PNG_BASE64, "base64"));
+  page.drawImage(qrImg, { x: W - M - 46, y: 3, width: 46, height: 46 });
 
   form.updateFieldAppearances(font);
   return pdf.save();

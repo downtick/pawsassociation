@@ -6,7 +6,7 @@ export type IconName =
   | "bed" | "car" | "plane" | "anchor" | "home" | "leaf" | "case" | "user"
   | "bars" | "phone" | "shield" | "window" | "doc" | "printer" | "tag"
   | "badge" | "wallet" | "search" | "check" | "copy" | "arrow" | "right"
-  | "info" | "spark";
+  | "info" | "spark" | "paw";
 
 export default function Icon({
   name,

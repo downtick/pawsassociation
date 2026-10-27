@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="wrap py-12 grid gap-10 md:grid-cols-4">
         <div>
           <span className="logo mb-3">
-            <span className="mark"><Icon name="spark" /></span>
+            <span className="mark"><Icon name="paw" /></span>
             <span>{SITE.name}</span>
           </span>
           <p className="text-sm mt-3" style={{ color: "var(--ink-3)" }}>

@@ -14,7 +14,7 @@ export default async function Header() {
     <header className="site-header">
       <div className="wrap bar">
         <Link href="/" className="logo shrink-0">
-          <span className="mark"><Icon name="spark" /></span>
+          <span className="mark"><Icon name="paw" /></span>
           <span className="flex flex-col leading-tight">
             <span>{SITE.name}</span>
             <span className="hidden sm:block text-[10px] font-normal tracking-wide" style={{ color: "var(--ink-3)" }}>
