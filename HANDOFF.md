@@ -106,9 +106,9 @@ Stripe support email = office@. Hertz CDP 2105180 + Rakuten referral live.
 4. ~~Test member~~ — owner keeps office+test1.
 5. ~~Admin resources rows~~ — Hertz/Rakuten DB rows updated 2026-10-26.
 6. Counsel review of Terms (§3 money terms, §12 indemnity), Privacy, Disclaimer.
-7. Logo / OG image (public/og-image.jpg is still the MPC placeholder).
-8. Google Workspace DKIM: click "Start authentication" in Google Admin.
-9. Decide: "Find animal attractions" QR on the flyer + 3 signs?
+7. ~~Logo / OG image~~ — DONE 2026-10-26: paw mark (app/icon.png, header/footer), public/og-image.jpg; Stripe branding PNGs in public/brand/ (owner uploads to Stripe).
+8. ~~Google DKIM~~ — done by owner 2026-10-26 (MX, SPF, DKIM complete).
+9. ~~QR on flyer + 3 signs~~ — DONE: /go/sign, /go/flyer → /directory (lib/pdf/findQr.ts). Course is now 20 lessons.
 10. Optional: promo-code self-serve redemption (schema supports comp layer).
 
 ## Partner offer: PAWSDEAL10 (2026-10-26)
