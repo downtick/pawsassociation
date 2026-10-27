@@ -7,7 +7,7 @@ import Icon from "@/components/Icon";
 export const metadata: Metadata = {
   title: "Learning hub — hiring guides & how to market an animal business",
   description:
-    "Free guides for hiring petting zoos, pony rides, beer burros, and mobile farms — plus the Grow Your Animal Business course: 11 lessons on marketing, pricing, and running an animal attraction.",
+    "Free guides for hiring petting zoos, pony rides, beer burros, and mobile farms — plus the Grow Your Animal Business course: 20 lessons on marketing, pricing, and running an animal attraction.",
   alternates: { canonical: "/learn" },
 };
 

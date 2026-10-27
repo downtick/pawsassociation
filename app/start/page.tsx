@@ -13,7 +13,7 @@ import { SITE } from "@/lib/siteConfig";
 export const metadata: Metadata = {
   title: "Add PAWS membership to your animal business",
   description:
-    "Get your petting zoo, pony ride, beer burro, or mobile farm listed in the PAWS directory, plus the 11-lesson marketing course, printable business tools, and partner discounts. $149 a year.",
+    "Get your petting zoo, pony ride, beer burro, or mobile farm listed in the PAWS directory, plus the 20-lesson marketing course, printable business tools, and partner discounts. $149 a year.",
   robots: { index: false, follow: true },
 };
 

@@ -723,4 +723,729 @@ export const COURSE: ArticleContent[] = [
       </>
     ),
   },
+  {
+    slug: "one-page-booking-website",
+    lesson: 12,
+    download: "inquiry-intake-form",
+    title: "A One-Page Website That Takes Bookings",
+    summary:
+      "You don't need a big site. One page with your animals, packages, service area, and a booking form that asks the right questions is enough to turn searches into inquiries.",
+    category: "Marketing",
+    memberOnly: true,
+    printable: false,
+    outline: [
+      "What goes at the top of the page",
+      "The booking form: fields that save a phone call",
+      "Packages, photos, and the service area",
+      "Details venues and schools look for",
+      "Domain, phone view, and keeping it current",
+    ],
+    teaser: (
+      <>
+        <p>
+          Your Google profile, Facebook answers, and flyers all point somewhere. If
+          that somewhere is a social page with no prices and no form, a share of
+          those parents give up and call the next operator. One clear page that
+          takes an inquiry closes that gap, and you can build it in a weekend.
+        </p>
+      </>
+    ),
+    body: (
+      <>
+        <h2>What goes at the top of the page</h2>
+        <p>
+          A visitor should know three things before they scroll: what you bring,
+          where you go, and how to book. Put it in one line under your business
+          name — &ldquo;Mobile petting zoo and pony rides for parties, schools, and
+          festivals in the Tucson area&rdquo; — then one photo of your animals with
+          guests, then a button that jumps to the booking form.
+        </p>
+        <h2>The booking form: fields that save a phone call</h2>
+        <ul>
+          <li>Name, phone, and email.</li>
+          <li>Event date, start time, and how long they want you.</li>
+          <li>Event address, or at least the city and ZIP, so you can figure travel.</li>
+          <li>Event type (birthday, school, church, company, festival) and guest count with ages.</li>
+          <li>Setup surface: grass, pavement, indoor, or not sure.</li>
+          <li>Which package they&apos;re interested in.</li>
+          <li>&ldquo;How did you hear about us?&rdquo; — the answer feeds your lead tracking (lesson 19).</li>
+          <li>A yes/no for photo permission, so you know before event day.</li>
+        </ul>
+        <p>
+          Keep it to one screen on a phone. A form with 25 questions gets fewer
+          inquiries than one with ten. Ask the rest on the follow-up call using the
+          Event Inquiry Intake Form.
+        </p>
+        <h2>Packages, photos, and the service area</h2>
+        <p>
+          List your packages with what each includes: animal count, duration, and
+          handlers. Show a starting price or a &ldquo;from&rdquo; price if you&apos;re
+          comfortable with it — visitors who see a number and still inquire are
+          further along. Add six to ten real photos from events, and name the towns
+          you serve in plain text, since that&apos;s what local searchers type.
+        </p>
+        <h2>Details venues and schools look for</h2>
+        <ul>
+          <li>A line saying you carry insurance and can send a certificate naming the venue.</li>
+          <li>How you handle hand washing and animal rest.</li>
+          <li>What space and access you need.</li>
+          <li>Your PAWS member badge, linked to your directory listing.</li>
+        </ul>
+        <h2>Domain, phone view, and keeping it current</h2>
+        <p>
+          Buy a domain with your business name, and use a site builder that has a
+          built-in form so inquiries land in your email. Open the page on your own
+          phone before you share it — most visitors will see it there first. Twice
+          a year, swap in new photos and check that prices and packages match your
+          current rate sheet. Then put the link on your Google profile, your PAWS
+          listing, and every flyer.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: "deposits-contracts-rain-policies",
+    lesson: 13,
+    download: "rate-sheet-template",
+    title: "Deposits, Contracts, and Rain Policies",
+    summary:
+      "Put the deal in writing before you hold a date: what the booking agreement covers, how much deposit to take, and how to handle cancellations, rain, and heat.",
+    category: "Business",
+    memberOnly: true,
+    printable: false,
+    outline: [
+      "Why every booking gets a written agreement",
+      "What the agreement covers",
+      "Deposits: how much and when",
+      "Cancellation and reschedule terms",
+      "Rain, heat, and wind calls",
+      "Getting it signed and paid",
+    ],
+    teaser: (
+      <>
+        <p>
+          A handshake booking works until the host cancels the night before, or it
+          rains and nobody agreed on what happens next. A short written agreement
+          and a deposit turn those arguments into a sentence you can point to.
+        </p>
+      </>
+    ),
+    body: (
+      <>
+        <h2>Why every booking gets a written agreement</h2>
+        <p>
+          It isn&apos;t about distrust. A one- or two-page agreement makes sure you
+          and the client remember the same date, time, address, and price. It also
+          tells the client what you need from them on the day, which prevents most
+          problems before they start. Have a local attorney review your template
+          once; then you reuse it for every event.
+        </p>
+        <h2>What the agreement covers</h2>
+        <ul>
+          <li>Client name, event address, date, arrival time, and end time.</li>
+          <li>Package, animal list, number of handlers, and total price.</li>
+          <li>Travel fee, if any, and any add-ons.</li>
+          <li>Deposit amount, balance amount, and when the balance is due.</li>
+          <li>What the client provides: level ground, access for the trailer, a contact on site.</li>
+          <li>Your animal-care rules: rest breaks, no feeding, hand washing, and your right to end the visit if an animal is at risk.</li>
+          <li>Cancellation, reschedule, and weather terms.</li>
+          <li>Photo permission.</li>
+        </ul>
+        <h2>Deposits: how much and when</h2>
+        <p>
+          Many operators take 25 to 50 percent to hold a date. Lean toward the high
+          end for peak weekends and holidays, when a cancellation is hardest to
+          refill. Don&apos;t hold a date without the deposit in hand — &ldquo;I&apos;ll
+          pay next week&rdquo; is how double-bookings happen.
+        </p>
+        <h2>Cancellation and reschedule terms</h2>
+        <p>
+          Pick a cutoff and state it plainly. A common pattern: cancel more than 14
+          to 30 days out and the deposit moves to a new date within a set window;
+          cancel inside the cutoff and the deposit is kept. Whatever you pick, write
+          whether the deposit is refundable, transferable to a new date, or neither.
+          Vague terms cause more disputes than strict ones.
+        </p>
+        <h2>Rain, heat, and wind calls</h2>
+        <ul>
+          <li>Say who makes the weather call and by when — for example, you decide by 8am on the event day.</li>
+          <li>Name your limits: lightning, sustained rain, heat above a temperature you set, high wind for tents and canopies.</li>
+          <li>Offer one free weather reschedule within a set window, as lesson 3 suggests.</li>
+          <li>If the client has a covered or indoor backup space, write it into the agreement.</li>
+        </ul>
+        <p>
+          Your animals&apos; welfare comes first. Say so in the agreement, and the
+          heat call stops being a negotiation on the driveway.
+        </p>
+        <h2>Getting it signed and paid</h2>
+        <p>
+          Use an e-signature tool or an invoicing app that attaches terms and takes
+          the deposit in one step. Send it the same day as the quote, while the
+          client is still excited. Collect the balance before you unload or a few
+          days ahead — never chase it after the animals are back home. Ask a venue
+          whether it needs a certificate of insurance at this stage, too, so the
+          paperwork is done weeks before the event.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: "corporate-events-company-picnics",
+    lesson: 14,
+    title: "Corporate Events and Company Picnics",
+    summary:
+      "Companies book family days, picnics, and employee appreciation events with bigger budgets and fewer questions about price. Who to contact, what they ask for, and how to pitch.",
+    category: "Marketing",
+    memberOnly: true,
+    printable: false,
+    outline: [
+      "Who books for a company",
+      "Where to find them",
+      "What corporate buyers ask for",
+      "The pitch email",
+      "Pricing and invoicing a business",
+    ],
+    teaser: (
+      <>
+        <p>
+          Company picnics, family days, and employee appreciation events often run
+          longer than a birthday party, draw more guests, and come with a budget
+          already set. The person booking isn&apos;t spending their own money. They
+          care more about easy paperwork and a smooth day than about saving a
+          little on the price.
+        </p>
+      </>
+    ),
+    body: (
+      <>
+        <h2>Who books for a company</h2>
+        <ul>
+          <li><strong>HR or people teams:</strong> employee appreciation days, family picnics, wellness events.</li>
+          <li><strong>Office managers and executive assistants:</strong> smaller office parties and holiday events.</li>
+          <li><strong>Corporate event planners:</strong> outside firms that book vendors for several companies.</li>
+          <li><strong>Employee committees:</strong> the &ldquo;fun committee&rdquo; at a hospital, plant, or school district.</li>
+        </ul>
+        <h2>Where to find them</h2>
+        <p>
+          Start with the 20 largest employers in your service area — hospitals,
+          manufacturers, distribution centers, school districts, and county
+          offices. Check your chamber of commerce member list and business
+          journal. Contact local event planners who handle corporate work, and ask
+          venues that host company picnics (parks, farms, event barns) which
+          companies book with them. Your referral partners from lesson 8 hear
+          about these events too.
+        </p>
+        <h2>What corporate buyers ask for</h2>
+        <ul>
+          <li>A certificate of insurance, often naming the company and sometimes the venue.</li>
+          <li>A W-9 and an invoice they can pay by check or card; some pay 30 days after the event.</li>
+          <li>A vendor setup form or registration in their payment system.</li>
+          <li>Clear setup needs: space, power, water, arrival time.</li>
+          <li>Your safety practices: hand washing, handler count, and how you manage a crowd.</li>
+        </ul>
+        <p>
+          Keep these ready to send as PDFs, just as you do for schools.
+        </p>
+        <h2>The pitch email</h2>
+        <ul>
+          <li><strong>Subject:</strong> Animal attraction for [Company]&apos;s summer picnic</li>
+          <li>One line on what you bring, naming the animals and how many guests you handle per hour.</li>
+          <li>One line on why it fits: families with kids, a photo spot, something different from the usual bounce house.</li>
+          <li>&ldquo;Insurance certificate and W-9 ready to send.&rdquo;</li>
+          <li>The ask: &ldquo;Who plans employee events at [Company]? I&apos;d be glad to send packages for next season.&rdquo;</li>
+        </ul>
+        <p>
+          Time it right. Summer picnics get planned in the spring, and holiday
+          parties in September and October. Your seasonal calendar from lesson 2
+          has the dates.
+        </p>
+        <h2>Pricing and invoicing a business</h2>
+        <p>
+          Corporate events usually need more handlers and longer hours, so quote a
+          package built for the crowd, not your birthday package stretched out.
+          Ask the expected headcount and how many children will attend. Add a
+          handler for each extra block of guests you&apos;d struggle to watch
+          alone. If the company pays net 30, still take a deposit to hold the date,
+          and put the payment terms on the invoice.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: "holiday-bookings-easter-fall-christmas",
+    lesson: 15,
+    title: "Holiday Bookings: Easter, Fall, and Christmas",
+    summary:
+      "Holidays bring the highest-demand dates of the year. How to pitch and price Easter events, fall festivals and Halloween, and Christmas reindeer, nativity, and photo events.",
+    category: "Marketing",
+    memberOnly: true,
+    printable: false,
+    outline: [
+      "Book each holiday a season ahead",
+      "Easter and spring: bunnies, chicks, and photo days",
+      "Fall and Halloween",
+      "Christmas: reindeer, nativities, and photo events",
+      "Holiday pricing and peak dates",
+    ],
+    teaser: (
+      <>
+        <p>
+          Holiday weekends are some of the most requested dates an animal
+          operator gets all year. Churches, garden centers, malls, and towns all want
+          the same few Saturdays. The operators who get them pitched months before
+          the holiday — and had a holiday package ready when the call came.
+        </p>
+      </>
+    ),
+    body: (
+      <>
+        <h2>Book each holiday a season ahead</h2>
+        <ul>
+          <li><strong>Easter:</strong> pitch in January and February.</li>
+          <li><strong>Fall and Halloween:</strong> pitch in July and August.</li>
+          <li><strong>Christmas:</strong> pitch in August through early October. Many December dates are gone by Thanksgiving.</li>
+        </ul>
+        <p>
+          Email every past holiday client the week your pitch window opens and
+          offer them first pick of dates before you announce publicly.
+        </p>
+        <h2>Easter and spring: bunnies, chicks, and photo days</h2>
+        <p>
+          Churches, garden centers, apartment communities, and photographers book
+          spring events. Photo days are a strong fit: a photographer books you for
+          a set block, sets up a backdrop, and sells sessions while you handle the
+          animals. Chicks and ducklings draw crowds but carry a higher salmonella
+          risk, so keep a hand-washing station right at the pen exit, keep the
+          chicks away from faces, and post the hand washing sign. Never sell or give
+          away animals at an event.
+        </p>
+        <h2>Fall and Halloween</h2>
+        <p>
+          Pumpkin patches, harvest festivals, church trunk-or-treats, and school
+          fall carnivals. Pumpkin patches often want you every weekend in October,
+          so quote a weekend-series rate as well as single days. Costumes and hay
+          bale decor make photos that sell next year&apos;s bookings. Keep costumes
+          light and short-lived for the animals, and skip anything an animal tries
+          to remove.
+        </p>
+        <h2>Christmas: reindeer, nativities, and photo events</h2>
+        <ul>
+          <li><strong>Living nativities:</strong> churches want a donkey, sheep, and goats, sometimes a camel. Ask about the setting — outdoor, evening, how many hours in the cold — and plan blankets, lighting, and rest.</li>
+          <li><strong>Reindeer:</strong> high demand, but they come with their own permits, health rules, and care needs that vary by state. Check with your state veterinarian and wildlife agency before you buy or book.</li>
+          <li><strong>Santa photo events:</strong> malls, garden centers, tree lots, and photographers book animals for a few hours as a photo add-on. Put the animal next to Santa, not in a child&apos;s lap.</li>
+          <li><strong>Company holiday parties:</strong> see lesson 14.</li>
+        </ul>
+        <h2>Holiday pricing and peak dates</h2>
+        <p>
+          Holiday weekends are your peak dates, so charge your peak rate and take a
+          higher deposit. Set a minimum booking length for the busiest Saturdays,
+          and make weekday or early-evening slots cheaper to fill the rest of the
+          week. Write cold-weather terms into the agreement: when you&apos;ll shorten
+          a visit and when you&apos;ll cancel for the animals&apos; sake.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: "repeat-bookings-past-customers",
+    lesson: 16,
+    title: "Repeat Bookings: Staying in Touch With Past Customers",
+    summary:
+      "The cheapest booking is the one you already earned. Build a customer list, send an annual birthday reminder, and keep a simple email list that brings families back.",
+    category: "Marketing",
+    memberOnly: true,
+    printable: false,
+    outline: [
+      "Your customer list is worth more than any ad",
+      "Collect what you need at booking",
+      "The annual birthday reminder",
+      "A simple email list",
+      "Schools, churches, and the rebooking calendar",
+    ],
+    teaser: (
+      <>
+        <p>
+          A child who loved the goats at her fourth birthday still has a fifth
+          birthday coming, and a younger brother. Most operators never contact a
+          client again after the review text. A list and two or three messages a
+          year bring a share of those families back without paying for a single ad.
+        </p>
+      </>
+    ),
+    body: (
+      <>
+        <h2>Your customer list is worth more than any ad</h2>
+        <p>
+          Keep one spreadsheet or customer app with every booking: name, email,
+          phone, event date, event type, child&apos;s name and age if it was a
+          birthday, package booked, and how they found you. Add every past
+          booking you can find in your texts and email, then keep it current after
+          each event. This is the list everything else in this lesson runs on.
+        </p>
+        <h2>Collect what you need at booking</h2>
+        <ul>
+          <li>The child&apos;s first name and the birthday date, not only the party date.</li>
+          <li>A checkbox to receive occasional emails, with a plain description: &ldquo;birthday reminders and seasonal dates, a few times a year.&rdquo;</li>
+          <li>Separate permission if you plan to send marketing texts. Texting rules are stricter than email, so get clear consent first.</li>
+        </ul>
+        <h2>The annual birthday reminder</h2>
+        <p>
+          Set a reminder six to eight weeks before each child&apos;s next birthday.
+          Send a short personal note: &ldquo;Hi [parent] — last year Waffles came to
+          [child]&apos;s 4th birthday. If you&apos;re planning the 5th, we&apos;d love to
+          come back. Spring weekends are booking now: [link].&rdquo; Use the real
+          animal and child name from your records. It reads like a note from a
+          person because it is one.
+        </p>
+        <h2>A simple email list</h2>
+        <p>
+          Use a basic email service, not your personal inbox, so every message has
+          an unsubscribe link and your business address. Send three to six emails a
+          year, timed to your seasons: spring birthdays, summer, fall festivals,
+          and holidays. Each email gets one photo, one or two sentences of news (a
+          new baby goat, a new package), and one booking link. Past clients are
+          also the people most likely to tell a friend, so add a line asking them
+          to forward it.
+        </p>
+        <h2>Schools, churches, and the rebooking calendar</h2>
+        <p>
+          Institutions repeat on a calendar. After each school visit, library
+          program, church event, or festival, put a rebooking email on your
+          calendar for the same month next year, or earlier if their planning
+          window opens earlier. A short note that says &ldquo;Same date as last
+          year?&rdquo; often gets a yes before they look at anyone else.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: "packages-and-add-ons",
+    lesson: 17,
+    download: "rate-sheet-template",
+    title: "Packages and Add-Ons That Raise the Average Booking",
+    summary:
+      "Most bookings can be worth more without more events. How to build three package tiers, which add-ons clients say yes to, and when to offer them.",
+    category: "Business",
+    memberOnly: true,
+    printable: false,
+    outline: [
+      "Three tiers, and why the middle one sells",
+      "Add-ons clients say yes to",
+      "Offer add-ons at the right moment",
+      "Packages built for one event type",
+      "Track what sells",
+    ],
+    teaser: (
+      <>
+        <p>
+          You only have so many weekends. Once they&apos;re full, the way to earn
+          more is a higher average booking — and the easiest way to get there is a
+          clear package menu with a few add-ons the client can pick without a long
+          phone call.
+        </p>
+      </>
+    ),
+    body: (
+      <>
+        <h2>Three tiers, and why the middle one sells</h2>
+        <p>
+          Offer three named packages. The smallest covers a short backyard party.
+          The middle one is the package you want most people to book, with more
+          animals, more time, or an extra handler. The top one adds the most —
+          longer time, pony rides plus the petting zoo, a photo setup. Build the
+          middle tier first, since it&apos;s the one you&apos;ll describe on most calls,
+          then price the top tier so the middle looks like good value next to it.
+        </p>
+        <h2>Add-ons clients say yes to</h2>
+        <ul>
+          <li>Extra half hour or hour.</li>
+          <li>Extra handler for larger groups.</li>
+          <li>A second attraction: pony rides with a petting zoo, a bunny or chick corner.</li>
+          <li>Feed cups, if your animals and setup allow controlled feeding.</li>
+          <li>A themed photo backdrop or costumes for seasonal events.</li>
+          <li>Birthday-child extras: first animal pick, a certificate, or a photo with their favorite animal.</li>
+          <li>Early setup or a set arrival time for a tight schedule.</li>
+        </ul>
+        <p>
+          Every add-on should be something you can deliver without hurting the
+          animals&apos; rest schedule. If an extra hour would push them past their
+          limit, sell a second visit block instead.
+        </p>
+        <h2>Offer add-ons at the right moment</h2>
+        <p>
+          The best time is when you send the quote, not on event day. Put two or
+          three add-ons right under the package price with their prices next to
+          them. Then ask one question on the call: &ldquo;How many kids are
+          coming?&rdquo; If the answer is above what one handler can watch,
+          recommending the extra handler is good service, not a pitch.
+        </p>
+        <h2>Packages built for one event type</h2>
+        <p>
+          A school, a church festival, and a birthday need different things. A
+          &ldquo;Classroom Visit&rdquo; package priced per class, a &ldquo;Festival
+          Day&rdquo; package priced for a full day with two handlers, and a
+          &ldquo;Birthday&rdquo; package with a birthday-child extra make the choice
+          easy for each buyer. You&apos;re selling the same animals, described the
+          way each client thinks about the event.
+        </p>
+        <h2>Track what sells</h2>
+        <p>
+          Log the package and add-ons on every booking. After a season, cut add-ons
+          nobody picked and raise the price on ones nearly everyone picked. Put the
+          final menu on your rate sheet so every quote looks the same.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: "hiring-training-handlers",
+    lesson: 18,
+    download: "event-day-run-sheet",
+    title: "Hiring and Training Handlers and Helpers",
+    summary:
+      "When you can't be at every event or watch every animal alone, you need help. What the job is, where to find people, how to train them, and the rules every handler follows.",
+    category: "Operations",
+    memberOnly: true,
+    printable: false,
+    outline: [
+      "Write down what the job is",
+      "Where to find helpers",
+      "Employee or contractor: ask before you pay",
+      "Train by shadowing",
+      "Rules every handler follows",
+      "Keep the good ones",
+    ],
+    teaser: (
+      <>
+        <p>
+          One person can&apos;t watch a pen of goats, help a toddler hold a bunny,
+          answer a parent&apos;s question, and keep the hand-washing line moving at
+          the same time. A trained helper makes events safer and lets you say yes
+          to bigger bookings. Hiring one well takes more planning than most
+          operators expect.
+        </p>
+      </>
+    ),
+    body: (
+      <>
+        <h2>Write down what the job is</h2>
+        <p>
+          Before posting anything, list what a helper does: loading, setup, watching
+          the pen entrance, guiding small children, running the wash station,
+          teardown, and cleanup. Note what they don&apos;t do on day one, such as
+          driving the trailer or handling a horse alone. That list becomes your job
+          post and your training checklist.
+        </p>
+        <h2>Where to find helpers</h2>
+        <ul>
+          <li>4-H and FFA members and their families, and former members now in college.</li>
+          <li>Students in veterinary technician or animal science programs.</li>
+          <li>Barn workers and riders from local stables, for pony and horse work.</li>
+          <li>Retired teachers and daycare workers, who are good with crowds of small children.</li>
+          <li>Friends of current helpers who&apos;ve already seen how you work.</li>
+        </ul>
+        <p>
+          Ask every candidate to work one paid trial event alongside you before you
+          commit. How they act around animals and kids tells you more than an
+          interview.
+        </p>
+        <h2>Employee or contractor: ask before you pay</h2>
+        <p>
+          Whether a helper is an employee or an independent contractor depends on
+          federal and state rules, not on what you call them. Ask an accountant or
+          employment attorney before you pay anyone. Ask your insurance agent too:
+          whether your policy covers helpers, and whether you need workers&apos;
+          compensation. Schools and some venues require background checks for
+          anyone working near children, so find out early.
+        </p>
+        <h2>Train by shadowing</h2>
+        <ul>
+          <li><strong>Event 1:</strong> they watch and do teardown. You explain each step on the run sheet as you go.</li>
+          <li><strong>Event 2:</strong> they run the wash station and pen entrance with you nearby.</li>
+          <li><strong>Event 3:</strong> they run the pen while you handle the client and watch.</li>
+        </ul>
+        <p>
+          Teach each animal by name: who kicks, who bolts at a balloon pop, who
+          needs a break first. Give them a printed copy of the Event-Day Run Sheet
+          and have them initial each block they complete.
+        </p>
+        <h2>Rules every handler follows</h2>
+        <ul>
+          <li>Never leave the pen unwatched, even for a minute.</li>
+          <li>Children sit before holding small animals; no animal goes to a standing toddler.</li>
+          <li>Every guest washes hands at the exit.</li>
+          <li>Any sign of animal stress, the animal comes out — no need to ask first.</li>
+          <li>No posting client or child photos on personal accounts.</li>
+          <li>Phones away except for emergencies and the owner&apos;s calls.</li>
+        </ul>
+        <h2>Keep the good ones</h2>
+        <p>
+          Pay on time, every time. Tell helpers about the schedule as soon as dates
+          book, so they can plan around it. A small raise after their first busy
+          season, or a bonus for a full holiday weekend, costs less than training
+          someone new.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: "know-your-numbers",
+    lesson: 19,
+    download: "inquiry-intake-form",
+    title: "Know Your Numbers: Bookings, Lead Sources, Mileage, and Profit per Event",
+    summary:
+      "A simple tracking setup for a small animal business: a booking log, where every lead came from, mileage, and what each event actually earned after costs.",
+    category: "Business",
+    memberOnly: true,
+    printable: false,
+    outline: [
+      "One spreadsheet, four tabs",
+      "Where every lead came from",
+      "Mileage and vehicle costs",
+      "Profit per event",
+      "The monthly review",
+    ],
+    teaser: (
+      <>
+        <p>
+          Two operators can book the same number of events and end the year in very
+          different places. The difference is usually hiding in numbers neither of
+          them wrote down: miles driven, hours worked, and which ads brought paying
+          clients. A spreadsheet and 15 minutes a week is enough to see them.
+        </p>
+      </>
+    ),
+    body: (
+      <>
+        <h2>One spreadsheet, four tabs</h2>
+        <ul>
+          <li><strong>Inquiries:</strong> date, name, event type, lead source, quoted price, booked yes or no.</li>
+          <li><strong>Bookings:</strong> event date, client, package, add-ons, total price, deposit, balance paid.</li>
+          <li><strong>Mileage:</strong> date, start and end location, round-trip miles, purpose.</li>
+          <li><strong>Expenses:</strong> date, category (feed, vet, fuel, equipment, helpers, marketing), amount.</li>
+        </ul>
+        <p>
+          A free spreadsheet works. If you already use bookkeeping software, use
+          it for expenses and keep the inquiry tab in a spreadsheet.
+        </p>
+        <h2>Where every lead came from</h2>
+        <p>
+          Ask every inquiry how they heard about you, and log the answer: Google,
+          Facebook group, PAWS directory, referral partner (name them), venue,
+          repeat client, flyer, or fair. After a few months, count inquiries and
+          bookings from each source. A source that sends many inquiries but few
+          bookings may be bringing the wrong buyers. A source that sends three
+          inquiries and three bookings is one to feed.
+        </p>
+        <h2>Mileage and vehicle costs</h2>
+        <p>
+          Log every business trip the same day, including vet runs and feed
+          pickups. The IRS publishes a standard mileage rate each year; ask your
+          tax preparer whether to use that rate or your actual vehicle costs, and
+          what records they need. Either way, a complete log is what makes the
+          deduction hold up.
+        </p>
+        <h2>Profit per event</h2>
+        <p>
+          For each event, start with what the client paid. Subtract helper pay,
+          fuel or mileage, feed and bedding used, any parking or vendor fees, and
+          card processing fees. Then divide what&apos;s left by your total hours,
+          counting load-out, driving, setup, teardown, and cleanup at home. That
+          hourly number is the one to compare. A short party 50 miles away can earn
+          less per hour than a long festival 10 miles away, even if the party paid
+          more per minute on site.
+        </p>
+        <h2>The monthly review</h2>
+        <ul>
+          <li>Bookings and revenue compared with the same month last year.</li>
+          <li>Inquiry-to-booking rate by lead source.</li>
+          <li>Average booking total, and how often add-ons were picked (lesson 17).</li>
+          <li>Your lowest-earning events per hour — raise those prices or adjust the travel fee.</li>
+        </ul>
+        <p>
+          Set a recurring 30-minute block on the first of each month. Bring the
+          numbers to your tax preparer at year end, and they&apos;ll spend less time
+          sorting receipts.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: "add-a-second-team-or-attraction",
+    lesson: 20,
+    title: "Growing Beyond One Trailer: Adding a Second Team or Attraction",
+    summary:
+      "When you're turning down bookings, you can add a second team, a second attraction, or both. The signs you're ready, what it takes, and how to test before you spend.",
+    category: "Business",
+    memberOnly: true,
+    printable: false,
+    outline: [
+      "Signs you are ready",
+      "Second team or second attraction",
+      "What a second team needs",
+      "Running an event you aren't at",
+      "Test before you buy",
+    ],
+    teaser: (
+      <>
+        <p>
+          Turning away bookings on your busiest weekends feels like success, but it
+          also means money you could have earned went to someone else. A second
+          team or a new attraction can capture it. Adding one too early can also
+          stretch your animals, cash, and weekends past what one owner can manage.
+        </p>
+      </>
+    ),
+    body: (
+      <>
+        <h2>Signs you are ready</h2>
+        <ul>
+          <li>You turned down bookings on most peak weekends for at least one full season, and your numbers (lesson 19) show it.</li>
+          <li>You&apos;ve already raised prices (lesson 3) and demand held.</li>
+          <li>You have at least one trained helper who could lead an event (lesson 18).</li>
+          <li>You have enough cash saved to cover the added animals, equipment, and a slow first season.</li>
+        </ul>
+        <p>
+          If only one or two of these are true, raising prices or adding a higher
+          tier package may be the better move for now.
+        </p>
+        <h2>Second team or second attraction</h2>
+        <p>
+          A second team doubles the events you can run on one day, with the same
+          kind of animals. A second attraction — pony rides added to a petting zoo,
+          a reptile show added to a mobile farm — raises what each booking is worth
+          and opens new event types. The second attraction is often the cheaper
+          step, because you keep one team and one trailer. Look at your inquiry log:
+          if you&apos;re losing same-day bookings, add a team; if clients keep
+          asking for something you don&apos;t offer, add the attraction.
+        </p>
+        <h2>What a second team needs</h2>
+        <ul>
+          <li>Enough animals to rotate without overworking any of them across two events.</li>
+          <li>A second vehicle and trailer, or a reliable rental option.</li>
+          <li>A full set of fencing, shade, wash station, first-aid and animal kits, and signs.</li>
+          <li>A trained lead handler who has run events under your supervision.</li>
+          <li>A call with your insurance agent before the first event, to cover the added vehicle, animals, and staff.</li>
+          <li>Any added permits or licenses your state or the USDA requires for the new animal count.</li>
+        </ul>
+        <h2>Running an event you aren&apos;t at</h2>
+        <p>
+          Your second team runs on the same run sheet, the same animal-care rules,
+          and the same client script as yours. Have the lead handler text you a
+          photo at setup and at teardown, and call the client yourself the next
+          morning. That call tells you how the day went and starts the review
+          request. Expect to spend your first season fixing things the second team
+          does differently.
+        </p>
+        <h2>Test before you buy</h2>
+        <p>
+          Before buying a second trailer or new animals, try a smaller step. Lease
+          or partner with another PAWS member for overflow dates, or run a
+          second-team pilot on a few peak weekends with rented equipment. If the
+          pilot covers its costs and the bookings keep coming, you have your answer
+          with far less money at risk.
+        </p>
+      </>
+    ),
+  },
 ];

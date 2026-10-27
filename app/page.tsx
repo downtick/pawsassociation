@@ -139,7 +139,7 @@ export default async function HomePage() {
             <h2 className="mt-2 text-2xl">Membership that books you jobs</h2>
             <ul className="ticks mt-6">
               <li><Icon name="check" /> A public listing that ranks in search and sends leads to your inbox</li>
-              <li><Icon name="check" /> An 11-lesson marketing course and printable business tools</li>
+              <li><Icon name="check" /> A 20-lesson marketing course and printable business tools</li>
               <li><Icon name="check" /> Partner discounts: rentals, hosting, business tools, and more</li>
               <li><Icon name="check" /> The {SITE.name} member badge for your website and booth</li>
             </ul>

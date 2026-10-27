@@ -40,7 +40,7 @@ const BENEFIT_GROUPS: { icon: IconName; title: string; blurb: string; items: str
   {
     icon: "doc",
     title: "Grow Your Animal Business course",
-    blurb: "11 lessons, each opening free to read.",
+    blurb: "20 lessons, each opening free to read.",
     items: [
       "Google Business Profile, Facebook groups, and short video for local bookings",
       "Getting booked by venues, schools, libraries, fairs, and festivals",

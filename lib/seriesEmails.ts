@@ -48,9 +48,9 @@ const SERIES: Record<SeriesKey, (c: SeriesContext) => { subject: string; title: 
   }),
   course: (c) => ({
     subject: "Lesson 1: Google Business Profile for mobile animal businesses",
-    title: "Start the 11-lesson marketing course",
+    title: "Start the 20-lesson marketing course",
     html: `<p>Hi ${esc(c.firstName) || "there"},</p>
-      <p>Your membership includes an 11-lesson marketing course written for animal attractions. Lesson 1 covers setting up a Google Business Profile when you don't have a storefront: service areas, categories, photos, and a ten-minute weekly routine.</p>
+      <p>Your membership includes a 20-lesson marketing course written for animal attractions. Lesson 1 covers setting up a Google Business Profile when you don't have a storefront: service areas, categories, photos, and a ten-minute weekly routine.</p>
       <p>Your printable business tools are ready too: a rate sheet, an inquiry intake form, a site-visit checklist, an event-day run sheet, and event signs.</p>
       ${cta(`${SITE_URL}/dashboard/articles`, "Open lesson 1")}
       <p><a href="${SITE_URL}/dashboard/downloads" style="color:${BLUE}">See the printable downloads</a></p>`,

@@ -42,7 +42,7 @@ export default function DownloadsPage() {
         <div className="note mt-12">
           <span>
             Every download is included with PAWS membership ($149/year), along
-            with the 11-lesson marketing course and your directory listing.{" "}
+            with the 20-lesson marketing course and your directory listing.{" "}
             <Link href="/benefits" className="font-semibold" style={{ color: "var(--blue)" }}>See all member benefits</Link>.
           </span>
         </div>

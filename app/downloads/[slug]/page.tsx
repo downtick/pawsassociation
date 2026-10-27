@@ -92,7 +92,7 @@ export default async function DownloadDetailPage({
                   <h2 className="text-xl">Get this and every PAWS download</h2>
                   <p className="text-sm" style={{ color: "var(--ink-2)" }}>
                     Membership is $149/year and includes all printable tools —
-                    stamped with your business name — plus the 11-lesson marketing
+                    stamped with your business name — plus the 20-lesson marketing
                     course, your directory listing, and partner discounts.
                   </p>
                   <div className="flex flex-wrap gap-3">
