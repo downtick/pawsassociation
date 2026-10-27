@@ -89,20 +89,19 @@ Stripe support email = office@. Hertz CDP 2105180 + Rakuten referral live.
 
 ## Open items — resume here
 
-1. **Mailing address** — owner to supply the real one; the Garden City
-   placeholder (SITE.mailingAddress) is in every series/billing email footer.
-2. **Listing CSV** — owner to supply petting zoos / animal businesses for
-   pre-seeded "claim your listing" rows (template:
-   marketing/listings-import-template.csv, importer scripts/import-listings.mjs;
-   private street address goes to listing_private_contacts). Optional: Asana
-   scan for leads after a date (needs date + Asana auth via /mcp).
+1. ~~Mailing address~~ — already correct in lib/siteConfig.ts (9169 W State St #1888, Garden City, ID 83714).
+2. ~~Listing CSV~~ — DONE 2026-10-26: 5 ACT! CRM exports (petting zoos, pony rides,
+   beer burros, reptile shows → reptile-exhibits, animal education →
+   wildlife-education) → 3,262 unclaimed listings, source `act-crm-2026-10-26`
+   in listing_private_contacts. 2,487 live (clear business names); **775 PENDING
+   in /admin/listings** (look like private people's names — approve real
+   businesses only). Skipped: no company (753), no city/state (409), bad state (12).
+   The 4 "(Sample)" listings were set approved=false (hidden, not deleted).
 3. **Nightly backup failing** — re-set GitHub secret DB_URL_PAWSASSOCIATION
-   in downtick/supabase-backups (steps: HANDOFF-supabase-backup.md).
-4. **Delete test member office+test1** (sandbox subscription, not in live).
-   Owner's live test member office+live1 is real: paid, auto-renew off.
-5. **Admin → Resources DB rows** for Hertz/Rakuten still show the old
-   [TODO-LINK] text (members don't see it — /dashboard/perks renders from
-   lib/data/resourcesSeed.ts). Update the 2 rows in the live resources table.
+   in downtick/supabase-backups (steps: HANDOFF-supabase-backup.md). Owner pastes
+   the Session pooler URI (contains DB password) — Claude never handles it.
+4. ~~Test member~~ — owner keeps office+test1.
+5. ~~Admin resources rows~~ — Hertz/Rakuten DB rows updated 2026-10-26.
 6. Counsel review of Terms (§3 money terms, §12 indemnity), Privacy, Disclaimer.
 7. Logo / OG image (public/og-image.jpg is still the MPC placeholder).
 8. Google Workspace DKIM: click "Start authentication" in Google Admin.
