@@ -38,7 +38,8 @@ export default function TermsPage() {
           certification, endorsement, or guarantee of quality, safety, licensure, or insurance.
           Event hosts are solely responsible for vetting an operator — including confirming
           insurance, licensing, and safety practices — before hiring them. Some listings are
-          created by the association from public information and have not been claimed by the
+          created by the association from public information and the association's own business
+          records and have not been claimed by the
           business; these are identified on the listing page.
         </p>
 

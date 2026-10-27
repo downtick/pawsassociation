@@ -19,7 +19,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Does PAWS vet or certify operators?",
-    a: "No. Listings are created by operators themselves or pre-listed from public information, and a listing is not a license, certification, or endorsement. PAWS does not supervise or inspect member businesses. Always confirm insurance, licensing, and practices directly with an operator before hiring them — our free hiring guides cover what to ask.",
+    a: "No. Listings are created by operators themselves or pre-listed by the association from public information and its own business records, and a listing is not a license, certification, or endorsement. PAWS does not supervise or inspect member businesses. Always confirm insurance, licensing, and practices directly with an operator before hiring them — our free hiring guides cover what to ask.",
   },
   {
     q: "How much does membership cost for operators?",
@@ -39,7 +39,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "My business is listed but I never signed up. Why?",
-    a: "To make the directory useful to event planners from day one, the association pre-lists established operators from public information. You can claim your listing — which moves it under your control and adds the member benefits — or ask us to remove it from the contact page.",
+    a: "To make the directory useful to event planners from day one, the association pre-lists established operators from public information and its own business records. You can claim your listing — which moves it under your control and adds the member benefits — or ask us to remove it from the contact page.",
   },
   {
     q: "Does PAWS sell insurance?",

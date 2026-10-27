@@ -9,6 +9,10 @@
 // `listing_private_contacts` table — unclaimed listings never expose contact
 // details. Re-running is safe: listings upsert by slug, contacts by listing.
 //
+// Optional `approved` column: "no" imports the row as PENDING (hidden until
+// approved in /admin/listings); blank/anything else = live. Re-running never
+// changes an existing row's approval — that's the admin's decision.
+//
 // Attraction names are matched loosely ("goat yoga", "Reptiles", "pig
 // racing", "petting zoo" all work). Unmatched values are reported on stderr
 // and skipped; nothing is guessed silently.
@@ -131,6 +135,7 @@ data.forEach((r, idx) => {
     else tags.push(t);
   }
   const zip = col(r, "zip").replace(/\D/g, "").slice(0, 5);
+  const approved = !/^(no|n|false|0|pending)$/i.test(col(r, "approved"));
 
   let slug = slugify(`${name}-${city}`) || `listing-${line}`;
   for (let n = 2; used.has(slug); n++) slug = `${slugify(`${name}-${city}`)}-${n}`;
@@ -140,7 +145,7 @@ data.forEach((r, idx) => {
   out.push(
     `-- row ${line}: ${name.replace(/\n/g, " ")}`,
     `insert into listings (slug, business_name, category_id, city, state, zip, service_area, services, bio, approved, profile_id)
-values (${sql(slug)}, ${sql(name)}, (select id from categories where slug = ${sql(main)}), ${sql(city)}, ${sql(state)}, ${sql(zip)}, ${sql(col(r, "service_area"))}, ${tags.length ? `array[${tags.map(sql).join(", ")}]::text[]` : "'{}'::text[]"}, ${sql(col(r, "bio"))}, true, null)
+values (${sql(slug)}, ${sql(name)}, (select id from categories where slug = ${sql(main)}), ${sql(city)}, ${sql(state)}, ${sql(zip)}, ${sql(col(r, "service_area"))}, ${tags.length ? `array[${tags.map(sql).join(", ")}]::text[]` : "'{}'::text[]"}, ${sql(col(r, "bio"))}, ${approved}, null)
 on conflict (slug) do update set business_name = excluded.business_name, category_id = excluded.category_id,
   city = excluded.city, state = excluded.state, zip = excluded.zip, service_area = excluded.service_area,
   services = excluded.services, bio = excluded.bio
