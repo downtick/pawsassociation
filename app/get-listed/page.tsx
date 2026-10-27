@@ -24,28 +24,18 @@ export default function GetListedPage() {
           when they need an attraction for an event. There are two ways in.
         </p>
 
-        {/* Claim-campaign visitors land here first: find the listing we
-            already created, then use "Claim this listing" on its page. */}
-        <form action="/directory" method="get" className="panel mt-8">
-          <h2 className="text-xl">Already listed? Find your business</h2>
-          <p className="text-sm" style={{ color: "var(--ink-2)" }}>
-            Search by business name. If you find your listing, open it and start a claim.
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <input
-              name="q"
-              type="search"
-              required
-              maxLength={80}
-              placeholder="Your business name"
-              className="form-input max-w-md flex-1"
-              aria-label="Your business name"
-            />
-            <button type="submit" className="btn btn-primary">Search the directory</button>
-          </div>
-        </form>
-
         <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="panel">
+            <span className="badge">New listing</span>
+            <h2 className="text-xl">Join and create your listing</h2>
+            <p className="text-sm" style={{ color: "var(--ink-2)" }}>
+              Membership is $149/year. You create your listing from your
+              dashboard — attraction type, services, service area, photos — and
+              it goes live after a quick review. Leads go straight to your inbox.
+            </p>
+            <Link href="/join" className="btn btn-primary w-fit">Join {SITE.name}</Link>
+          </div>
+
           <div className="panel">
             <span className="badge">Existing listing</span>
             <h2 className="text-xl">Claim a listing we created</h2>
@@ -62,17 +52,6 @@ export default function GetListedPage() {
             </ul>
             <Link href="/contact" className="btn btn-ghost w-fit">Start a claim</Link>
           </div>
-          <div className="panel">
-            <span className="badge">New listing</span>
-            <h2 className="text-xl">Join and create your listing</h2>
-            <p className="text-sm" style={{ color: "var(--ink-2)" }}>
-              Membership is $149/year. You create your listing from your
-              dashboard — attraction type, services, service area, photos — and
-              it goes live after a quick review. Leads go straight to your inbox.
-            </p>
-            <Link href="/join" className="btn btn-primary w-fit">Join {SITE.name}</Link>
-          </div>
-
         </div>
 
         <div className="note mt-10">
