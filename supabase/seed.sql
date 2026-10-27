@@ -72,12 +72,11 @@ on conflict (slug) do nothing;
 -- ── Resources (members-only benefits vault) ────────────────────────────────
 -- Live links reused from the portfolio master list
 -- (websites/_reference/non-insurance-affiliate-links.md). Three rows marked
--- [TODO-LINK] need the real affiliate URL/code before launch: Hertz CDP,
--- Rakuten, Fit Aminos.
+-- Hertz CDP + Rakuten referral supplied by the owner 2026-10-26.
 insert into resources (name, category, description, affiliate_url, discount_code, code_instructions, featured, sort) values
 -- Travel
-('Hertz Business Rentals', 'Travel', 'Save on rental cars and trucks for hauling to events — enter the association CDP number when you book.', 'https://www.hertz.com', '[TODO-LINK: CDP number]', 'On hertz.com, add the CDP number in the "Discount/CDP/Promo Codes" box at booking. The discount applies to business and personal rentals.', true, 10),
-('Rakuten Cash Back', 'Travel', 'Cash back on hotels, travel, and everyday shopping at thousands of stores.', 'https://www.rakuten.com', null, '[TODO-LINK: replace with referral URL]', false, 20),
+('Hertz Business Rentals', 'Travel', 'Save on rental cars and trucks for hauling to events — enter the association CDP number when you book.', 'https://www.hertz.com', '2105180', 'On hertz.com, add the CDP number in the "Discount/CDP/Promo Codes" box at booking. The discount applies to business and personal rentals.', true, 10),
+('Rakuten Cash Back', 'Travel', 'Cash back on hotels, travel, and everyday shopping at thousands of stores.', 'https://www.rakuten.com/r/DOWNTI5?eeid=28187', null, 'Join Rakuten through this link, then start your shopping or travel booking from Rakuten to earn cash back.', false, 20),
 ('Wise Multi-Currency Card', 'Travel', 'Spend with no foreign transaction fee when you travel, and send money abroad at the real mid-market rate.', 'https://wise.com/invite/ilpc/davidb13606', null, null, false, 30),
 
 -- Business

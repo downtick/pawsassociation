@@ -1,8 +1,7 @@
 // Member-benefits vault seed data — curated for animal-attraction and
 // amusement operators. Live links sourced from
-// websites/_reference/non-insurance-affiliate-links.md; three entries are
-// [TODO-LINK] placeholders (Hertz CDP, Rakuten) until the real affiliate
-// URL/code is supplied. Fit Aminos is deliberately excluded per that file's
+// websites/_reference/non-insurance-affiliate-links.md (Hertz CDP and the
+// Rakuten referral link supplied by the owner 2026-10-26). Fit Aminos is deliberately excluded per that file's
 // note (dropped, GLP-1/weight-loss drug affiliate — different regulatory
 // exposure than vitamins/grooming).
 //
@@ -21,8 +20,8 @@ export interface ResourceSeed {
 
 export const RESOURCES_SEED: ResourceSeed[] = [
   // ── Travel ──
-  { name: "Hertz Business Rentals", category: "Travel", description: "Save on rental cars and trucks for hauling to events — enter the association CDP number when you book.", affiliate_url: "https://www.hertz.com", discount_code: "[TODO-LINK: CDP number]", code_instructions: "On hertz.com, add the CDP number in the “Discount/CDP/Promo Codes” box at booking. The discount applies to business and personal rentals.", featured: true, sort: 10 },
-  { name: "Rakuten Cash Back", category: "Travel", description: "Cash back on hotels, travel, and everyday shopping at thousands of stores.", affiliate_url: "https://www.rakuten.com", code_instructions: "[TODO-LINK: replace with referral URL]", sort: 20 },
+  { name: "Hertz Business Rentals", category: "Travel", description: "Save on rental cars and trucks for hauling to events — enter the association CDP number when you book.", affiliate_url: "https://www.hertz.com", discount_code: "2105180", code_instructions: "On hertz.com, add the CDP number in the “Discount/CDP/Promo Codes” box at booking. The discount applies to business and personal rentals.", featured: true, sort: 10 },
+  { name: "Rakuten Cash Back", category: "Travel", description: "Cash back on hotels, travel, and everyday shopping at thousands of stores.", affiliate_url: "https://www.rakuten.com/r/DOWNTI5?eeid=28187", code_instructions: "Join Rakuten through this link, then start your shopping or travel booking from Rakuten to earn cash back.", sort: 20 },
   { name: "Wise Multi-Currency Card", category: "Travel", description: "Spend with no foreign transaction fee when you travel, and send money abroad at the real mid-market rate.", affiliate_url: "https://wise.com/invite/ilpc/davidb13606", sort: 30 },
 
   // ── Business ──
