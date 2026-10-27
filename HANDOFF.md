@@ -115,6 +115,5 @@ Stripe support email = office@. Hertz CDP 2105180 + Rakuten referral live.
 
 $10 off the first year, for PettingZooInsurance.com leads. Handoff for that
 session: websites/pettingzooinsurance/HANDOFF-paws-offer.md. PAWS side: the
-/go/pzi and /go/pzi-email short links (utm_campaign pawsdeal10). **Owner must
-create the coupon in Stripe live**: $10 fixed, duration once, promo code
+/go/pzi and /go/pzi-email short links (utm_campaign pawsdeal10). Coupon is LIVE in Stripe (created + tested at $139, 2026-10-26): $10 fixed, duration once, promo code
 PAWSDEAL10, first-time order only. Checkout already allows promotion codes.
