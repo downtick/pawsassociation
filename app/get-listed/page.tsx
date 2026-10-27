@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Icon from "@/components/Icon";
 import { SITE } from "@/lib/siteConfig";
+import BusinessTypes from "@/components/BusinessTypes";
 
 export const metadata: Metadata = {
   title: "Get listed in the directory",
@@ -23,6 +24,8 @@ export default function GetListedPage() {
           Event planners, schools, and families search the {SITE.name} directory
           when they need an attraction for an event. There are two ways in.
         </p>
+
+        <BusinessTypes className="mt-8" />
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           <div className="panel">

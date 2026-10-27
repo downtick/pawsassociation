@@ -701,3 +701,9 @@ ul.ticks li .ic { width: 19px; height: 19px; color: var(--blue); margin-top: 2px
   .gs-benefits { grid-template-columns: 1fr; }
   .gs-step { grid-template-columns: 1fr; }
 }
+
+/* Attraction-type chips (components/BusinessTypes.tsx) */
+.typechip {
+  list-style: none; font-size: 14px; font-weight: 600; color: var(--blue-deep, #1D4ED8);
+  background: var(--blue-wash); border: 1px solid #BFDBFE; border-radius: 999px; padding: 6px 12px;
+}

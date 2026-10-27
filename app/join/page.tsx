@@ -4,6 +4,7 @@ import Link from "next/link";
 import JoinButton from "@/components/JoinButton";
 import Icon from "@/components/Icon";
 import { SITE } from "@/lib/siteConfig";
+import BusinessTypes from "@/components/BusinessTypes";
 
 export default function JoinPage() {
   const [email, setEmail] = useState("");
@@ -22,6 +23,8 @@ export default function JoinPage() {
           listing works for you year-round — and the benefits vault pays you
           back on things you already buy.
         </p>
+
+        <BusinessTypes className="mt-8" />
 
         <div className="grid gap-8 lg:grid-cols-2 items-start" style={{ marginTop: 36 }}>
           {/* What you get */}
