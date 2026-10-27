@@ -95,9 +95,12 @@ Stripe support email = office@. Hertz CDP 2105180 + Rakuten referral live.
    wildlife-education) → 3,262 unclaimed listings, source `act-crm-2026-10-26`
    in listing_private_contacts. 2,487 live (clear business names); **775 PENDING
    in /admin/listings** (look like private people's names — approve real
-   businesses only). Skipped: no company (753), no city/state (409), bad state (12).
+   businesses only). 34 more auto-approved rows that contained the contact's
+   own name were moved to pending too (owner: never publish private people's
+   names) → 2,453 live / 809 pending. Skipped: no company (753), no city/state (409), bad state (12).
    The 4 "(Sample)" listings were set approved=false (hidden, not deleted).
-3. **Nightly backup failing** — re-set GitHub secret DB_URL_PAWSASSOCIATION
+3. ~~Nightly backup~~ — FIXED 2026-10-26, first successful PAWS backup run 40442828815.
+   (old note:) **Nightly backup failing** — re-set GitHub secret DB_URL_PAWSASSOCIATION
    in downtick/supabase-backups (steps: HANDOFF-supabase-backup.md). Owner pastes
    the Session pooler URI (contains DB password) — Claude never handles it.
 4. ~~Test member~~ — owner keeps office+test1.
@@ -107,3 +110,11 @@ Stripe support email = office@. Hertz CDP 2105180 + Rakuten referral live.
 8. Google Workspace DKIM: click "Start authentication" in Google Admin.
 9. Decide: "Find animal attractions" QR on the flyer + 3 signs?
 10. Optional: promo-code self-serve redemption (schema supports comp layer).
+
+## Partner offer: PAWSDEAL10 (2026-10-26)
+
+$10 off the first year, for PettingZooInsurance.com leads. Handoff for that
+session: websites/pettingzooinsurance/HANDOFF-paws-offer.md. PAWS side: the
+/go/pzi and /go/pzi-email short links (utm_campaign pawsdeal10). **Owner must
+create the coupon in Stripe live**: $10 fixed, duration once, promo code
+PAWSDEAL10, first-time order only. Checkout already allows promotion codes.
