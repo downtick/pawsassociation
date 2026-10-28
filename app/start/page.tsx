@@ -77,8 +77,8 @@ export default function StartPage() {
               <h3 className="text-lg">Partner discounts</h3>
               <p className="text-sm" style={{ color: "var(--ink-2)" }}>
                 A rental car discount code, a member travel portal for hotels and
-                cruise excursions, website hosting, virtual assistants, animal
-                medications, and life insurance quotes.
+                cruise excursions, website hosting, virtual assistants, and life
+                insurance quotes.
               </p>
             </div>
           </div>

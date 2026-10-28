@@ -92,7 +92,6 @@ insert into resources (name, category, description, affiliate_url, discount_code
 ('Life Insurance Quotes', 'Financial', 'Get a term life quote online in minutes — coverage for you and your family, with no obligation.', 'https://agents.ethoslife.com/invite/bib', null, null, true, 10),
 
 -- Animals & Home
-('Pet & Livestock Medications', 'Animals & Home', 'Discounted animal medications shipped to your door, up to 25% off.', 'https://www.dpbolvw.net/click-9121627-12521727', null, null, true, 10),
 ('Tire Rack', 'Animals & Home', 'Member pricing on truck and trailer tires, with expert reviews to help you choose.', 'https://www.kqzyfj.com/click-9121627-14310855', null, null, false, 20),
 ('Home Warranty', 'Animals & Home', 'A home warranty plan covering major systems and appliances, with $50 off.', 'https://www.anrdoezrs.net/click-9121627-13073571', '$50 off', null, false, 30),
 

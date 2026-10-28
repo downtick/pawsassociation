@@ -33,7 +33,6 @@ const BENEFIT_GROUPS: { icon: IconName; title: string; blurb: string; items: str
       "Vehicle rentals for event runs (member discount code)",
       "Life insurance quote access for you and your family",
       "Website hosting, virtual assistants, and freelance help",
-      "Discounted animal and livestock medications",
       "Cash-back on travel and everyday business buying",
     ],
   },

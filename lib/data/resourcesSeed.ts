@@ -37,7 +37,6 @@ export const RESOURCES_SEED: ResourceSeed[] = [
   { name: "Life Insurance Quotes", category: "Financial", description: "Get a term life quote online in minutes — coverage for you and your family, with no obligation.", affiliate_url: "https://agents.ethoslife.com/invite/bib", featured: true, sort: 10 },
 
   // ── Animals & Home ──
-  { name: "Pet & Livestock Medications", category: "Animals & Home", description: "Discounted animal medications shipped to your door, up to 25% off.", affiliate_url: "https://www.dpbolvw.net/click-9121627-12521727", featured: true, sort: 10 },
   { name: "Tire Rack", category: "Animals & Home", description: "Member pricing on truck and trailer tires, with expert reviews to help you choose.", affiliate_url: "https://www.kqzyfj.com/click-9121627-14310855", sort: 20 },
   { name: "Home Warranty", category: "Animals & Home", description: "A home warranty plan covering major systems and appliances, with $50 off.", affiliate_url: "https://www.anrdoezrs.net/click-9121627-13073571", discount_code: "$50 off", sort: 30 },
 
