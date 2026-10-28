@@ -296,15 +296,138 @@ const flyer: Builder = async () => {
   return pdf.save();
 };
 
+// ── More business forms ─────────────────────────────────────────────────────
+
+const depositReceipt: Builder = async (ctx) => {
+  const d = await PawsDoc.create("Deposit Receipt & Invoice", ctx);
+  d.title("Deposit Receipt & Invoice", "Fill one in when the deposit comes in, give the client a copy, and keep yours with the event file.");
+  d.fields(["Invoice / receipt number", "Date issued", "Client name", "Client phone and email", "Event date and time", "Venue address"], 2);
+  d.h2("Booking");
+  d.table(["Item", "Description", "Qty", "Amount"], [0.26, 0.48, 0.1, 0.16], [
+    ["Package", "", "", ""], ["Travel fee", "", "", ""], ["Add-ons", "", "", ""], ["", "", "", ""],
+  ], 26);
+  d.fields(["Event total", "Deposit received", "Balance due", "Balance due by (date)"], 2);
+  d.options("Deposit paid by", ["Cash", "Check #____", "Card", "Online / app", "Other"]);
+  d.h2("Terms the client agreed to");
+  d.fields(["Reschedule / weather policy", "Cancellation and deposit refund policy"]);
+  d.fields(["Received by (signature)", "Date"], 2);
+  d.tip("Write your deposit and weather terms the same way on the receipt, the rate sheet, and the agreement. Matching wording is what settles a dispute fast.");
+  return d.save();
+};
+
+const eventAgreement: Builder = async (ctx) => {
+  const d = await PawsDoc.create("Event Booking Agreement", ctx);
+  d.title("Event Booking Agreement", "A plain-language starting point for your booking terms. Have an attorney in your state review it before you use it.");
+  d.h2("Parties & event");
+  d.fields(["Business (provider)", "Client name", "Client phone", "Client email", "Event date", "Arrival / start / end times", "Venue name and address", "Guest count and ages"], 2);
+  d.h2("Services & price");
+  d.fields(["Animals and services provided", "Number of handlers"], 2);
+  d.fields(["Total price", "Deposit to hold the date", "Balance due (amount and date)", "Payment methods accepted"], 2);
+  d.h2("Weather, rescheduling & cancellation");
+  d.fields(["Weather call made by (who, and how many hours before)", "Reschedule terms (deposit transfers to a new date within ___ days)", "Client cancellation terms", "If the provider must cancel"]);
+  d.h2("Site & safety");
+  d.checklist([
+    "Client provides a level setup area of about ____ x ____ ft with vehicle access",
+    "Client tells the provider about surface, shade, and access before event day",
+    "Guests follow handler instructions; children are supervised by an adult",
+    "Hand-washing or sanitizer station is available at the animal area exit",
+    "Venue certificate-of-insurance requirements shared with the provider by: ______",
+  ]);
+  d.fields(["Provider signature", "Date", "Client signature", "Date"], 2);
+  d.tip("Template only, not legal advice. Contract and liability rules differ by state; an attorney can tailor this agreement to your business.");
+  return d.save();
+};
+
+const animalHealthRecord: Builder = async (ctx) => {
+  const d = await PawsDoc.create("Animal Health & Vaccination Record", ctx);
+  d.title("Animal Health & Vaccination Record", "One page per animal. Bring copies to fairs and events that ask for health paperwork; requirements vary by state and event, so check with the event and your vet each season.");
+  d.fields(["Animal name", "Species / breed / sex", "Date of birth or age / markings", "ID (tag, tattoo, microchip)", "Veterinarian", "Vet phone"], 2);
+  d.h2("Vaccinations");
+  d.table(["Vaccine", "Date given", "Next due", "Given by", "Lot # / notes"], [0.28, 0.14, 0.14, 0.18, 0.26], 5, 24);
+  d.h2("Deworming, exams & tests");
+  d.table(["Date", "Treatment, exam, or test", "Result / product", "Next due"], [0.14, 0.4, 0.3, 0.16], 4, 24);
+  d.h2("Health certificates (CVI) for travel");
+  d.table(["Issued", "Expires", "Destination / event", "Vet"], [0.15, 0.15, 0.42, 0.28], 2, 24);
+  return d.save();
+};
+
+const incidentReport: Builder = async (ctx) => {
+  const d = await PawsDoc.create("Incident Report Form", ctx);
+  d.title("Incident Report Form", "Fill this out the same day for any injury, bite, scratch, escape, or property damage, even a minor one.");
+  d.fields(["Date of incident", "Time", "Event / venue", "Report completed by"], 2);
+  d.options("Type of incident", ["Guest injury", "Bite / scratch / kick", "Handler injury", "Animal injury or illness", "Animal escape", "Property damage", "Other"]);
+  d.h2("People involved");
+  d.fields(["Name", "Phone", "Parent / guardian (if a minor)", "Age (if a minor)"], 2);
+  d.h2("Animal involved");
+  d.fields(["Animal name and species", "Handler on duty"], 2);
+  d.h2("What happened");
+  d.lines(4, "Describe what happened, in order, without guessing at fault");
+  d.fields(["First aid given (by whom)", "Medical care sought or refused", "Witness name and phone", "Witness name and phone", "Photos taken? (yes / no, by whom)", "Insurance agent notified (date)"], 2);
+  d.lines(2, "Follow-up actions");
+  return d.save();
+};
+
+const participationWaiver: Builder = async (ctx) => {
+  const d = await PawsDoc.create("Guest Participation Waiver Template", ctx);
+  d.title("Guest Participation Waiver Template", "A starting point for guest acknowledgments. Have an attorney in your state review it before use; waiver rules vary widely.");
+  d.fields(["Business name", "Event date and location"], 2);
+  d.h2("Acknowledgment");
+  d.para("I understand that animals can behave unpredictably and that activities such as petting, feeding, and riding involve some risk, including bites, scratches, kicks, falls, and allergic reactions. I agree to follow the handlers' instructions, to supervise any children in my care at all times, and to wash or sanitize hands after contact with the animals.");
+  d.para("I confirm that I and the participants listed below are able to take part, and I will tell a handler about any allergies or conditions before participating.");
+  d.para("[Release / assumption-of-risk language as reviewed by your attorney]", 10, COLOR.muted);
+  d.h2("Participants");
+  d.table(["Participant name", "Age", "Allergies or notes"], [0.45, 0.12, 0.43], 5, 24);
+  d.options("Photo permission", ["Yes, photos may be used", "No photos, please"]);
+  d.fields(["Parent / guardian name", "Phone", "Signature", "Date"], 2);
+  d.tip("Template only, not legal advice. Whether a waiver is enforceable depends on your state and its wording. Ask your attorney, and keep signed copies.");
+  return d.save();
+};
+
+const mileageLog: Builder = async (ctx) => {
+  const d = await PawsDoc.create("Mileage & Expense Log", { ...ctx, landscape: true });
+  d.title("Mileage & Expense Log", "Log every business trip and expense as it happens. Hand completed pages to whoever does your taxes.");
+  d.table(
+    ["Date", "Event / purpose", "From", "To", "Start odo.", "End odo.", "Miles", "Expense type", "Amount", "Receipt?"],
+    [0.08, 0.18, 0.11, 0.11, 0.09, 0.09, 0.07, 0.12, 0.08, 0.07],
+    13,
+    26,
+  );
+  d.tip("Expense types to track: fuel, tolls, parking, feed and bedding, vet, supplies, event fees. Ask your tax professional which records they need.");
+  return d.save();
+};
+
+const bookingTracker: Builder = async (ctx) => {
+  const d = await PawsDoc.create("Booking & Follow-Up Tracker", { ...ctx, landscape: true });
+  d.title("Booking & Follow-Up Tracker", "One row per booked event. The follow-up columns turn this year's clients into next year's bookings.");
+  d.table(
+    ["Event date", "Client", "Event type", "How they found you", "Total", "Paid in full", "Thank-you sent", "Review asked", "Rebook date"],
+    [0.1, 0.17, 0.12, 0.14, 0.09, 0.09, 0.1, 0.09, 0.1],
+    13,
+    26,
+  );
+  d.tip("Birthdays and annual events come back around. Set the rebook date about six weeks before next year's event and reach out then.");
+  return d.save();
+};
+
 export const BUILDERS: Record<string, Builder> = {
   "hand-washing-sign": (ctx) => sign("Please wash your hands", "after visiting the animals. Soap and water or sanitizer, every time.", ctx, "Hand Washing Sign"),
   "ask-before-petting-sign": (ctx) => sign("Ask before petting", "Our animals are friendly — please check with a handler first.", ctx, "Ask Before Petting Sign"),
   "dont-feed-the-animals-sign": (ctx) => sign("Please don't feed the animals", "They're on a set diet. Ask a handler about feeding time.", ctx, "Don't Feed the Animals Sign"),
+  "supervise-children-sign": (ctx) => sign("Please supervise your children", "An adult stays with every child inside the animal area.", ctx, "Supervise Children Sign"),
+  "gentle-and-quiet-sign": (ctx) => sign("Gentle hands, quiet voices", "Please walk near the animals. Quick moves and loud noises can startle them.", ctx, "Gentle Hands Quiet Voices Sign"),
+  "no-food-or-strollers-sign": (ctx) => sign("No food or strollers in the pen", "Please leave snacks, drinks, and strollers outside the gate.", ctx, "No Food or Strollers Sign"),
   "rate-sheet-template": rateSheet,
   "inquiry-intake-form": intakeForm,
   "venue-site-visit-checklist": siteVisit,
   "animal-care-transport-log": careLog,
   "event-day-run-sheet": runSheet,
+  "deposit-receipt-invoice": depositReceipt,
+  "event-booking-agreement": eventAgreement,
+  "animal-health-record": animalHealthRecord,
+  "incident-report-form": incidentReport,
+  "guest-participation-waiver": participationWaiver,
+  "mileage-expense-log": mileageLog,
+  "booking-follow-up-tracker": bookingTracker,
   "marketing-calendar": marketingCalendar,
   "flyer-template": flyer,
 };

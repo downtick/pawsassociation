@@ -717,7 +717,7 @@ export const COURSE: ArticleContent[] = [
           <li><span className="checkbox" />Thank the client in person; mention the review text they&apos;ll get tomorrow</li>
         </ul>
         <p>
-          The three event signs are separate member downloads, each printed with
+          The six event signs are separate member downloads, each printed with
           your business name.
         </p>
       </>

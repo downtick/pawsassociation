@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 //   pawsassociation.com/go/email     → mailing-list emails
 //   pawsassociation.com/go/pdf       → QR code in every member PDF footer
 //   pawsassociation.com/go/claim     → "claim your listing" email campaign (→ /get-listed)
-//   pawsassociation.com/go/sign      → QR on the 3 printable event signs (→ /directory)
+//   pawsassociation.com/go/sign      → QR on the printable event signs (→ /directory)
 //   pawsassociation.com/go/flyer     → QR on the member flyer (→ /directory)
 //   pawsassociation.com/go/pzi       → PettingZooInsurance.com thank-you page (PAWSDEAL10)
 //   pawsassociation.com/go/pzi-email → PettingZooInsurance.com partner-offer email (PAWSDEAL10)

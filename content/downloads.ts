@@ -79,6 +79,61 @@ export const DOWNLOADS: DownloadMeta[] = [
     lessonSlug: "event-day-run-sheet",
   },
 
+  {
+    slug: "supervise-children-sign",
+    headline: "Please supervise your children",
+    title: "“Please Supervise Your Children” Sign for Petting Zoos",
+    summary: "A printable sign asking an adult to stay with every child in the animal area.",
+    description:
+      "A parent who steps away to grab a drink leaves your handlers watching both the animals and a toddler. This sign asks adults to stay with their children inside the animal area. Landscape letter size, large type, with your business name at the bottom.",
+    group: "Event signs",
+    kind: "sign",
+    pages: "1 page, landscape",
+    whatsInside: [
+      "Large-type “Please supervise your children” headline",
+      "A line asking an adult to stay with every child",
+      "Your business name printed at the bottom",
+      "Letter size; post it at the pen entrance",
+    ],
+    lessonSlug: "event-day-run-sheet",
+  },
+  {
+    slug: "gentle-and-quiet-sign",
+    headline: "Gentle hands, quiet voices",
+    title: "“Gentle Hands, Quiet Voices” Sign for Animal Exhibits",
+    summary: "A printable sign that asks guests to walk and keep voices low near the animals.",
+    description:
+      "Running, shrieking, and grabbing startle goats, ponies, and reptiles alike. This sign sets a calm tone at the entrance: walk near the animals, use gentle hands, keep voices low. Large type in landscape letter size, with your business name printed at the bottom.",
+    group: "Event signs",
+    kind: "sign",
+    pages: "1 page, landscape",
+    whatsInside: [
+      "Large-type “Gentle hands, quiet voices” headline",
+      "A line asking guests to walk and avoid sudden moves",
+      "Your business name printed at the bottom",
+      "Works for petting zoos, reptile shows, and animal education programs",
+    ],
+    lessonSlug: "event-day-run-sheet",
+  },
+  {
+    slug: "no-food-or-strollers-sign",
+    headline: "No food or strollers in the pen",
+    title: "“No Food or Strollers in the Pen” Printable Sign",
+    summary: "Keep snacks, drinks, and strollers outside the gate.",
+    description:
+      "A stroller in a petting pen blocks the exit and gets chewed, and a snack in a small hand draws a crowd of goats. This sign asks guests to leave food, drinks, and strollers outside the gate. Landscape letter size with your business name at the bottom.",
+    group: "Event signs",
+    kind: "sign",
+    pages: "1 page, landscape",
+    whatsInside: [
+      "Large-type “No food or strollers in the pen” headline",
+      "A line asking guests to leave them outside the gate",
+      "Your business name printed at the bottom",
+      "Letter size; post it at the gate beside the hand washing sign",
+    ],
+    lessonSlug: "event-day-run-sheet",
+  },
+
   // ── Business forms ──
   {
     slug: "rate-sheet-template",
@@ -166,6 +221,109 @@ export const DOWNLOADS: DownloadMeta[] = [
     lessonSlug: "event-day-run-sheet",
   },
 
+  {
+    slug: "deposit-receipt-invoice",
+    title: "Deposit Receipt & Invoice Template for Animal Attractions",
+    summary: "Record the deposit, the balance due, and the terms the client agreed to.",
+    description:
+      "A written receipt the day the deposit arrives confirms the date is held and puts the balance and policies on paper. This template covers the booking items, deposit, balance due date, payment method, and your weather and cancellation terms.",
+    group: "Business forms",
+    kind: "form",
+    pages: "1 page, portrait",
+    whatsInside: [
+      "Invoice number, client, event date, and venue",
+      "Line items for package, travel, and add-ons",
+      "Deposit received, balance due, and due date",
+      "Weather and cancellation terms with a received-by signature",
+    ],
+    lessonSlug: "deposits-contracts-rain-policies",
+  },
+  {
+    slug: "event-booking-agreement",
+    title: "Event Booking Agreement Template for Mobile Animal Businesses",
+    summary: "A plain-language booking agreement: services, price, weather, site, and signatures.",
+    description:
+      "A one-page agreement answers the questions that cause most booking disputes before they come up: what's included, when the balance is due, who calls a rainout, and what the client provides on site. It's a template to adapt with an attorney in your state, not legal advice.",
+    group: "Business forms",
+    kind: "form",
+    pages: "1–2 pages, portrait",
+    whatsInside: [
+      "Parties, event details, services, and handlers",
+      "Price, deposit, and balance terms",
+      "Weather call, reschedule, and cancellation sections",
+      "Site and safety expectations with signature lines",
+    ],
+    lessonSlug: "deposits-contracts-rain-policies",
+  },
+  {
+    slug: "animal-health-record",
+    title: "Animal Health & Vaccination Record (Printable)",
+    summary: "One page per animal: vaccinations, deworming, exams, and health certificates.",
+    description:
+      "Fairs, schools, and event organizers sometimes ask for proof that your animals are cared for by a vet. Keeping one page per animal makes that a quick photocopy. Record vaccinations, deworming, exams, tests, and travel health certificates in one place.",
+    group: "Business forms",
+    kind: "form",
+    pages: "1 page per animal, portrait",
+    whatsInside: [
+      "Animal ID, species, markings, and veterinarian",
+      "Vaccination table with next-due dates",
+      "Deworming, exams, and test results",
+      "Health certificate (CVI) log for travel and fairs",
+    ],
+    lessonSlug: "fairs-and-festivals",
+  },
+  {
+    slug: "incident-report-form",
+    title: "Incident Report Form for Petting Zoos & Animal Events",
+    summary: "Document any injury, bite, escape, or damage the same day.",
+    description:
+      "When something goes wrong at an event, notes written the same day are far more useful than memories a month later. This form records the type of incident, the people and animal involved, what happened, first aid, witnesses, and follow-up.",
+    group: "Business forms",
+    kind: "form",
+    pages: "1 page, portrait",
+    whatsInside: [
+      "Incident type checkboxes: injury, bite, escape, damage, and more",
+      "People involved, including a parent or guardian for minors",
+      "A factual what-happened section and first-aid notes",
+      "Witnesses, photos, and follow-up actions",
+    ],
+    lessonSlug: "hiring-training-handlers",
+  },
+  {
+    slug: "guest-participation-waiver",
+    title: "Guest Participation Waiver Template for Animal Attractions",
+    summary: "A starting-point guest acknowledgment with participants, allergies, and photo permission.",
+    description:
+      "Many operators ask guests to sign an acknowledgment before petting or riding. This template covers the basics, including the participants, allergies, photo permission, and a guardian signature, with a marked spot for release language your attorney writes. Waiver rules vary by state; this is not legal advice.",
+    group: "Business forms",
+    kind: "form",
+    pages: "1 page, portrait",
+    whatsInside: [
+      "Plain-language risk and rules acknowledgment",
+      "A marked space for attorney-reviewed release wording",
+      "Participants table with ages and allergies",
+      "Photo permission and guardian signature",
+    ],
+    lessonSlug: "deposits-contracts-rain-policies",
+  },
+  {
+    slug: "mileage-expense-log",
+    title: "Mileage & Expense Log for Mobile Animal Businesses",
+    summary: "Track miles and business expenses trip by trip.",
+    description:
+      "Mobile animal businesses drive a lot, and the miles and costs add up fast. This landscape log records each trip's purpose, odometer readings, and miles, plus expenses like fuel, feed, and event fees, so your records are ready when your tax professional asks.",
+    group: "Business forms",
+    kind: "table",
+    pages: "1 page, landscape",
+    whatsInside: [
+      "Date, purpose, and from/to columns",
+      "Start and end odometer with miles",
+      "Expense type, amount, and receipt check",
+      "Thirteen rows per page",
+    ],
+    lessonSlug: "know-your-numbers",
+  },
+
   // ── Marketing tools ──
   {
     slug: "marketing-calendar",
@@ -200,6 +358,23 @@ export const DOWNLOADS: DownloadMeta[] = [
       "PAWS member line pointing to your directory listing",
     ],
     lessonSlug: "referral-partners",
+  },
+  {
+    slug: "booking-follow-up-tracker",
+    title: "Booking & Follow-Up Tracker for Repeat Bookings",
+    summary: "Log every event, then track thank-yous, reviews, and next year's rebook date.",
+    description:
+      "Last year's clients are the easiest bookings you'll get this year, if you remember to reach out. This tracker logs each event with its source and total, then the follow-up steps: thank-you sent, review requested, and the date to ask about next year.",
+    group: "Marketing tools",
+    kind: "table",
+    pages: "1 page, landscape",
+    whatsInside: [
+      "Event date, client, type, and how they found you",
+      "Total and paid-in-full columns",
+      "Thank-you and review-request checkoffs",
+      "A rebook date for next year's outreach",
+    ],
+    lessonSlug: "repeat-bookings-past-customers",
   },
 ];
 

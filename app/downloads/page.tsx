@@ -6,7 +6,7 @@ import DownloadPreview from "@/components/DownloadPreview";
 export const metadata: Metadata = {
   title: "Printable signs, forms & templates for animal businesses",
   description:
-    "Printable hand washing and petting zoo signs, rate sheet and inquiry forms, a venue checklist, an animal care log, a 12-month marketing calendar, and a fillable flyer — free for PAWS members.",
+    "20 printable tools for animal businesses: petting zoo safety signs, rate sheet, booking agreement and deposit receipt templates, animal health records, incident reports, a mileage log, a marketing calendar, and a fillable flyer — included with PAWS membership.",
   alternates: { canonical: "/downloads" },
 };
 

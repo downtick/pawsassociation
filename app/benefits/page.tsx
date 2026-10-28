@@ -52,10 +52,10 @@ const BENEFIT_GROUPS: { icon: IconName; title: string; blurb: string; items: str
     title: "Printable downloads",
     blurb: "Printed with your business name.",
     items: [
-      "Event signs: hand washing, ask before petting, don't feed the animals",
-      "Rate sheet, inquiry intake form, and venue site-visit checklist",
-      "Animal care and transport log",
-      "12-month marketing calendar and a fillable flyer",
+      "Six event signs: hand washing, ask before petting, don't feed, supervise children, and more",
+      "Rate sheet, inquiry form, deposit receipt, and booking agreement template",
+      "Animal health record, care and transport log, and incident report",
+      "Mileage log, booking tracker, marketing calendar, and a fillable flyer",
     ],
   },
   {
