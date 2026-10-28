@@ -163,6 +163,9 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
                   show your phone and website, manage the profile, and receive
                   leads by email. Rather not be listed?{" "}
                   <Link href={`/request-removal?listing=${listing.slug}`} style={{ color: "var(--blue)" }}>Request removal</Link>.
+                  <span className="mt-4 block">
+                    <Link href="/get-listed" className="btn btn-primary">Claim this listing</Link>
+                  </span>
                 </span>
               </div>
             )}
