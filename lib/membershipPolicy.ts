@@ -14,3 +14,10 @@ export const AUTO_RENEW_CONSENT_TEXT =
   `New members who cancel within ${GUARANTEE_DAYS} days of joining get a full refund. ` +
   `I can cancel online anytime from my Billing page, and if I cancel within ${RENEWAL_REFUND_DAYS} days ` +
   `after an automatic renewal charge, that renewal is refunded in full.`;
+
+// Founding-member promo (Stripe promotion code, first-time customers only).
+// The banner hides itself after the end date; Stripe expires the code too.
+export const FOUNDING_CODE = "FOUNDING99";
+export const FOUNDING_PRICE_DOLLARS = 99;
+export const FOUNDING_ENDS_LABEL = "December 31";
+export const FOUNDING_ENDS_AT = Date.parse("2027-01-01T00:00:00-08:00");

@@ -5,6 +5,7 @@ import JoinButton from "@/components/JoinButton";
 import Icon from "@/components/Icon";
 import { SITE } from "@/lib/siteConfig";
 import BusinessTypes from "@/components/BusinessTypes";
+import FoundingOffer from "@/components/FoundingOffer";
 
 export default function JoinPage() {
   const [email, setEmail] = useState("");
@@ -23,6 +24,8 @@ export default function JoinPage() {
           listing works for you year-round — and the benefits vault pays you
           back on things you already buy.
         </p>
+
+        <FoundingOffer className="mt-8" />
 
         <BusinessTypes className="mt-8" />
 

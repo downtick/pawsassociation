@@ -3,6 +3,7 @@ import Link from "next/link";
 import Icon from "@/components/Icon";
 import { SITE } from "@/lib/siteConfig";
 import BusinessTypes from "@/components/BusinessTypes";
+import FoundingOffer from "@/components/FoundingOffer";
 
 export const metadata: Metadata = {
   title: "Get listed in the directory",
@@ -25,6 +26,8 @@ export default function GetListedPage() {
           when they need an attraction for an event. There are two ways in.
         </p>
 
+        <FoundingOffer className="mt-8" />
+
         <BusinessTypes className="mt-8" />
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -32,7 +35,7 @@ export default function GetListedPage() {
             <span className="badge">New listing</span>
             <h2 className="text-xl">Join and create your listing</h2>
             <p className="text-sm" style={{ color: "var(--ink-2)" }}>
-              Membership is $149/year. You create your listing from your
+              Membership is $149/year ($99 your first year with FOUNDING99 through December 31). You create your listing from your
               dashboard — attraction type, services, service area, photos — and
               it goes live after a quick review. Leads go straight to your inbox.
             </p>
