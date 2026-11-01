@@ -8,9 +8,9 @@ export const RENEWAL_REMINDER_DAYS = 30; // reminder email this many days before
 // Shown next to the required checkbox, and stored word-for-word with the
 // version in member_events at checkout, so a dispute can be answered with
 // exactly what the member agreed to.
-export const AUTO_RENEW_CONSENT_VERSION = "2026-10-26-guarantee";
+export const AUTO_RENEW_CONSENT_VERSION = "2026-11-01-promo";
 export const AUTO_RENEW_CONSENT_TEXT =
-  `I understand my PAWS membership is charged $${PRICE_DOLLARS} today and renews automatically every year at $${PRICE_DOLLARS} until I cancel. ` +
+  `I understand my PAWS membership is charged $${PRICE_DOLLARS} today (or less with a promotion code) and renews automatically every year at $${PRICE_DOLLARS} until I cancel. ` +
   `New members who cancel within ${GUARANTEE_DAYS} days of joining get a full refund. ` +
   `I can cancel online anytime from my Billing page, and if I cancel within ${RENEWAL_REFUND_DAYS} days ` +
   `after an automatic renewal charge, that renewal is refunded in full.`;
