@@ -13,7 +13,7 @@ export default function RemovalForm({
   businessName?: string;
   cityState?: string;
 }) {
-  const [values, setValues] = useState<Record<string, string>>({ businessName, cityState });
+  const [values, setValues] = useState<Record<string, string>>({ businessName, cityState, requesterName: "", email: "" });
   const [confirm, setConfirm] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [submitting, setSubmitting] = useState(false);

@@ -6,7 +6,8 @@ import Icon from "./Icon";
 import { track } from "@/lib/track";
 
 export default function ContactForm() {
-  const [values, setValues] = useState<Record<string, string>>({});
+  // Blank, not undefined: the API's "required" messages only fire on strings.
+  const [values, setValues] = useState<Record<string, string>>({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");

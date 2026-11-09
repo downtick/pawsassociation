@@ -9,7 +9,7 @@ import JoinButton from "./JoinButton";
 // Two steps on one page: send the claim (so the admin hears about it even if
 // the visitor stops here), then join with the same email.
 export default function ClaimForm({ listingSlug, businessName }: { listingSlug: string; businessName: string }) {
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<Record<string, string>>({ name: "", email: "", phone: "" });
   const [confirm, setConfirm] = useState(false);
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string[]>>({});

@@ -7,7 +7,7 @@ import { track } from "@/lib/track";
 // "Request availability" form on public member profiles. Same conventions as
 // ContactForm: honeypot, phone auto-format, tracking metadata submitted last.
 export default function LeadForm({ listingId, businessName }: { listingId: string; businessName: string }) {
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<Record<string, string>>({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
