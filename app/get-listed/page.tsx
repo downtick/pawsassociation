@@ -13,8 +13,9 @@ export const metadata: Metadata = {
 
 // The "claim your listing" growth page. Pre-seeded listings already rank and
 // already collect leads — this page turns that into the membership pitch.
-// v1 claim flow is manual (contact form) — a self-serve verify-by-email flow
-// can replace it once claim volume justifies it.
+// Claims start on the listing itself (/claim?listing=<slug>); verification is
+// manual — a self-serve verify-by-email flow can replace it once claim volume
+// justifies it.
 export default function GetListedPage() {
   return (
     <section className="section">
@@ -52,11 +53,11 @@ export default function GetListedPage() {
               member benefits — same $149/year membership.
             </p>
             <ul className="ticks">
-              <li><Icon name="check" />Contact us with your business name and the listing link</li>
-              <li><Icon name="check" />We verify you own the business (email or phone)</li>
-              <li><Icon name="check" />Join, and the listing moves under your account</li>
+              <li><Icon name="check" />Find your business and tap &ldquo;Claim this listing&rdquo;</li>
+              <li><Icon name="check" />Confirm your details and join</li>
+              <li><Icon name="check" />We verify you own the business (email or phone) and move the listing to your account</li>
             </ul>
-            <Link href="/contact" className="btn btn-ghost w-fit">Start a claim</Link>
+            <Link href="/directory" className="btn btn-ghost w-fit">Find your listing</Link>
           </div>
         </div>
 

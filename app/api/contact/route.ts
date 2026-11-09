@@ -52,7 +52,9 @@ export async function POST(request: NextRequest) {
 
   const { firstName, lastName, email, phone, state, message, referrer, pageUrl } = parsed.data;
 
-  await sendContactNotice({
+  // The email is the only copy of a contact message, so a failed send has to
+  // reach the visitor instead of showing "Message sent!".
+  const result = await sendContactNotice({
     firstName,
     lastName,
     email,
@@ -61,7 +63,13 @@ export async function POST(request: NextRequest) {
     message,
     referrer,
     pageUrl,
-  }).catch((err) => console.error("Contact email error:", err));
+  }).catch((err) => {
+    console.error("Contact email error:", err);
+    return { ok: false };
+  });
+  if (!result.ok) {
+    return NextResponse.json({ error: "We couldn't send your message. Please try again." }, { status: 502 });
+  }
 
   return NextResponse.json({ success: true });
 }

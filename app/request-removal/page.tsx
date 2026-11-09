@@ -38,7 +38,7 @@ export default async function RequestRemovalPage({ searchParams }: { searchParam
         </p>
         <p className="text-sm text-[var(--ink-3)] mb-8">
           Want to keep the listing instead? You can{" "}
-          <Link href="/get-listed" style={{ color: "var(--blue)" }}>claim it</Link> to control what
+          <Link href={slug ? `/claim?listing=${slug}` : "/get-listed"} style={{ color: "var(--blue)" }}>claim it</Link> to control what
           it shows. Members can delete their own listing from their dashboard.
         </p>
         <div className="card p-8">

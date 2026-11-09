@@ -336,6 +336,47 @@ export async function sendRemovalRequest(opts: {
   });
 }
 
+// ── Listing claim request — to admin (public form, /claim) ────────────────
+export async function sendClaimRequest(opts: {
+  listingSlug: string;
+  name: string;
+  email: string;
+  phone: string;
+  referrer?: string;
+  pageUrl?: string;
+  listing: { business_name: string; city: string | null; state: string | null };
+  emailMatch: boolean | null;
+  phoneMatch: boolean | null;
+}) {
+  const l = opts.listing;
+  const match = (m: boolean | null) => (m === null ? "Nothing on file to compare" : m ? "YES — matches our records" : "No — verify before moving the listing");
+  const sections: Section[] = [
+    { title: "Listing", rows: [
+      ["Business", l.business_name],
+      ["Location", [l.city, l.state].filter(Boolean).join(", ") || "—"],
+      ["Listing URL", `${SITE_URL}/members/${opts.listingSlug}`],
+    ]},
+    { title: "Claimed by", rows: [
+      ["Name", opts.name],
+      ["Email", opts.email],
+      ["Phone", opts.phone],
+    ]},
+    { title: "Verification", rows: [
+      ["Email on file", match(opts.emailMatch)],
+      ["Phone on file", match(opts.phoneMatch)],
+    ]},
+    { title: "Received", rows: [["When", nowPT()]] },
+    trackingSection(opts.referrer, opts.pageUrl),
+  ];
+  return sendEmail({
+    to: adminNotifyAddress(),
+    subject: `Listing claim: ${l.business_name}`,
+    html: wrap("Listing claim request", sectionsHtml(sections)),
+    text: `Listing claim request\n\n${sectionsText(sections)}`,
+    replyTo: opts.email,
+  });
+}
+
 // ── Cancelled + refunded (member self-service: 7-day guarantee or 30-day renewal rule)
 export async function sendRefundEmails(opts: {
   kind: "guarantee" | "renewal";

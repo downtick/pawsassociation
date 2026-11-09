@@ -69,15 +69,32 @@ export async function getListingBySlug(slug: string): Promise<PublicListing | nu
   return (data as PublicListing) ?? null;
 }
 
+// Supabase caps a single response at 1000 rows, whatever .limit() asks for,
+// so full-table reads have to page. `page` must use a stable .order().
+async function fetchAllRows<T>(
+  page: (from: number, to: number) => PromiseLike<{ data: unknown }>
+): Promise<T[]> {
+  const size = 1000;
+  const all: T[] = [];
+  for (let from = 0; ; from += size) {
+    const { data } = await page(from, from + size - 1);
+    const rows = (data as T[] | null) ?? [];
+    all.push(...rows);
+    if (rows.length < size) return all;
+  }
+}
+
 /** States that actually have ≥1 visible listing (thin geo pages hurt SEO). */
 export async function getStatesWithListings(categorySlug?: string): Promise<{ abbr: string; name: string; slug: string; count: number }[]> {
   if (!isAuthConfigured()) return [];
   const supabase = await createClient();
-  let query = supabase.from("public_listings").select("state");
-  if (categorySlug) query = query.contains("category_slugs", [categorySlug]);
-  const { data } = await query;
+  const rows = await fetchAllRows<{ state: string | null }>((from, to) => {
+    let query = supabase.from("public_listings").select("state");
+    if (categorySlug) query = query.contains("category_slugs", [categorySlug]);
+    return query.order("slug").range(from, to);
+  });
   const counts = new Map<string, number>();
-  for (const row of (data as { state: string | null }[]) ?? []) {
+  for (const row of rows) {
     if (row.state && STATE_NAMES[row.state]) counts.set(row.state, (counts.get(row.state) ?? 0) + 1);
   }
   return [...counts.entries()]
@@ -105,6 +122,7 @@ export async function getCitiesWithListings(stateAbbr: string, categorySlug?: st
 export async function getAllListingSlugs(): Promise<{ slug: string; updated_at: string }[]> {
   if (!isAuthConfigured()) return [];
   const supabase = await createClient();
-  const { data } = await supabase.from("public_listings").select("slug, updated_at").limit(2000);
-  return (data as { slug: string; updated_at: string }[]) ?? [];
+  return fetchAllRows<{ slug: string; updated_at: string }>((from, to) =>
+    supabase.from("public_listings").select("slug, updated_at").order("slug").range(from, to)
+  );
 }
