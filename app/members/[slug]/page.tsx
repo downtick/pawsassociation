@@ -176,7 +176,12 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
             <p className="text-sm" style={{ color: "var(--ink-2)" }}>
               Tell {listing.business_name} about your event. Free, no account needed.
             </p>
-            <LeadForm listingId={listing.id} businessName={listing.business_name} />
+            {!listing.claimed && (
+              <p className="text-xs" style={{ color: "var(--ink-3)" }}>
+                This business hasn&apos;t claimed its listing yet, so it may not receive your request.
+              </p>
+            )}
+            <LeadForm listingId={listing.id} businessName={listing.business_name} claimed={listing.claimed} />
           </aside>
         </div>
 

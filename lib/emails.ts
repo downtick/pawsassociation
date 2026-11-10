@@ -355,6 +355,7 @@ export async function sendClaimRequest(opts: {
       ["Business", l.business_name],
       ["Location", [l.city, l.state].filter(Boolean).join(", ") || "—"],
       ["Listing URL", `${SITE_URL}/members/${opts.listingSlug}`],
+      ["Move it to them (after they join)", `${SITE_URL}/admin/listings?tab=live&q=${encodeURIComponent(l.business_name.slice(0, 80))}`],
     ]},
     { title: "Claimed by", rows: [
       ["Name", opts.name],

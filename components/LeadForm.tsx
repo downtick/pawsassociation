@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState, FormEvent } from "react";
 import { formatPhoneInput } from "@/lib/phone";
 import Icon from "./Icon";
@@ -6,7 +7,7 @@ import { track } from "@/lib/track";
 
 // "Request availability" form on public member profiles. Same conventions as
 // ContactForm: honeypot, phone auto-format, tracking metadata submitted last.
-export default function LeadForm({ listingId, businessName }: { listingId: string; businessName: string }) {
+export default function LeadForm({ listingId, businessName, claimed }: { listingId: string; businessName: string; claimed: boolean }) {
   const [values, setValues] = useState<Record<string, string>>({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -61,10 +62,20 @@ export default function LeadForm({ listingId, businessName }: { listingId: strin
     return (
       <div className="py-6 text-center">
         <span className="icbox" style={{ margin: "0 auto 14px" }}><Icon name="check" /></span>
-        <h3 className="mb-2 text-xl" style={{ color: "var(--blue)" }}>Request sent!</h3>
-        <p style={{ color: "var(--ink-2)" }}>
-          Your message is on its way to {businessName}. They&apos;ll reply to you directly by email.
-        </p>
+        <h3 className="mb-2 text-xl" style={{ color: "var(--blue)" }}>{claimed ? "Request sent!" : "Request received"}</h3>
+        {claimed ? (
+          <p style={{ color: "var(--ink-2)" }}>
+            Your message is on its way to {businessName}. They&apos;ll reply to you directly by email.
+          </p>
+        ) : (
+          // Unclaimed listings have no member to deliver to — only the admin
+          // copy goes out — so don't promise a reply.
+          <p style={{ color: "var(--ink-2)" }}>
+            {businessName} hasn&apos;t claimed its PAWS listing yet, so this request doesn&apos;t go to
+            them directly and they may not reply. For a quicker answer,{" "}
+            <Link href="/directory" style={{ color: "var(--blue)" }}>browse other members</Link> near you.
+          </p>
+        )}
       </div>
     );
   }

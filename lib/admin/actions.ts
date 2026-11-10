@@ -327,6 +327,58 @@ export async function setListingApproved(listingId: string, approved: boolean) {
   revalidatePath("/directory");
 }
 
+// Hands a pre-seeded listing to the member who claimed it, after the admin
+// has verified they own the business. Refuses rather than overwrites: the
+// listing must still be unclaimed, and the member must have paid access and
+// no listing of their own (the dashboard shows one listing per member).
+export async function transferListing(listingId: string, rawEmail: string): Promise<{ ok: boolean; message: string }> {
+  const admin = await requireAdmin();
+  const db = createAdminClient();
+  const email = rawEmail.trim().toLowerCase();
+  if (!email) return { ok: false, message: "Enter the member's email." };
+
+  const { data: member } = await db
+    .from("profiles")
+    .select("id, membership_status, comp_until")
+    .ilike("email", email)
+    .maybeSingle();
+  if (!member) return { ok: false, message: `No member with ${email}. They need to join first.` };
+
+  const hasAccess =
+    ["active", "past_due"].includes(member.membership_status) ||
+    (!!member.comp_until && new Date(member.comp_until) > new Date());
+  if (!hasAccess) {
+    return { ok: false, message: `That member's status is "${member.membership_status}" — they haven't finished paying, so the listing would disappear from the directory. Move it once they've joined.` };
+  }
+
+  const { data: own } = await db.from("listings").select("business_name").eq("profile_id", member.id).maybeSingle();
+  if (own) {
+    return { ok: false, message: `That member already has a listing ("${own.business_name}"). Delete or keep theirs first — a member can only have one.` };
+  }
+
+  const { data: moved } = await db
+    .from("listings")
+    .update({ profile_id: member.id })
+    .eq("id", listingId)
+    .is("profile_id", null)
+    .select("business_name, slug")
+    .maybeSingle();
+  if (!moved) return { ok: false, message: "That listing is already claimed." };
+
+  await db.from("member_events").insert({
+    member_id: member.id,
+    actor_id: admin.id,
+    event: "listing_transferred",
+    detail: { listing_id: listingId, business_name: moved.business_name },
+  });
+
+  revalidatePath("/admin/listings");
+  revalidatePath(`/admin/members/${member.id}`);
+  revalidatePath(`/members/${moved.slug}`);
+  revalidatePath("/directory");
+  return { ok: true, message: `Moved "${moved.business_name}" to ${email}.` };
+}
+
 export async function setListingFeatured(listingId: string, featured: boolean) {
   await requireAdmin();
   const db = createAdminClient();

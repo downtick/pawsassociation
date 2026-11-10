@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/access";
 import { createAdminClient } from "@/lib/supabase/admin";
 import ListingActions from "@/components/admin/ListingActions";
+import TransferListing from "@/components/admin/TransferListing";
 import type { Listing } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Listings" };
@@ -71,6 +72,7 @@ export default async function AdminListingsPage({
       </td>
       <td className="p-3">
         <ListingActions listingId={l.id} approved={l.approved} featured={l.featured} />
+        {!l.profile_id && <TransferListing listingId={l.id} />}
       </td>
     </tr>
   );
