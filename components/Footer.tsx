@@ -53,6 +53,7 @@ export default function Footer() {
             <li><Link href="/privacy" className="navlink !px-0">Privacy Policy</Link></li>
             <li><Link href="/disclaimer" className="navlink !px-0">Disclaimer</Link></li>
             <li><Link href="/request-removal" className="navlink !px-0">Remove a listing</Link></li>
+            <li><Link href="/photo-credits" className="navlink !px-0">Photo credits</Link></li>
           </ul>
         </div>
       </div>

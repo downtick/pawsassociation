@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Icon from "@/components/Icon";
 import DirectorySearch from "@/components/DirectorySearch";
 import ListingCard from "@/components/ListingCard";
@@ -7,10 +8,13 @@ import HeroPaws from "@/components/HeroPaws";
 import { getFeaturedListings } from "@/lib/listings";
 import { DIRECTORY, FEATURED_CATEGORIES } from "@/lib/directory";
 import { SITE } from "@/lib/siteConfig";
+import { HERO_PHOTOS, CATEGORY_PHOTOS } from "@/lib/photos";
 
 // Homepage — "Arena" template of the membership-website skill: the directory
 // IS the product, so the hero is the search bar. Trust band uses process
 // facts only (never invented counts, testimonials, or fake "live activity").
+// Photos (option B, Wikimedia Commons): hero snapshot stack + category
+// card images; credits in lib/photos.ts → /photo-credits.
 // Motion: .rise stagger on load, <Reveal> on scroll, hero paws + blobs,
 // attraction-type marquee — all off under reduce-motion.
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties;
@@ -24,11 +28,12 @@ export default async function HomePage() {
     <>
       {/* ── Search hero ── */}
       <section
-        className="hero-stage px-6 py-16 text-center sm:py-24"
+        className="hero-stage px-6 py-16 sm:py-24"
         style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)" }}
       >
         <HeroPaws />
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 text-center lg:grid-cols-[1.15fr_.85fr] lg:text-left">
+        <div>
           <p
             className="rise inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em]"
             style={{ ...d(0), color: "#FDBA74", background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.18)" }}
@@ -38,13 +43,22 @@ export default async function HomePage() {
           <h1 className="rise mt-5 text-3xl text-white sm:text-5xl" style={d(90)}>
             Find trusted animal attractions for your next event
           </h1>
-          <p className="rise mx-auto mt-4 max-w-xl text-[15px]" style={{ ...d(180), color: "#DBEAFE" }}>
+          <p className="rise mx-auto mt-4 max-w-xl text-[15px] lg:mx-0" style={{ ...d(180), color: "#DBEAFE" }}>
             {SITE.fullName}: the national directory of animal attractions —
             free to search, with requests going straight to the operator.
           </p>
-          <div className="rise mx-auto mt-8 max-w-xl" style={d(270)}>
+          <div className="rise hero-search mx-auto mt-8 max-w-xl lg:mx-0" style={d(270)}>
             <DirectorySearch />
           </div>
+        </div>
+        {/* Snapshot stack: three tilted photos. Decorative alongside the
+            headline, so alt text stays short. Credits: /photo-credits */}
+        <div className="rise photo-stack mx-auto w-full max-w-md" style={d(360)}>
+          {HERO_PHOTOS.map((p, i) => (
+            <Image key={p.src} src={p.src} alt={p.alt} width={640} height={480}
+              sizes="(min-width: 1024px) 280px, 60vw" preload={i === 0} className={`snap snap-${i + 1}`} />
+          ))}
+        </div>
         </div>
       </section>
 
@@ -94,12 +108,20 @@ export default async function HomePage() {
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURED_CATEGORIES.map((c, i) => (
               <Reveal key={c.slug} delay={(i % 3) * 110 + Math.floor(i / 3) * 60}>
-                <Link href={`/directory/${c.slug}`} className="card card-hover flex h-full flex-col gap-2 p-6 !no-underline">
-                  <h3 className="text-lg">{c.name}</h3>
-                  <p className="text-sm" style={{ color: "var(--ink-2)" }}>{c.blurb}</p>
-                  <span className="mt-auto flex items-center gap-1 pt-2 text-sm font-semibold" style={{ color: "var(--blue)" }}>
-                    Browse {c.name.toLowerCase()} <Icon name="right" />
-                  </span>
+                <Link href={`/directory/${c.slug}`} className="card card-hover cat-card flex h-full flex-col overflow-hidden !no-underline">
+                  {CATEGORY_PHOTOS[c.slug] && (
+                    <div className="cat-photo">
+                      <Image src={CATEGORY_PHOTOS[c.slug].src} alt={CATEGORY_PHOTOS[c.slug].alt} width={800} height={600}
+                        sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw" />
+                    </div>
+                  )}
+                  <div className="flex flex-1 flex-col gap-2 p-6">
+                    <h3 className="text-lg">{c.name}</h3>
+                    <p className="text-sm" style={{ color: "var(--ink-2)" }}>{c.blurb}</p>
+                    <span className="mt-auto flex items-center gap-1 pt-2 text-sm font-semibold" style={{ color: "var(--blue)" }}>
+                      Browse {c.name.toLowerCase()} <Icon name="right" />
+                    </span>
+                  </div>
                 </Link>
               </Reveal>
             ))}
@@ -108,6 +130,9 @@ export default async function HomePage() {
             <Link href="/directory" className="text-sm font-semibold" style={{ color: "var(--blue)" }}>
               See all {DIRECTORY.categories.length} attraction types →
             </Link>
+            <p className="mt-3 text-xs" style={{ color: "var(--ink-3)" }}>
+              Photos from Wikimedia Commons. <Link href="/photo-credits" style={{ color: "var(--ink-3)" }} className="underline">Photo credits</Link>
+            </p>
           </Reveal>
         </div>
       </section>
