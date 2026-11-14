@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="104" viewBox="0 0 300 104" role="img" aria-label="PAWS Member: Professional Association of Wildlife and Sports">
+  <rect x="1.5" y="1.5" width="297" height="101" rx="18" fill="#FFFFFF" stroke="#2563EB" stroke-width="3"/>
+  <rect x="1.5" y="1.5" width="98" height="101" rx="18" fill="#2563EB"/>
+  <rect x="80" y="1.5" width="19.5" height="101" fill="#2563EB"/>
+  <rect x="99.5" y="1.5" width="4" height="101" fill="#F97316"/>
+  <g transform="translate(22 24) scale(2.35)" fill="#FFFFFF">
+    <ellipse cx="12" cy="16.5" rx="5.2" ry="4.6"/><ellipse cx="5.2" cy="10.5" rx="2.1" ry="2.7"/><ellipse cx="9.3" cy="6.2" rx="2.1" ry="2.8"/><ellipse cx="14.7" cy="6.2" rx="2.1" ry="2.8"/><ellipse cx="18.8" cy="10.5" rx="2.1" ry="2.7"/>
+  </g>
+  <text x="120" y="47" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="34" font-weight="800" fill="#0F172A" letter-spacing="1">PAWS</text>
+  <text x="122" y="68" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#C2410C" letter-spacing="3.2">MEMBER</text>
+  <text x="121" y="87" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9.2" fill="#475569">Professional Association of</text>
+  <text x="121" y="98" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9.2" fill="#475569">Wildlife &amp; Sports</text>
+</svg>

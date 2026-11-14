@@ -9,6 +9,7 @@ export default function TrackedLink({
   params,
   className,
   style,
+  download,
   children,
 }: {
   href: string;
@@ -16,10 +17,12 @@ export default function TrackedLink({
   params?: Record<string, unknown>;
   className?: string;
   style?: React.CSSProperties;
+  /** Sets the <a download> attribute (save instead of open). */
+  download?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <a href={href} className={className} style={style} onClick={() => track(event, params)}>
+    <a href={href} className={className} style={style} download={download || undefined} onClick={() => track(event, params)}>
       {children}
     </a>
   );
