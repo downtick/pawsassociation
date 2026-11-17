@@ -4,21 +4,22 @@ import { notFound } from "next/navigation";
 import ListingCard from "@/components/ListingCard";
 import { searchListings } from "@/lib/listings";
 import { getCategory, stateFromSlug } from "@/lib/directory";
-import { SITE } from "@/lib/siteConfig";
 
 // /directory/[category]/[state]/[city] — the deepest long-tail SEO page
 // ("pony rides in fort worth"). City display name is recovered from the
 // matching listings (their city field), not from the slug.
 
 function resolveCategory(slug: string) {
-  if (slug === "all") return { slug: undefined, name: "Animal attractions" };
+  if (slug === "all") return { slug: undefined, name: "Animal attractions", singular: "animal attraction" };
   const cat = getCategory(slug);
-  return cat ? { slug: cat.slug, name: cat.name } : null;
+  return cat ? { slug: cat.slug, name: cat.name, singular: cat.singular } : null;
 }
 
 function titleCaseSlug(slug: string): string {
   return slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 }
+
+const tc = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string; state: string; city: string }> }): Promise<Metadata> {
   const { category, state, city } = await params;
@@ -27,8 +28,8 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   if (!cat || !st) return {};
   const cityName = titleCaseSlug(city);
   return {
-    title: `${cat.name} in ${cityName}, ${st.abbr}`,
-    description: `Hire ${cat.name.toLowerCase()} in ${cityName}, ${st.name} for birthday parties, schools, weddings, and events — from the ${SITE.name} member directory.`,
+    title: `${cat.name} in ${cityName}, ${st.abbr}: ${tc(cat.singular)} Near You`,
+    description: `Find a ${cat.singular} near ${cityName}, ${st.name} for birthday parties, schools, weddings, and events. Free to search, and requests go straight to the operator.`,
   };
 }
 

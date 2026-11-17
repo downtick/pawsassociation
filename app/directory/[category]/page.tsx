@@ -17,13 +17,21 @@ function resolve(categorySlug: string) {
   return cat ? { slug: cat.slug, name: cat.name, blurb: cat.blurb, singular: cat.singular } : null;
 }
 
+const tc = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
+
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const { category } = await params;
   const cat = resolve(category);
   if (!cat) return {};
+  // Targets "<thing> near me" searches (GSC: "petting zoo near me" sits at
+  // ~position 9.6 on this page). Live counts make the snippet concrete.
+  const states = await getStatesWithListings(cat.slug).catch(() => []);
+  const total = states.reduce((n, s) => n + s.count, 0);
+  const one = tc(cat.singular);
+  const scope = total > 0 ? `${total.toLocaleString("en-US")} ${cat.name.toLowerCase()} in ${states.length} states` : cat.name.toLowerCase();
   return {
-    title: `${cat.name} for hire — ${SITE.name} member directory`,
-    description: `Find ${cat.name.toLowerCase()} for parties, schools, weddings, fairs, and events. Free to search and contact — requests go straight to the operator.`,
+    title: `${one} Near Me: Find ${cat.name} for Hire by State`,
+    description: `Looking for a ${cat.singular} near you? Browse ${scope} for birthday parties, schools, fairs, and events. Free to search, and requests go straight to the operator.`,
   };
 }
 

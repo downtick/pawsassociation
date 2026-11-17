@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import AutoRenewConsent from "./AutoRenewConsent";
+import { trackThenGo } from "@/lib/track";
+import { PRICE_DOLLARS } from "@/lib/membershipPolicy";
 
 // For a SIGNED-IN member without access: starts Stripe Checkout directly.
 // (JoinButton is the signed-out path; it creates the account first.)
@@ -30,7 +32,7 @@ export default function ResumeCheckoutButton({ label }: { label: string }) {
         setBusy(false);
         return;
       }
-      window.location.href = data.url;
+      trackThenGo("begin_checkout", { currency: "USD", value: PRICE_DOLLARS, checkout_path: "resume" }, data.url);
     } catch {
       setError("Network error. Please try again.");
       setBusy(false);

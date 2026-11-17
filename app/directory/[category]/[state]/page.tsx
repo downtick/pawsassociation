@@ -11,19 +11,22 @@ import { SITE } from "@/lib/siteConfig";
 // itself still renders a useful empty state if visited directly.
 
 function resolveCategory(slug: string) {
-  if (slug === "all") return { slug: undefined, name: "Animal attractions", noun: "attractions" };
+  if (slug === "all") return { slug: undefined, name: "Animal attractions", noun: "attractions", singular: "animal attraction" };
   const cat = getCategory(slug);
-  return cat ? { slug: cat.slug, name: cat.name, noun: cat.name.toLowerCase() } : null;
+  return cat ? { slug: cat.slug, name: cat.name, noun: cat.name.toLowerCase(), singular: cat.singular } : null;
 }
+
+const tc = (s: string) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string; state: string }> }): Promise<Metadata> {
   const { category, state } = await params;
   const cat = resolveCategory(category);
   const st = stateFromSlug(state);
   if (!cat || !st) return {};
+  const n = (await getCitiesWithListings(st.abbr, cat.slug).catch(() => [])).length;
   return {
-    title: `${cat.name} in ${st.name}`,
-    description: `${cat.name} available for events in ${st.name}, from the ${SITE.name} member directory. Free to search and contact.`,
+    title: `${cat.name} in ${st.name}: Find a ${tc(cat.singular)} Near You`,
+    description: `Find a ${cat.singular} near you in ${st.name}${n > 0 ? `, listed by city across ${n} ${n === 1 ? "city" : "cities"}` : ""}. Book for birthday parties, schools, fairs, and events. Free to search, and requests go straight to the operator.`,
   };
 }
 
