@@ -64,7 +64,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const origin = request.headers.get("origin") || process.env.NEXT_PUBLIC_SITE_URL || "https://pawsassociation.com";
+    // Never build redirect URLs from the request's Origin header.
+    const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://pawsassociation.com";
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",

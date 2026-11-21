@@ -63,7 +63,8 @@ export async function sendEmail({ to, subject, html, text, replyTo }: SendEmailA
           return bcc.length ? { bcc } : {};
         })(),
         sender: SENDER,
-        subject,
+        // One line only: visitor names end up in subjects; never allow CR/LF.
+        subject: subject.replace(/[\u0000-\u001f\u007f]+/g, " ").trim().slice(0, 200),
         html_body: html,
         text_body: text,
         ...(replyTo ? { custom_headers: [{ header: "Reply-To", value: replyTo }] } : {}),
