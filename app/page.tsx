@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import Icon from "@/components/Icon";
@@ -8,6 +9,8 @@ import HeroPaws from "@/components/HeroPaws";
 import { getFeaturedListings } from "@/lib/listings";
 import { DIRECTORY, FEATURED_CATEGORIES } from "@/lib/directory";
 import { SITE } from "@/lib/siteConfig";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 import { HERO_PHOTOS, CATEGORY_PHOTOS } from "@/lib/photos";
 
 // Homepage — "Arena" template of the membership-website skill: the directory

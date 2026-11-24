@@ -36,7 +36,7 @@ export default function GetListedPage() {
             <span className="badge">New listing</span>
             <h2 className="text-xl">Join and create your listing</h2>
             <p className="text-sm" style={{ color: "var(--ink-2)" }}>
-              Membership is $149/year ($99 your first year with FOUNDING99 through December 31). You create your listing from your
+              Membership is $149/year, about $12.42 a month billed once a year ($99 your first year, about $8.25 a month, with FOUNDING99 through December 31). You create your listing from your
               dashboard — attraction type, services, service area, photos — and
               it goes live after a quick review. Leads go straight to your inbox.
             </p>
@@ -50,7 +50,7 @@ export default function GetListedPage() {
               To help planners find operators from day one, the association
               pre-lists established businesses. If one of them is yours, claiming
               it takes over the profile, unlocks lead notifications, and adds the
-              member benefits — same $149/year membership.
+              member benefits — same $149/year membership (about $12.42 a month, billed yearly).
             </p>
             <ul className="ticks">
               <li><Icon name="check" />Find your business and tap &ldquo;Claim this listing&rdquo;</li>

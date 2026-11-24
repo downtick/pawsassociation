@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const scope = total > 0 ? `${total.toLocaleString("en-US")} ${cat.name.toLowerCase()} in ${states.length} states` : cat.name.toLowerCase();
   return {
     title: `${one} Near Me: Find ${cat.name} for Hire by State`,
+    alternates: { canonical: `/directory/${category.toLowerCase()}` },
     description: `Looking for a ${cat.singular} near you? Browse ${scope} for birthday parties, schools, fairs, and events. Free to search, and requests go straight to the operator.`,
   };
 }

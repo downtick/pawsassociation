@@ -37,6 +37,12 @@ export default function JoinPage() {
               <span className="amt">$149</span>
               <span className="per">per year</span>
             </div>
+            {/* Monthly framing only: billing stays one annual charge. Remove the
+                FOUNDING99 sentence after Dec 31, 2026. */}
+            <p className="text-sm" style={{ color: "var(--ink-2)", marginTop: -4 }}>
+              That&apos;s about $12.42 a month, billed once a year. Your first year is $99
+              (about $8.25 a month) with code FOUNDING99 through December 31.
+            </p>
             <ul className="ticks">
               {[
                 "Your public directory listing — found by planners, schools, and families",

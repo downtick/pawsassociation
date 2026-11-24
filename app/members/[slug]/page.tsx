@@ -19,9 +19,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const place = listing.city ? `${listing.city}, ${listing.state}` : listing.state || "";
   return {
     title: `${listing.business_name}${place ? ` — ${listing.category_name ?? "Animal attraction"} in ${place}` : ""}`,
+    // Unclaimed listings were added by the association, so they must not
+    // call the business a member.
     description:
       listing.bio ??
-      `${listing.business_name} is a ${SITE.name} member${place ? ` serving ${place}` : ""}. Request availability for your event.`,
+      (listing.claimed
+        ? `${listing.business_name} is a ${SITE.name} member${place ? ` serving ${place}` : ""}. Request availability for your event.`
+        : `${listing.business_name} offers ${(listing.category_name ?? "animal attractions").toLowerCase()}${place ? ` in ${place}` : ""}. Listed in the ${SITE.name} directory: request availability for a party, school, or event.`),
+    alternates: { canonical: `/members/${listing.slug}` },
   };
 }
 

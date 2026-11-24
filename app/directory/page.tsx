@@ -8,6 +8,7 @@ import { SITE } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
   title: "Member directory — petting zoos, pony rides, beer burros & mobile farms",
+  alternates: { canonical: "/directory" },
   description:
     "Search the PAWS member directory of animal attractions and amusement operators. Filter by attraction type, state, and city. Free to search and contact.",
 };

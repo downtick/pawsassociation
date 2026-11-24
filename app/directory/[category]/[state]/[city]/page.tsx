@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const cityName = titleCaseSlug(city);
   return {
     title: `${cat.name} in ${cityName}, ${st.abbr}: ${tc(cat.singular)} Near You`,
+    alternates: { canonical: `/directory/${category.toLowerCase()}/${state.toLowerCase()}/${city.toLowerCase()}` },
     description: `Find a ${cat.singular} near ${cityName}, ${st.name} for birthday parties, schools, weddings, and events. Free to search, and requests go straight to the operator.`,
   };
 }

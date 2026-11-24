@@ -26,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const n = (await getCitiesWithListings(st.abbr, cat.slug).catch(() => [])).length;
   return {
     title: `${cat.name} in ${st.name}: Find a ${tc(cat.singular)} Near You`,
+    alternates: { canonical: `/directory/${category.toLowerCase()}/${state.toLowerCase()}` },
     description: `Find a ${cat.singular} near you in ${st.name}${n > 0 ? `, listed by city across ${n} ${n === 1 ? "city" : "cities"}` : ""}. Book for birthday parties, schools, fairs, and events. Free to search, and requests go straight to the operator.`,
   };
 }
